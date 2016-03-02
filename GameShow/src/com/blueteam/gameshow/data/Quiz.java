@@ -1,4 +1,4 @@
-package data;
+package com.blueteam.gameshow.data;
 
 import java.util.ArrayList;
 

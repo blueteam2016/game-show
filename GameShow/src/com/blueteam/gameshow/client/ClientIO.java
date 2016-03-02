@@ -9,8 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import data.Answer;
-import data.Question;
+import com.blueteam.gameshow.data.Answer;
+import com.blueteam.gameshow.data.Question;
 
 public class ClientIO {
 	private ObjectInputStream in;
