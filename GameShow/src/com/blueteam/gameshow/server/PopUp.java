@@ -49,7 +49,6 @@ public class PopUp implements ActionListener{
 	}
 
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
 		switch(arg0.getActionCommand()){

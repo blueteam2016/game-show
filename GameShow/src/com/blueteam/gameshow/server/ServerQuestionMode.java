@@ -65,9 +65,10 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 
 
 
-	@Override
+	
 	public void actionPerformed(ActionEvent arg0) {
 		String eventName = arg0.getActionCommand();
+	
 		switch(eventName){
 		case "time":
 				
