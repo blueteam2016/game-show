@@ -2,7 +2,7 @@
 
 <quiz>
 	<item>
-		<question>What is the location of Mount Doom?</question>
+		<question answerNum="4">What is the location of Mount Doom?</question>
 		<answer correct="n">The Shire</answer>
 		<answer correct="n">Mirkwood</answer>
 		<answer correct="y">The land of Mordor where the Shadows lie</answer>

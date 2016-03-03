@@ -13,6 +13,7 @@ import org.w3c.dom.*;
 public class Quiz {
 		
 	private ArrayList<Question> questions;
+	private Answer[] answerHolder;
 	private int questionNum;
 	
 	public Quiz(String filePath)
@@ -21,8 +22,20 @@ public class Quiz {
 		DocumentBuilderFactory quizBuilderFactory = DocumentBuilderFactory.newInstance();
 		try{
 			DocumentBuilder quizBuilder = quizBuilderFactory.newDocumentBuilder();
-			quizFile = quizBuilder.parse(filePath);
-		}catch(Exception e){System.out.println("THE QUIZ FILE WAS NOT BUILT CORRECTLY");}
+			quizFile = quizBuilder.parse("XML Test");
+			quizFile.getDocumentElement().normalize();
+			Element root = quizFile.getDocumentElement();
+			NodeList questionList = quizFile.getElementsByTagName("question");
+			for(int index=0; index<questionList.getLength();index++)
+			{
+				Node currentNode = questionList.item(index);
+				if(currentNode.getNodeType() == Node.ELEMENT_NODE)
+				{
+					Element currentElement = (Element) currentNode;
+					System.out.println(currentElement.getAttribute("answerNum"));
+				}
+			}
+		}catch(Exception e){System.out.println("THE QUIZ FILE WAS NOT BUILT CORRECTLY!!!");e.printStackTrace();}
 		questions = new ArrayList<Question>();
 		questionNum = 0;
 	}
