@@ -18,7 +18,11 @@ public class Quiz {
 	public Quiz(String filePath)
 	{
 		Document quizFile;
-		DocumentBuilderFactory quizBuilder = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory quizBuilderFactory = DocumentBuilderFactory.newInstance();
+		try{
+			DocumentBuilder quizBuilder = quizBuilderFactory.newDocumentBuilder();
+			quizFile = quizBuilder.parse(filePath);
+		}catch(Exception e){System.out.println("THE QUIZ FILE WAS NOT BUILT CORRECTLY");}
 		questions = new ArrayList<Question>();
 		questionNum = 0;
 	}
