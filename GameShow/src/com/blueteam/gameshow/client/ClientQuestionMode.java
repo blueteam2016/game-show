@@ -6,16 +6,20 @@ public class ClientQuestionMode extends JPanel
 {
 	private Question question;
 	private JLabel questionText;
-	private ArrayList<JLabel> answers;
-	JPanel displayAnswers;
+	private ArrayList<Answer> answerChoices;
+	private JPanel displayAnswers;
 	
 	ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
 	{
 		question = c.getQuestion();
 		questionText = new JLabel(question.getQuestionText());
-		answers = question.getAnswers();
+		answerChoices = question.getAnswers();
 		
 		displayAnswers = new JPanel();
 		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
+		
+		for(int i = 0; i < answerChoices.size(); i++)
+			
+		
 	}
 }
