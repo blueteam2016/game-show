@@ -10,8 +10,6 @@ import javax.xml.transform.stream.*;
 import org.xml.sax.*;
 import org.w3c.dom.*;
 
-import data.Question;
-
 public class Quiz {
 		
 	private ArrayList<Question> questions;
@@ -21,7 +19,7 @@ public class Quiz {
 	{
 		Document quizFile;
 		DocumentBuilderFactory quizBuilder = DocumentBuilderFactory.newInstance();
-		questions = ArrayList<Question>();
+		questions = new ArrayList<Question>();
 		questionNum = 0;
 	}
 	
@@ -32,15 +30,15 @@ public class Quiz {
 	
 	public Question getLastQuestion()
 	{
-		if(questionNum>0)
-			return questions.get(questionNum-1);
+		if(questionNum > 0)
+			return questions.get(questionNum - 1);
 		else
 			return null;
 	}
 	
 	public boolean isLastQuestion()
 	{
-		if(questionNum == questions.size()-1)
+		if(questionNum == questions.size() - 1)
 			return true;
 		return false;
 	}
