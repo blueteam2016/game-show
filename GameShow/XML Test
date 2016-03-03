@@ -11,4 +11,44 @@
 		<point_value>100</point_value>
 		<time>60</time>
 	</item>
+	<item>
+		<question>Which Ainur is the primoridial source of evil in Ea?</question>
+		<answer correct="true">Melkor</answer>
+		<answer correct="false">Sauron</answer>
+		<answer correct="false">Sarumon</answer>
+		<answer correct="false">Tulkas</answer>
+		<explanation>Melkor,or Morgoth, was the first Ainur to turn from the path to the dark powers</explanation>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
+	<item>
+		<question>The Dawnless Day preceded which major battle?</question>
+		<answer correct="false">The Siege of Erebor</answer>
+		<answer correct="false">The First Battle of the Fords of Isen</answer>
+		<answer correct="false">The Battle for Helm's Deep</answer>
+		<answer correct="true">The Battle of the Pelennor Fields</answer>
+		<explanation>Sauron used darkness to mobilize his troops on the Pelennor Fields for the assault on Minas Tirith</explanation>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
+	<item>
+		<question>Which member of the Fellowship possessed the Horn of Gondor?</question>
+		<answer correct="false">Faramir</answer>
+		<answer correct="true">Boromir</answer>
+		<answer correct="false">Aragorn</answer>
+		<answer correct="false">Gimli</answer>
+		<explanation>The only man from Gondor in the fellowship was Boromir</explanation>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
+	<item>
+		<question>The fall of this largest of the dragons destroyed Thangorodrim, ending Melkor's resistance during the War of Wrath</question>
+		<answer correct="false">Fire-Drake of Gondolin</answer>
+		<answer correct="false">Glaurung</answer>
+		<answer correct="true">Ancalagon the Black</answer>
+		<answer correct="false">Gostir</answer>
+		<explanation>Ancalagon was the greatest and most powerful of the winged dragons</explanation>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
 </quiz>
