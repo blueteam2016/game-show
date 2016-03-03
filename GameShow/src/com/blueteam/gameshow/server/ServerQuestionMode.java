@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -68,6 +69,14 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		String eventName = arg0.getActionCommand();
 		switch(eventName){
 		case "time":
+				
+			countdown = new JLabel("00:"+(seconds-1));
+			seconds-=1;
+			if(seconds==0){
+				
+				timer.stop();
+				goToAnswerMode();
+			}
 			
 			break;
 			
@@ -77,13 +86,56 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 			
 		case "pause":
 			
+			pause.setText("Run");
+			pause.setActionCommand("run");
+			stopTimer();
+			
 			break;
 		
 		case "skip":
 			
 			break;
 			
+		case "run":
+			
+			pause.setText("Pause");
+			pause.setActionCommand("pause");
+			stopTimer();
+		
+			break;
+			
 		}
+		
+	}
+	
+	public void startTimer(){
+		
+		timer.start();
+		
+	}
+	
+	public void stopTimer(){
+		
+		timer.stop();
+		
+	}
+	
+	private class popUp{
+		
+		private JFrame frame;
+		private JPanel panel;
+		private JLabel label;
+		private JButton yes; 
+		private JButton no;
+		
+		
+		public popUp(){
+			
+			frame = new JFrame();
+			panel = new JPanel();
+			label = new JLabel("Are you sure?");
+		}
+		
 		
 	}
 }
