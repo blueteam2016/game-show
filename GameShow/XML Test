@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<quiz>
+	<item>
+		<question>What is the location of Mount Doom?</question>
+		<answer correct="n">The Shire</answer>
+		<answer correct="n">Mirkwood</answer>
+		<answer correct="y">The land of Mordor where the Shadows lie</answer>
+		<answer correct="n">Arrakis</answer>
+		<point_value>100</point_value>
+		<time>60</time>
+		<explanation>Look at a map</explanation>
+	</item>
+</quiz>
