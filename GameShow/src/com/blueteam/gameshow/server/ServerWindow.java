@@ -9,7 +9,6 @@ public class ServerWindow {
 	JPanel content;
 	JFrame frame;
 
-	Game game;
 
 	ProfileScreen pScreen;
 	RosterScreen rosterScreen;
@@ -23,8 +22,6 @@ public class ServerWindow {
 		frame=new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		g=new Game();
-		
 		pScreen=new ProfileScreen(game, this);
 		rosterScreen=new RosterScreen(game);
 		sbScreen=new ScoreboardScreen(game);
@@ -36,7 +33,7 @@ public class ServerWindow {
 		tabs.addTab("Profile", pScreen);
 		tabs.addTab("Roster",rosterScreen);
 		tabs.addTab("Scoreboard", sbScreen);
-		tabs.addTab("Game", game);
+		tabs.addTab("Game", sgScreen);
 		
 		content.add(tabs);
 		frame.setContentPane(content);
