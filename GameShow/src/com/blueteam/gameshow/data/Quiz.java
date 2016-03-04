@@ -3,7 +3,10 @@ package com.blueteam.gameshow.data;
 import java.util.ArrayList;
 
 import javax.xml.parsers.*;
+
 import org.w3c.dom.*;
+
+import com.blueteam.gameshow.client.Profile;
 
 public class Quiz {
 		
@@ -44,7 +47,7 @@ public class Quiz {
 					int time;
 					try{
 						pointValue = Integer.parseInt(questionElement.getElementsByTagName("point_value").item(0).getTextContent());
-					}catch(Exception e){pointValue = 100;}
+					}catch(Exception e){pointValue = Profile.getDefaultValue();}
 					try{
 						time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
 					}catch(Exception e){time = 60;}

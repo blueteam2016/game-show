@@ -4,7 +4,7 @@ public class Profile {
 
 	String servFoldLoc;
 	String clientFoldLoc;
-	int defVal;
+	private static int defVal;
 	int defTime;
 	String qFileLoc;
 	boolean foundSavedFile;
@@ -14,7 +14,7 @@ public class Profile {
 	}
 
 	public void saveProfile(){
-		//Get Daniel
+		//Get Aidan
 	}
 
 
@@ -27,10 +27,10 @@ public class Profile {
 	public String getQuestionFileLoc(){
 		return qFileLoc;
 	}
-	public int getDefaultValue(){
+	public static int getDefaultValue(){
 		return defVal;
 	}
-	public int getDefaultTime(){
+	public static int getDefaultTime(){
 		return defTime;
 	}
 	public boolean savedFileFound(){

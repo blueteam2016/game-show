@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import com.blueteam.gameshow.data.Question;
+import com.blueteam.gameshow.data.*;
 
 
 public class Game {
