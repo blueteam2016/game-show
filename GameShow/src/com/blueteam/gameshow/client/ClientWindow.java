@@ -1,5 +1,7 @@
 package com.blueteam.gameshow.client;
 
+import ClientProfile;
+
 public class ClientWindow{
 	
 	ClientProfile profile;
