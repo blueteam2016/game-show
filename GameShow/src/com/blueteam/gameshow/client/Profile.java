@@ -3,8 +3,8 @@ package com.blueteam.gameshow.client;
 public class Profile {
 	private String servFoldLoc;
 	private String clientFoldLoc;
-	private int defVal;
-	private int defTime;
+	private static int defVal;
+	private static int defTime;
 	private String qFileLoc;
 	private boolean foundSavedFile;
 	
@@ -29,11 +29,11 @@ public class Profile {
 		return qFileLoc;
 	}
 	
-	public int getDefaultValue(){
+	public static int getDefaultValue(){
 		return defVal;
 	}
 	
-	public int getDefaultTime(){
+	public static int getDefaultTime(){
 		return defTime;
 	}
 	
