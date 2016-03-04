@@ -1,6 +1,4 @@
 package com.blueteam.gameshow.client;
-import java.awt.HeadlessException;
-import java.awt.Window;
 
 public class ClientWindow{
 	

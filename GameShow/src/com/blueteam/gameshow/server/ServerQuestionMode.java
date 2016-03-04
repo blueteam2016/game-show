@@ -1,4 +1,5 @@
 package com.blueteam.gameshow.server;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -64,9 +65,10 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 
 
 
-	@Override
+	
 	public void actionPerformed(ActionEvent arg0) {
 		String eventName = arg0.getActionCommand();
+	
 		switch(eventName){
 		case "time":
 				
@@ -94,6 +96,16 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 		case "skip":
 			
+			if((new popUp()).resultOfPopUp()){
+				
+				goToAnswerMode();
+				
+			}else{
+				
+				
+				
+			}
+			
 			break;
 			
 		case "run":
@@ -120,22 +132,5 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 	}
 	
-	private class popUp{
-		
-		private JFrame frame;
-		private JPanel panel;
-		private JLabel label;
-		private JButton yes; 
-		private JButton no;
-		
-		
-		public popUp(){
-			
-			frame = new JFrame();
-			panel = new JPanel();
-			label = new JLabel("Are you sure?");
-		}
-		
-		
-	}
+	
 }
