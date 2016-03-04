@@ -17,17 +17,7 @@ public class ServerIO {
 	private ObjectOutputStream out;
 	
 	public ServerIO(String pathToFolder) {
-		FileOutputStream fOut = null;
-		try {
-			fOut = new FileOutputStream(pathToFolder + ".question");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			out = new ObjectOutputStream(fOut);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		
 	}
 	
@@ -63,12 +53,6 @@ public class ServerIO {
 		return qIn;
 	}
 	
-	public void sendQuestion(Question question) {
-		try {
-			out.writeObject(question);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 }
