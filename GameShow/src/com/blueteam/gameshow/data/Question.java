@@ -8,7 +8,7 @@ public class Question implements Serializable {
 	private Answer[] answers;
 	private String explanation;
 	
-	public Question(String question, Answer[] answers, String explanation) {
+	public Question(String question, Answer[] answers, String explanation, int pointValue, int Time) {
 		this.question = question;
 		this.answers = answers;
 		this.explanation = explanation;
