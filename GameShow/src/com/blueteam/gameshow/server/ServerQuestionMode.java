@@ -70,6 +70,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		String eventName = arg0.getActionCommand();
 	
 		switch(eventName){
+		
 		case "time":
 				
 			countdown = new JLabel("00:"+(seconds-1));
@@ -84,6 +85,8 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 			
 		case "back":
 			
+			new BackPopUp();
+			
 			break;
 			
 		case "pause":
@@ -96,15 +99,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 		case "skip":
 			
-			if((new popUp()).resultOfPopUp()){
-				
-				goToAnswerMode();
-				
-			}else{
-				
-				
-				
-			}
+			new SkipPopUp();
 			
 			break;
 			
@@ -132,5 +127,63 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 	}
 	
+	private class SkipPopUp extends PopUp{
+		
+		public SkipPopUp(){
+			
+			super();
+			
+		}
+		
+		public void actionPerformed(ActionEvent arg0) {
+			
+			switch(arg0.getActionCommand()){
+			
+			case "yes":
+				
+				yn=true;
+				goToAnswerMode();
+				frame.dispose();
+				
+			case "no":
+				
+				yn=false;
+				frame.dispose();
+				
+			
+			}
+		}
+		
+	}
+	
+	private class BackPopUp extends PopUp{
+			
+			public BackPopUp(){
+				
+				super();
+				
+			}
+			
+			public void actionPerformed(ActionEvent arg0) {
+				
+				switch(arg0.getActionCommand()){
+				
+				case "yes":
+					
+					yn=true;
+					goToResultMode();
+					frame.dispose();
+					
+				case "no":
+					
+					yn=false;
+					frame.dispose();
+					
+				
+				}
+			}
+			
+		}
+		
 	
 }

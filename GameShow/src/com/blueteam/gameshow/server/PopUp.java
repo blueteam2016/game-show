@@ -12,13 +12,13 @@ import javax.swing.SwingConstants;
 
 public class PopUp implements ActionListener{
 
-	private JFrame frame;
+	protected JFrame frame;
 	private JPanel panel;
 	private JPanel bp;
 	private JLabel label;
 	private JButton yes; 
 	private JButton no;
-	private boolean yn = true;
+	public boolean yn = true;
 	
 	public PopUp() {
 		
