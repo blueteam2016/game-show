@@ -49,20 +49,9 @@ public class PopUp implements ActionListener{
 	}
 
 
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent event) {
 		
-		switch(arg0.getActionCommand()){
-		
-		case "yes":
-			
-			yn=true;
-			
-		case "no":
-			
-			yn=false;
-			
-		
-		}
+		yn = event.getActionCommand().equals("yes");
 		
 	}
 	
