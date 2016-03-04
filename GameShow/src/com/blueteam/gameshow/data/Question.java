@@ -7,16 +7,15 @@ public class Question implements Serializable {
 	private String question;
 	private Answer[] answers;
 	private String explanation;
+	private int pointValue;
+	private int time;
 	
-	public Question(String question, Answer[] answers, String explanation, int pointValue, int Time) {
+	public Question(String question, Answer[] answers, String explanation, int pointValue, int time) {
 		this.question = question;
 		this.answers = answers;
 		this.explanation = explanation;
-	}
-	
-	public Question(String question, Answer[] answers) {
-		this.question = question;
-		this.answers = answers;
+		this.pointValue = pointValue;
+		this.time = time;
 	}
 	
 	public String getText() {
@@ -29,6 +28,14 @@ public class Question implements Serializable {
 	
 	public String getExplanationText() {
 		return explanation;
+	}
+	
+	public int getPointValue() {
+		return pointValue;
+	}
+	
+	public int getTime() {
+		return time;
 	}
 
 }
