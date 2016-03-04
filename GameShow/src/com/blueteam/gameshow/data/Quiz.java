@@ -8,7 +8,6 @@ import org.w3c.dom.*;
 public class Quiz {
 		
 	private ArrayList<Question> questions;
-	private Answer[] answerHolder;
 	private Answer[] answers;
 	private int questionNum;
 	
@@ -41,8 +40,14 @@ public class Quiz {
 					}
 					String questionString =questionElement.getFirstChild().getTextContent();
 					String explanation = questionElement.getElementsByTagName("explanation").item(0).getTextContent();
-					int pointValue = Integer.parseInt(questionElement.getElementsByTagName("point_value").item(0).getTextContent());
-					int time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
+					int pointValue;
+					int time;
+					try{
+						pointValue = Integer.parseInt(questionElement.getElementsByTagName("point_value").item(0).getTextContent());
+					}catch(Exception e){pointValue = 100;}
+					try{
+						time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
+					}catch(Exception e){time = 60;}
 					questions.add(new Question(questionString,answers,explanation,pointValue,time));
 				}
 			}
