@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import com.blueteam.gameshow.client.Profile;
 import com.blueteam.gameshow.data.Question;
+import com.blueteam.gameshow.data.Quiz;
 
 
 public class Game {
@@ -37,7 +39,7 @@ public class Game {
 		}	
 	}
 	
-	public void register() {
+	public void () {
 		FileOutputStream fOut = null;
 		try {
 			fOut = new FileOutputStream(pathToFolder + ".question");
