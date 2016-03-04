@@ -1,6 +1,8 @@
 package com.blueteam.gameshow.client;
 import javax.swing.*;
 
+import com.blueteam.gameshow.data.Answer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,16 +27,22 @@ public class ClientQuestionMode extends JPanel
 		for(int i = 0; i < answerChoices.size(); i++)
 		{
 			JButton answerSelect = new AnswerButton();
-			answerSelect.addActionListener(this);
+			answerButtons.add(answerSelect);
+			JLabel answerText = new JLabel(answerChoices.get(i).getAnswerText();
 			
 			JPanel answer = new JPanel();
 			answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
-			answer.add();
+			answer.add(answerSelect);
+			answer.add(answerText);
 		}
 		
 	}
 	class AnswerButton extends JButton implements ActionListener
 	{
+		AnswerButton()
+		{
+			addActionListener(this);
+		}
 		public void actionPerformed(ActionEvent arg0)
 		{
 			
