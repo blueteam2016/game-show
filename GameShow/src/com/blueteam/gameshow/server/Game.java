@@ -32,7 +32,7 @@ public class Game {
 	}
 	
 	public Quiz getQuiz(){
-		if(profile.isComplete){
+		if(profile.isComplete()){
 			return quiz;
 		}else{
 			return null;

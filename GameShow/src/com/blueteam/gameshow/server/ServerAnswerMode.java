@@ -24,7 +24,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		for(int x = 0; x< g.getQuiz().getCurrentQuestion().getAnswers().size(); x++){
 			if(g.getQuiz().getCurrentQuestion().getAnswer(x).isCorrect())
-				answers.add(g.getQuiz().getCurrentQuestion().getAnswer(x));	
+				answers.add(new JLabel(g.getQuiz().getCurrentQuestion().getAnswer(x)));	
 		}
 		
 		moveOn = new JButton("Continue");
