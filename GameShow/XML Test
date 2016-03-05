@@ -51,14 +51,4 @@
 		<point_value>100</point_value>
 		<time>60</time>
 	</item>
-	<item>
-		<question>Which member of our group pushed the entire project and forced me to merge which was AWFUL</question>
-		<answer correct = true>Daniel</answer>
-		<answer correct = true>Daniel</answer>
-		<answer correct = true>Daniel</answer>
-		<answer correct = true>Daniel</answer>
-		<explanation>IT WAS DANIELLLLLL</explanation>
-		<point_value>100000</point_value>
-		<time>60</time>
-	</item>
 </quiz>
