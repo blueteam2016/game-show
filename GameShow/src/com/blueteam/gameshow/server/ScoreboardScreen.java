@@ -2,9 +2,6 @@ package com.blueteam.gameshow.server;
 
 import javax.swing.*;
 
-import data.Roster;
-
-
 public class ScoreboardScreen extends JPanel{
 	private ScoreboardTableModel model;
 	private JTable table;
