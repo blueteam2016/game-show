@@ -1,9 +1,13 @@
 package com.blueteam.gameshow.server;
+import Game;
+import ServerQuestionScreen;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,25 +26,20 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 	private JButton pause;
 	private JButton skip;
 	private Timer timer;
-	
+	private ServerQuestionScreen qScreen;
+	private Game game;
 	
 	
 	public ServerQuestionMode(Game g, ServerQuestionScreen s){
 		
-		//set questions and answers
+		qScreen = s;
+		game = g;
 		
-		question = new JLabel(g.getQuiz().getCurrentQuestion().getQuestionText());
-		answers = g.getQuiz().getCurrentQuestion().getAnswers();
 		
-		//set time remaining
-		
+		//make timer
+		timeRemaining = new JLabel("Time Remaining");
 		timer = new Timer(1000,this);
 		timer.setActionCommand("time");
-		
-		timeRemaining = new JLabel("Time Remaining");
-		seconds = g.getProfile().getDefaultTime();
-		countdown = new JLabel("00:"+seconds);
-	
 		
 		//set bottom 3 buttons
 		
@@ -56,15 +55,52 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		skip.setActionCommand("skip");
 		skip.addActionListener(this);
 		
-		
+		//sets Question info
+		newQuestion();
+		setUpGUI();
+	}
+	
+	public void newQuestion(){
+		//set time remaining
 		
 	
+		seconds = game.getQuiz().getCurrentQuestion().getTime();
+		countdown = new JLabel("00:"+seconds);
+		
+		
+		//set questions and answers
+
+		question = new JLabel(game.getQuiz().getCurrentQuestion().getQuestionText());
+		answers = new ArrayList<JLabel>();
+		for(int i=0; i<game.getQuiz().getCurrentQuestion().getAnswers().getLength; i++){
+			answers.add(new JLabel((char)(65+i) + " " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
+		}
+		answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		
 		
 	}
-
-
-
+	
+	private void setUpGUI(){
+		//organizes components in visually appealing manner
+		
+		add(question);
+		for(int i=0; i<answers.size(); i++){
+			add(answers.get(i));
+		}
+		
+		JPanel timePanel = new JPanel();
+		timePanel.add(timeRemaining);
+		timePanel.add(countdown);
+		add(timePanel);
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(back);
+		buttonPanel.add(pause);
+		buttonPanel.add(skip);
+		add(buttonPanel);
+		
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+	}
 	
 	public void actionPerformed(ActionEvent arg0) {
 		String eventName = arg0.getActionCommand();
