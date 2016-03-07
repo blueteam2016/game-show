@@ -9,7 +9,7 @@ public class Profile {
 	private String clientFoldLoc;
 	private static int defVal;
 	private static int defTime;
-	private String qFileLoc;
+	private static String qFileLoc;
 	private boolean foundSavedFile;
 	
 	
@@ -40,7 +40,7 @@ public class Profile {
 		return clientFoldLoc;
 	}
 	
-	public String getQuestionFileLoc(){
+	public static String getQuestionFileLoc(){
 		return qFileLoc;
 	}
 	

@@ -19,7 +19,7 @@ public class Game {
 	
 	public Game(){
 		roster = new Roster();
-		quiz = new Quiz();
+		quiz = new Quiz(Profile.getQuestionFileLoc());
 		profile = new Profile();
 		
 	}
