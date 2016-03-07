@@ -1,5 +1,6 @@
 package com.blueteam.gameshow.server;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,7 +18,17 @@ public class ServerIO {
 	private ObjectOutputStream out;
 	
 	public ServerIO(String pathToFolder) {
-		
+		FileOutputStream fOut = null;
+				try {
+					fOut = new FileOutputStream(pathToFolder + ".question");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				try {
+					out = new ObjectOutputStream(fOut);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		
 	}
 	
@@ -45,6 +56,8 @@ public class ServerIO {
 		Answer qIn = null;
 		try {
 			qIn = (Answer)in.readObject();
+		} catch (EOFException e) {
+			return null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -53,6 +66,12 @@ public class ServerIO {
 		return qIn;
 	}
 	
-	
+	public void sendQuestion(Question question) {
+				try {
+					out.writeObject(question);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	
 }
