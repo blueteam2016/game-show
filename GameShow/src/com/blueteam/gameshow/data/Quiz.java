@@ -50,7 +50,7 @@ public class Quiz {
 					}catch(Exception e){pointValue = Profile.getDefaultValue();}
 					try{
 						time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
-					}catch(Exception e){time = 60;}
+					}catch(Exception e){time = Profile.getDefaultTime();}
 					questions.add(new Question(questionString,answers,explanation,pointValue,time));
 				}
 			}

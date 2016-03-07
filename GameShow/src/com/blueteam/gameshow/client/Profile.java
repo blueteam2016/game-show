@@ -1,5 +1,9 @@
 package com.blueteam.gameshow.client;
 
+import javax.xml.parsers.*;
+
+import org.w3c.dom.*;
+
 public class Profile {
 	private String servFoldLoc;
 	private String clientFoldLoc;
@@ -10,7 +14,18 @@ public class Profile {
 	
 	
 	public Profile(){
-		//Get Aidan
+		try{
+			Document profileSave;
+			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
+			profileSave = profileBuilder.parse("fileLocation");
+			Element root = profileSave.getDocumentElement();
+			servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
+			clientFoldLoc = ((Element)root.getElementsByTagName("clientLoc").item(0)).getTextContent();
+			qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
+			defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
+			defVal = Integer.parseInt(((Element)root.getElementsByTagName("valueDefault").item(0)).getTextContent());
+		}catch(Exception e){e.printStackTrace();};
 	}
 
 	public void saveProfile(){
