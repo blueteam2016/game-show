@@ -10,25 +10,25 @@ import java.util.ArrayList;
 
 public class ClientQuestionMode extends JPanel
 {
+	private ClientIO c;
 	private Question question;
 	private JLabel questionText;
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
-	private ClientIO cIO;
 	
-	public ClientQuestionMode(ClientIO c, ClientQuestionScreen qs) {
-		cIO = c;
-		question = null;
-		while (question == null)
-			cIO.getQuestion();
+	ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
+	{
+		this.c = c;
+		question = c.getQuestion();
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
 		
+		answerButtons = new ArrayList<AnswerButton>();
 		displayAnswers = new JPanel();
 		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
 		
-		for (int i = 0; i < answerChoices.length; i++)
+		for(int i = 0; i < answerChoices.length; i++)
 		{
 			AnswerButton answerSelect = new AnswerButton();
 			answerButtons.add(answerSelect);
@@ -38,17 +38,24 @@ public class ClientQuestionMode extends JPanel
 			answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
 			answer.add(answerSelect);
 			answer.add(answerText);
+			displayAnswers.add(answer);
 		}
 		
+		this.add(questionText);
+		this.add(displayAnswers);
 	}
-	
-	private class AnswerButton extends JButton implements ActionListener {
-		public AnswerButton() {
+	class AnswerButton extends JButton implements ActionListener
+	{
+		AnswerButton()
+		{
 			addActionListener(this);
 		}
-		
-		public void actionPerformed(ActionEvent event) {
-			
+		public void actionPerformed(ActionEvent arg0)
+		{
+			for (int i = 0; i < answerButtons.size(); i++)
+				if (answerButtons.get(i).equals(arg0.getSource()))
+					c.sendAnswer(answerChoices[i]);
+			qs.goToAnswerMode();
 		}
 	}
 }
