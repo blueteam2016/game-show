@@ -4,7 +4,10 @@ package com.blueteam.gameshow.server;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import data.*;
+import com.blueteam.gameshow.data.Player;
+import com.blueteam.gameshow.data.Roster;
+
+
 
 public class RosterTableModel extends AbstractTableModel{
 	private Roster rost;

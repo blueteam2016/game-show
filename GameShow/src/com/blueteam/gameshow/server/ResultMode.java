@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import com.blueteam.gameshow.data.Roster;
 
 public class ResultMode extends JPanel{
 	private ResultTableModel model;
@@ -13,7 +14,7 @@ public class ResultMode extends JPanel{
 	private JButton back;
 	private JButton nextQ;
 	
-	public ResultMode(Game g, ServerGameScreen s){
+	public ResultMode(Game g, final ServerGameScreen s){
 		model = new ResultTableModel(g.getRoster());
 		table = new JTable(model);
 		

@@ -3,7 +3,7 @@ package com.blueteam.gameshow.server;
 
 import javax.swing.table.*;
 
-import data.*;
+import com.blueteam.gameshow.data.Roster;
 
 
 public class ResultTableModel extends AbstractTableModel{

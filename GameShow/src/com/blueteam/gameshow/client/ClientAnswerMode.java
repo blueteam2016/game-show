@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ClientAnswerMode extends JPanel
 {
-	ClientAnswerMode(ClientQuestionScreen qs)
+	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
 		
 	}

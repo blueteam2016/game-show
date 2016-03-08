@@ -2,6 +2,8 @@ package com.blueteam.gameshow.server;
 
 import javax.swing.table.*;
 
+import com.blueteam.gameshow.data.Roster;
+
 
 public class ScoreboardTableModel extends AbstractTableModel{
 	Roster rost;

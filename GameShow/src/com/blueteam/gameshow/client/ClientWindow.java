@@ -1,24 +1,22 @@
 package com.blueteam.gameshow.client;
 
-import ClientProfile;
-
 public class ClientWindow{
 	
-	ClientProfile profile;
-	ClientIO clientIO;
-	RegistrationScreen rScreen;
-	ClientQuestionScreen cqScreen;
-	String pathToFolder;
+	private ClientProfile profile;
+	private ClientIO clientIO;
+	private RegistrationScreen rScreen;
+	private ClientQuestionScreen cqScreen;
+	private String pathToFolder;
 
-	ClientWindow(){
-		profile=new ClientProfile();
-		clientIO=new ClientIO(pathToFolder);
-		rScreen=new RegistrationScreen(profile);
-		cqScreen=new ClientQuestionScreen();
+	public ClientWindow() {
+		profile = new ClientProfile(pathToFolder, pathToFolder);
+		clientIO = new ClientIO(pathToFolder);
+		rScreen = new RegistrationScreen(profile);
+		cqScreen = new ClientQuestionScreen();
 		
 	}
 	
-	public void register(){
+	public void register() {
 		
 	}
 	
