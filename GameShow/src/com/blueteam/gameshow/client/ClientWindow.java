@@ -4,21 +4,20 @@ import com.blueteam.gameshow.data.ClientProfile;
 
 public class ClientWindow{
 	
-	private ClientProfile profile;
 	private ClientIO clientIO;
 	private RegistrationScreen rScreen;
 	private ClientQuestionScreen cqScreen;
-	private String pathToFolder;
 
 	public ClientWindow() {
-		profile = new ClientProfile(pathToFolder, pathToFolder);
-		clientIO = new ClientIO(pathToFolder);
-		rScreen = new RegistrationScreen(profile);
-		cqScreen = new ClientQuestionScreen();
+
+		rScreen = new RegistrationScreen(this);
+		cqScreen = new ClientQuestionScreen(this);
 		
 	}
 	
-	public void register() {
+	public void register(String pathServFold, String  pathClientFold) {
+		clientIO=new ClientIO(pathServFold, pathClientFold);
+		clientIO.register();
 		
 	}
 	
