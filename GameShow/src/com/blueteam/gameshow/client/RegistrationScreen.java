@@ -155,7 +155,7 @@ public class RegistrationScreen extends JPanel{
 
 	}class Register implements ActionListener{
 
-		public void actionPerformed(ActionEvent event) {
+		public void actionPerformed(ActionEvent event){
 			clientName=Name.getText();
 			clientTeamName=teamName.getText();
 			profile.setPlayerName(clientName);
