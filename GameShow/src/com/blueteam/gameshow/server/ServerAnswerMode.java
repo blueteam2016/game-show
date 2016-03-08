@@ -20,9 +20,9 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	
 	public ServerAnswerMode(Game g, ServerGameScreen s){
 		
-		question = new JLabel(g.getQuiz().getCurrentQuestion().getQuestionText());
+		question = new JLabel(g.getQuiz().getCurrentQuestion().getText());
 		
-		explanation = newJLabel("Explanation: " + g.getQuiz().getCurrentQuestion().getExplanation());
+		explanation = new JLabel("Explanation: " + g.getQuiz().getCurrentQuestion().getExplanationText());
 		
 		answerLabel = new ArrayList<JLabel>();
 		
