@@ -17,6 +17,7 @@ public class ResultMode extends JPanel{
 	public ResultMode(Game g, final ServerGameScreen s){
 		model = new ResultTableModel(g.getRoster());
 		table = new JTable(model);
+		table.setFillsViewportHeight(true);
 		
 		back = new JButton("Back");
 		back.addActionListener(new ActionListener(){

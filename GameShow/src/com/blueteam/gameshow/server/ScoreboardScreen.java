@@ -9,6 +9,7 @@ public class ScoreboardScreen extends JPanel{
 	public ScoreboardScreen(Game g){
 		model = new ScoreboardTableModel(g.getRoster());
 		table = new JTable(model);
+		table.setFillsViewportHeight(true);
 		
 		add(table.getTableHeader());
 		add(table);
