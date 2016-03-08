@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import com.blueteam.gameshow.data.*;
-import com.blueteam.gameshow.client.Profile;
+import com.blueteam.gameshow.data.Profile;
 import com.blueteam.gameshow.data.Question;
 import com.blueteam.gameshow.data.Quiz;
 

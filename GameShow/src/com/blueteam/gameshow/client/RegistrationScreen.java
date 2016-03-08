@@ -13,6 +13,8 @@ import java.awt.event.*;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.*;
 
+import com.blueteam.gameshow.data.ClientProfile;
+
 public class RegistrationScreen extends JPanel{
 
 	private JLabel NameLabel, teamNameLabel, ServerOutputLabel, ClienOutputLabel, ServerOutputFolder, ClientOutputLabel;

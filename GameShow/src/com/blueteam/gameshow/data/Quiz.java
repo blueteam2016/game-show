@@ -6,8 +6,6 @@ import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
 
-import com.blueteam.gameshow.client.Profile;
-
 public class Quiz {
 		
 	private ArrayList<Question> questions;

@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import com.blueteam.gameshow.data.Answer;
+import com.blueteam.gameshow.data.ClientProfile;
 import com.blueteam.gameshow.data.Question;
 
 public class ClientIO {
