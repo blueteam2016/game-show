@@ -1,6 +1,4 @@
 package com.blueteam.gameshow.server;
-import Game;
-import ServerQuestionScreen;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -26,11 +24,11 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 	private JButton pause;
 	private JButton skip;
 	private Timer timer;
-	private ServerQuestionScreen qScreen;
+	private ServerGameScreen qScreen;
 	private Game game;
 	
 	
-	public ServerQuestionMode(Game g, ServerQuestionScreen s){
+	public ServerQuestionMode(Game g, ServerGameScreen s){
 		
 		qScreen = s;
 		game = g;
@@ -70,13 +68,11 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 		//set questions and answers
 
-		question = new JLabel(game.getQuiz().getCurrentQuestion().getQuestionText());
+		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		answers = new ArrayList<JLabel>();
-		for(int i=0; i<game.getQuiz().getCurrentQuestion().getAnswers().getLength; i++){
-			answers.add(new JLabel((char)(65+i) + " " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
+		for(int i=0; i<game.getQuiz().getCurrentQuestion().getAnswers().length; i++){
+			answers.add(new JLabel((char)(65+i) + ") " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
 		}
-		answers = game.getQuiz().getCurrentQuestion().getAnswers();
-		
 		
 	}
 	
@@ -114,7 +110,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 			if(seconds==0){
 				
 				timer.stop();
-				goToAnswerMode();
+				qScreen.goToAnswerMode();
 			}
 			
 			break;
@@ -178,7 +174,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 			case "yes":
 				
 				yn=true;
-				goToAnswerMode();
+				qScreen.goToAnswerMode();
 				frame.dispose();
 				
 			case "no":
@@ -207,7 +203,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 				case "yes":
 					
 					yn=true;
-					goToResultMode();
+					qScreen.goToResultMode();
 					frame.dispose();
 					
 				case "no":
