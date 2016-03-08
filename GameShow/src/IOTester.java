@@ -1,6 +1,6 @@
 import com.blueteam.gameshow.client.ClientIO;
-import com.blueteam.gameshow.client.ClientProfile;
 import com.blueteam.gameshow.data.Answer;
+import com.blueteam.gameshow.data.ClientProfile;
 import com.blueteam.gameshow.data.Question;
 import com.blueteam.gameshow.server.ServerIO;
 

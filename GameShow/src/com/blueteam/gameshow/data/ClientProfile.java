@@ -1,4 +1,4 @@
-package com.blueteam.gameshow.client;
+package com.blueteam.gameshow.data;
 
 import java.io.Serializable;
 import java.net.InetAddress;
