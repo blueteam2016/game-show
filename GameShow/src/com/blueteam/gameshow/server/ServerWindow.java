@@ -5,17 +5,17 @@ import javax.swing.JTabbedPane;
 
 public class ServerWindow {
 	
-	JTabbedPane tabs;
-	JPanel content;
-	JFrame frame;
+	private JTabbedPane tabs;
+	private JPanel content;
+	private JFrame frame;
 
 
-	ProfileScreen pScreen;
-	RosterScreen rosterScreen;
-	ScoreboardScreen sbScreen;
-	ServerGameScreen sgScreen;
+	private ProfileScreen pScreen;
+	private RosterScreen rosterScreen;
+	private ScoreboardScreen sbScreen;
+	private ServerGameScreen sgScreen;
 	
-	ServerWindow(){
+	public ServerWindow(){
 		
 		tabs=new JTabbedPane();
 		content=new JPanel();
@@ -27,18 +27,21 @@ public class ServerWindow {
 		sbScreen=new ScoreboardScreen(game);
 		sgScreen=new ServerGameScreen(game);
 		
-	}
-
-	void enableTabs(){
 		tabs.addTab("Profile", pScreen);
 		tabs.addTab("Roster",rosterScreen);
 		tabs.addTab("Scoreboard", sbScreen);
 		tabs.addTab("Game", sgScreen);
+		tabs.setEnabled(false);
 		
 		content.add(tabs);
 		frame.setContentPane(content);
 		frame.pack();
 		frame.setVisible(true);
+		
+	}
+
+	void enableTabs(){
+		tabs.setEnabled(true);
 	}
 
 }

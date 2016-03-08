@@ -29,11 +29,10 @@ public class ServerGameScreen extends JPanel{
 		
 	}
 	public void goToResultMode(){
-		if(answer.isLastQuestion()){
-			answer.lastQuestion();
-		}else{
-			currentMode = result;
+		if(game.getQuiz().isLastQuestion()){
+			result.lastQuestion();
 		}
+		currentMode = result;
 		result.update();
 	}
 	
