@@ -1,6 +1,8 @@
 package com.blueteam.gameshow.client;
 import javax.swing.JPanel;
 
+import com.blueteam.gameshow.data.Question;
+
 
 public class ClientQuestionScreen {
 private ClientQuestionMode cQuestion;
