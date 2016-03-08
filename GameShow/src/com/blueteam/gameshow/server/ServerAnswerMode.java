@@ -7,34 +7,41 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.blueteam.gameshow.data.Answer;
+
 
 public class ServerAnswerMode extends JPanel implements ActionListener{
 
 	private JLabel question;
-	private ArrayList<JLabel> answers;
+	private ArrayList<JLabel> answerLabel;
 	private JLabel explanation;
 	private JButton moveOn;
-	
+	private ServerGameScreen SGS;
 	
 	public ServerAnswerMode(Game g, ServerGameScreen s){
-question = new JLabel(g.getQuiz().getCurrentQuestion().getQuestionText());
 		
-		explanation = newJLabel("Explanation: " + g.getQuiz().getCurrentQuestion().getExplanation());
+		SGS = s;
 		
-		answers = new ArrayList<JLabel>();
+		question = new JLabel(g.getQuiz().getCurrentQuestion().getText());
 		
-		for(int x = 0; x< g.getQuiz().getCurrentQuestion().getAnswers().size(); x++){
-			if(g.getQuiz().getCurrentQuestion().getAnswer(x).isCorrect())
-				answers.add(new JLabel((char)(65+x) + ") " + g.getQuiz().getCurrentQuestion().getAnswer(x)));	
+		explanation = new JLabel("Explanation: " + g.getQuiz().getCurrentQuestion().getExplanationText());
+		
+		answerLabel = new ArrayList<JLabel>();
+		
+		Answer[] answers = g.getQuiz().getCurrentQuestion().getAnswers();
+		
+		for(int x = 0; x< answers.length; x++){
+			if(answers[x].isCorrect())
+				answerLabel.add(new JLabel((char)(65+x) + ") " + answers[x].getText()));	
 		}
 		
 		moveOn = new JButton("Continue");
 		moveOn.addActionListener(this);
 		
 		add(question);
-		for(int y = 0; y< answers.size(); y++){
+		for(int y = 0; y< answerLabel.size(); y++){
 			
-			add(answers.get(y));
+			add(answerLabel.get(y));
 			
 		}
 		
@@ -49,7 +56,7 @@ question = new JLabel(g.getQuiz().getCurrentQuestion().getQuestionText());
 
 	public void actionPerformed(ActionEvent arg0) {
 		
-		goToResultMode();
+		SGS.goToResultMode();
 		
 	}
 	
