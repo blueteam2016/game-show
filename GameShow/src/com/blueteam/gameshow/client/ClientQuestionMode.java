@@ -11,15 +11,17 @@ import java.util.ArrayList;
 public class ClientQuestionMode extends JPanel
 {
 	private ClientIO c;
+	private ClientQuestionScreen qs;
 	private Question question;
 	private JLabel questionText;
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
 	
-	ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
+	public ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
 	{
 		this.c = c;
+		this.qs = qs;
 		question = c.getQuestion();
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
@@ -46,7 +48,7 @@ public class ClientQuestionMode extends JPanel
 	}
 	class AnswerButton extends JButton implements ActionListener
 	{
-		AnswerButton()
+		public AnswerButton()
 		{
 			addActionListener(this);
 		}
