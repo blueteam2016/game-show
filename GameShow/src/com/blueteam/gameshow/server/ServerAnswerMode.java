@@ -16,9 +16,11 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private ArrayList<JLabel> answerLabel;
 	private JLabel explanation;
 	private JButton moveOn;
-	
+	private ServerGameScreen SGS;
 	
 	public ServerAnswerMode(Game g, ServerGameScreen s){
+		
+		SGS = s;
 		
 		question = new JLabel(g.getQuiz().getCurrentQuestion().getText());
 		
@@ -54,7 +56,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent arg0) {
 		
-		goToResultMode();
+		SGS.goToResultMode();
 		
 	}
 	

@@ -9,15 +9,16 @@ import java.util.ArrayList;
 
 public class ClientAnswerMode extends JPanel
 {
+	private ClientQuestionScreen qs;
 	private Question question;
 	private JLabel questionText;
 	private Answer[] answerChoices;
-	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
 	
-	ClientAnswerMode(ClientQuestionScreen qs)
+	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
-		question = qs.getQuestion;
+		this.qs = qs;
+		question = qs.getQuestion();
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
 		
