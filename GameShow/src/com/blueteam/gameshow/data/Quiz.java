@@ -8,7 +8,7 @@ import org.w3c.dom.*;
 
 public class Quiz {
 		
-	private ArrayList<Question> questions;
+	private Question[] questions;
 	private Answer[] answers;
 	private int questionNum;
 	
@@ -22,6 +22,7 @@ public class Quiz {
 			quizFile.getDocumentElement().normalize();
 			Element root = quizFile.getDocumentElement();
 			NodeList questionList = root.getElementsByTagName("item");
+			questions = new Question[questionList.getLength()];
 			for(int index=0; index < questionList.getLength();index++)
 			{
 				Node currentQuestion = questionList.item(index);
@@ -49,31 +50,30 @@ public class Quiz {
 					try{
 						time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
 					}catch(Exception e){time = Profile.getDefaultTime();}
-					questions.add(new Question(questionString,answers,explanation,pointValue,time));
+					questions[index] = new Question(questionString,answers,explanation,pointValue,time);
 				}
 			}
 			
 		}catch(Exception e){System.out.println("THE QUIZ FILE WAS NOT BUILT CORRECTLY");e.printStackTrace();}
-		questions = new ArrayList<Question>();
 		questionNum = 0;
 	}
 	
 	public Question getCurrentQuestion()
 	{
-		return questions.get(questionNum);
+		return questions[questionNum];
 	}
 	
 	public Question getLastQuestion()
 	{
 		if(questionNum > 0)
-			return questions.get(questionNum - 1);
+			return questions[questionNum-1];
 		else
 			return null;
 	}
 	
 	public boolean isLastQuestion()
 	{
-		if(questionNum == questions.size() - 1)
+		if(questionNum == questions.length - 1)
 			return true;
 		return false;
 	}
@@ -81,6 +81,6 @@ public class Quiz {
 	public Question nextQuestion()
 	{
 		questionNum++;
-		return questions.get(questionNum);
+		return questions[questionNum];
 	}
 }
