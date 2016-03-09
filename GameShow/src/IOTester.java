@@ -21,24 +21,15 @@ public class IOTester {
 		Question question = new Question(questionText, answers, explanation, 0, 0);
 		
 		ServerIO sIO = new ServerIO("");
-		ClientIO cIO = new ClientIO("", new ClientProfile("", ""));
 		
 		sIO.openIn("");
 		
 		{
 			sIO.sendQuestion(question);
-		
-			Question recvQuest = cIO.getQuestion();
-			Answer[] ans = recvQuest.getAnswers();
-		
-			System.out.println(recvQuest.getText());
-			for (int i = 0; i < ans.length; i++)
-				System.out.println("" + ans[i].isCorrect() + ",\t" + ans[i].getText());
-			System.out.println(recvQuest.getExplanationText());
-		
-			cIO.sendAnswer(ans[ans.length - 1]);
-		
+
 			Answer recvAnswer = sIO.getAnswer();
+			while (recvAnswer == null)
+				recvAnswer = sIO.getAnswer();
 		
 			System.out.println("" + recvAnswer.isCorrect() + ",\t" + recvAnswer.getText());
 		}
@@ -50,20 +41,11 @@ public class IOTester {
 		{
 			sIO.sendQuestion(nextQ);
 		
-			Question recvQuest = cIO.getQuestion();
-			Answer[] ans = recvQuest.getAnswers();
-		
-			System.out.println(recvQuest.getText());
-			for (int i = 0; i < ans.length; i++)
-				System.out.println("" + ans[i].isCorrect() + ",\t" + ans[i].getText());
-			System.out.println(recvQuest.getExplanationText());
-		
-			cIO.sendAnswer(ans[ans.length - 1]);
-		
 			Answer recvAnswer = sIO.getAnswer();
-			recvAnswer = sIO.getAnswer();
-			if (recvAnswer != null)
-				System.out.println("" + recvAnswer.isCorrect() + ",\t" + recvAnswer.getText());
+			while (recvAnswer == null)
+				recvAnswer= sIO.getAnswer();
+			
+			System.out.println("" + recvAnswer.isCorrect() + ",\t" + recvAnswer.getText());
 		}
 		
 		
