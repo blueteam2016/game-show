@@ -1,4 +1,3 @@
-package com.blueteam.gameshow.server;
 import javax.swing.*; 
 import javax.swing.border.EmptyBorder;
 
@@ -105,29 +104,6 @@ public class ProfileScreen extends JPanel implements ActionListener {
 
 	}
 
-	public static void main(String[] args) {
-		//Methods that create and show a GUI should be run from an event dispatching thread
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				runGUI();
-			}
-		});
-	}
-
-	public static void runGUI() {
-
-		JFrame frame = new JFrame("ProfileScreen");
-		frame.setContentPane(new ProfileScreen(null, null));                    
-		JFrame.setDefaultLookAndFeelDecorated(true);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		frame.pack();
-
-		frame.setVisible(true);    
-
-
-	}
 
 	public String fileChooser() {
 
