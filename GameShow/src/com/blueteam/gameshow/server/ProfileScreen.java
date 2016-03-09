@@ -1,3 +1,5 @@
+package com.blueteam.gameshow.server;
+
 import javax.swing.*; 
 import javax.swing.border.EmptyBorder;
 
