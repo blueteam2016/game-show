@@ -40,6 +40,7 @@ public class ClientWindow{
 	
 	public void register(String pathServFold, String  pathClientFold, ClientProfile profile) {
 		clientIO = new ClientIO(pathServFold, pathClientFold, profile);
+		cqScreen.register();
 		tabs.setEnabled(true);
 	}
 	

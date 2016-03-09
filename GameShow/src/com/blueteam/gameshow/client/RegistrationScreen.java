@@ -84,9 +84,12 @@ public class RegistrationScreen extends JPanel{
 		
 	}
 
-	private String fileChooser() {
+	private String fileChooser(String directoryType) {
 		folderLoc = "";
 		folderChooser = new JFileChooser();
+	
+	    folderChooser.setDialogTitle(directoryType + " Directory");
+	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -114,7 +117,7 @@ public class RegistrationScreen extends JPanel{
 				System.out.println("Browse for server output folder");
 			}
 
-			servFoldLoc = fileChooser();
+			servFoldLoc = fileChooser("Server");
 			servFoldText.setText(servFoldLoc);
 			System.out.println("serverfolderloc: " + servFoldLoc);
 			checkCompletion();
@@ -129,7 +132,7 @@ public class RegistrationScreen extends JPanel{
 				System.out.println("Browse for client output folder");
 			}
 
-			clientFoldLoc = fileChooser();
+			clientFoldLoc = fileChooser("Client");
 			clientFoldText.setText(clientFoldLoc);
 			System.out.println("clientFoldloc: " + clientFoldLoc);
 			checkCompletion();

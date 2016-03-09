@@ -21,13 +21,11 @@ public class ClientQuestionScreen extends JPanel{
 		cAnswer = new ClientAnswerMode(this);
 		noQuestionAvailable = new JPanel();
 		notRegistered = new JPanel();
-		currentMode = noQuestionAvailable;
-		
-		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
-		
+		currentMode = noQuestionAvailable;		
 	}
 
 	public void goToAnswerMode() {
+		cAnswer.update();
 		currentMode = cAnswer;
 	}
 
@@ -57,6 +55,10 @@ public class ClientQuestionScreen extends JPanel{
 	
 	public ClientIO getClientIO() {
 		return clientIO;
+	}
+
+	public void register() {
+		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
 	}
 
 }

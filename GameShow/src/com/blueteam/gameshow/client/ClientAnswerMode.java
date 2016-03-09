@@ -17,9 +17,12 @@ public class ClientAnswerMode extends JPanel
 	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
 		this.qs = qs;
+	}
+	
+	public void update() {
 		question = qs.getQuestion();
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
-		
 	}
+	
 }
