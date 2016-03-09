@@ -16,7 +16,11 @@ public class ServerWindow {
 	private ScoreboardScreen sbScreen;
 	private ServerGameScreen sgScreen;
 	
+	private Game game;
+	
 	public ServerWindow(){
+		
+		game = new Game();
 		
 		tabs = new JTabbedPane();
 		content = new JPanel();
