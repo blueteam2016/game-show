@@ -51,11 +51,4 @@
 		<point_value>100</point_value>
 		<time>60</time>
 	</item>
-	<item>
-		<question>What did Sahil, Allison, and I do during lunch that Helen was super fun?</question>
-		<answer correct="true">Climb a tree</answer>
-		<answer correct="true">Enjoy weather</answer>
-		<answer correct="true">Have fun</answer>
-		<answer correct="true">Feel the cool, cool breeze</answer>
-	</item>
 </quiz>
