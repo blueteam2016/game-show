@@ -35,7 +35,7 @@ public class ClientWindow{
 		frame.setContentPane(content);
 		frame.pack();
 		frame.setVisible(true);
-
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void register(String pathServFold, String  pathClientFold, ClientProfile profile) {
