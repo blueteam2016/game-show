@@ -10,10 +10,10 @@ import com.blueteam.gameshow.data.ClientProfile;
 public class RegistrationScreen extends JPanel{
 
 	private static final long serialVersionUID = -4547016510843530603L;
-	private JLabel NameLabel, teamNameLabel, ServerOutputLabel, ClienOutputLabel;
+	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
-	private JButton Register;
-	private JTextField Name, teamName, servFoldText, clientFoldText;
+	private JButton registerButton;
+	private JTextField name, teamName, servFoldText, clientFoldText;
 	private String clientName, clientTeamName, folderLoc, servFoldLoc, clientFoldLoc;
 	private ClientWindow clientWindow;
 	private JFileChooser folderChooser;
@@ -31,17 +31,17 @@ public class RegistrationScreen extends JPanel{
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
 
 		JLabel BlankSpace = new JLabel("");
-		NameLabel = new JLabel("Name: ");
-		this.add(NameLabel);
-		Name = new JTextField("");
-		Name.getDocument().addDocumentListener(new DocumentListener() {
+		nameLabel = new JLabel("Name: ");
+		this.add(nameLabel);
+		name = new JTextField("");
+		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
 				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
-		this.add(Name);
+		this.add(name);
 		this.add(BlankSpace);
 
 		JLabel BlankSpace2 = new JLabel("");
@@ -58,16 +58,16 @@ public class RegistrationScreen extends JPanel{
 		});
 		this.add(BlankSpace2);
 
-		ServerOutputLabel = new JLabel("Server Output Folder");
-		this.add(ServerOutputLabel);
+		serverOutputLabel = new JLabel("Server Output Folder");
+		this.add(serverOutputLabel);
 		servFoldBrowser = new JButton("Browse");
 		servFoldBrowser.addActionListener(new ServerButton());
 		this.add(servFoldBrowser);
 		servFoldText = new JTextField("");
 		this.add(servFoldText);
 
-		ClienOutputLabel = new JLabel("Client Output Folder");
-		this.add(ClienOutputLabel);
+		clientOutputLabel = new JLabel("Client Output Folder");
+		this.add(clientOutputLabel);
 		clientFoldBrowser = new JButton("Browse");
 		clientFoldBrowser.addActionListener(new ClientButton());
 		this.add(clientFoldBrowser);
@@ -77,10 +77,10 @@ public class RegistrationScreen extends JPanel{
 		this.add(infoPrompt);
 		JLabel BlankSpace4 = new JLabel("");
 		this.add(BlankSpace4);
-		Register = new JButton("Register");
-		Register.addActionListener(new Register());
-		this.add(Register);
-		Register.setEnabled(false);
+		registerButton = new JButton("Register");
+		registerButton.addActionListener(new Register());
+		this.add(registerButton);
+		registerButton.setEnabled(false);
 		
 	}
 
@@ -88,6 +88,7 @@ public class RegistrationScreen extends JPanel{
 		folderLoc = "";
 		folderChooser = new JFileChooser();
 	
+		folderChooser.setCurrentDirectory(new java.io.File("."));
 	    folderChooser.setDialogTitle(directoryType + " Directory");
 	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -100,12 +101,12 @@ public class RegistrationScreen extends JPanel{
 	}
 
 	private void checkCompletion(){
-		clientName = Name.getText();
+		clientName = name.getText();
 		clientTeamName = teamName.getText();
 		if (clientName.equals("") || clientTeamName.equals("") || servFoldLoc.equals("") || clientFoldLoc.equals("")){
-			Register.setEnabled(false);
+			registerButton.setEnabled(false);
 		}else{
-			Register.setEnabled(true);
+			registerButton.setEnabled(true);
 		}
 	}
 
@@ -114,12 +115,12 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				System.out.println("Browse for server output folder");
+				//System.out.println("Browse for server output folder");
 			}
 
 			servFoldLoc = fileChooser("Server");
 			servFoldText.setText(servFoldLoc);
-			System.out.println("serverfolderloc: " + servFoldLoc);
+			//System.out.println("serverfolderloc: " + servFoldLoc);
 			checkCompletion();
 		}
 	}
@@ -129,12 +130,12 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				System.out.println("Browse for client output folder");
+				//System.out.println("Browse for client output folder");
 			}
 
 			clientFoldLoc = fileChooser("Client");
 			clientFoldText.setText(clientFoldLoc);
-			System.out.println("clientFoldloc: " + clientFoldLoc);
+			//System.out.println("clientFoldloc: " + clientFoldLoc);
 			checkCompletion();
 		}
 
@@ -143,7 +144,7 @@ public class RegistrationScreen extends JPanel{
 	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
-			clientName = Name.getText();
+			clientName = name.getText();
 			clientTeamName = teamName.getText();
 			clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
 		}
