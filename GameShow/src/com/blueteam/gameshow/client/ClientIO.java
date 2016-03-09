@@ -15,11 +15,11 @@ public class ClientIO {
 	private ObjectInputStream questIn;
 	private ObjectOutputStream ansOut;
 	
-	public ClientIO(String pathToFolder, ClientProfile profile) {
+	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) {
 		String identifier = profile.getIdentifier();
 
 		try {
-			ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(pathToFolder + ".profile_" + identifier));
+			ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(pathClientFold + ".profile_" + identifier));
 			profOut.writeObject(profile);
 			profOut.close();
 		} catch (IOException e) {
@@ -27,13 +27,13 @@ public class ClientIO {
 		}
 
 		try {
-			questIn = new ObjectInputStream(new FileInputStream(pathToFolder + ".question"));
+			questIn = new ObjectInputStream(new FileInputStream(pathServerFold + ".question"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			ansOut = new ObjectOutputStream(new FileOutputStream(pathToFolder + ".answer_" + identifier));
+			ansOut = new ObjectOutputStream(new FileOutputStream(pathClientFold + ".answer_" + identifier));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

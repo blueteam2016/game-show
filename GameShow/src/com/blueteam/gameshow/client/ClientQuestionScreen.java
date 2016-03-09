@@ -7,42 +7,43 @@ import com.blueteam.gameshow.data.Question;
 public class ClientQuestionScreen {
 private ClientQuestionMode cQuestion;
 private ClientAnswerMode cAnswer;
+private ClientIO clientIO;
+private Question currentQuestion;
 private JPanel noQuestionAvailable;
 private JPanel notRegistered;
 private JPanel currentMode;
-private Question currentQuestion;
 
-ClientIO clientIO;
-
-public ClientQuestionScreen(){
-	
-	clientIO = new ClientIO();
+public ClientQuestionScreen(ClientWindow clientWindow){
+	clientIO = clientWindow.getClientIO();
 	cQuestion = new ClientQuestionMode(clientIO, this);
 	cAnswer = new ClientAnswerMode(this);
 	noQuestionAvailable = new JPanel();
 	notRegistered = new JPanel();
-	currentMode = new JPanel();
-	//parameters: string qText, Answer[] ans, String exp, int t, intv
-	currentQuestion = new Question();
-	
-	
+	currentMode = noQuestionAvailable;
+	currentQuestion = null;
 }
-public void goToAnswerMode(){
-	currentMode= cAnswer;
+
+public void goToAnswerMode() {
+	currentMode = cAnswer;
 }
-public void goToQuestionMode(){
+
+public void goToQuestionMode() {
 	currentMode = cQuestion; 
 }
-public void goToNotRegistered(){
+
+public void goToNotRegistered() {
 	currentMode = notRegistered;
 }
-public void goToNoQuestion(){
+
+public void goToNoQuestion() {
 	currentMode = noQuestionAvailable;
 }
-public Question getQuestion(){
+
+public Question getQuestion() {
 	return currentQuestion;
 }
-public JPanel getCurrentMode(){
+
+public JPanel getCurrentMode() {
 	return currentMode;
 }
 

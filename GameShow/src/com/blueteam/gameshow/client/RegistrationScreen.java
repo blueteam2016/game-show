@@ -26,7 +26,7 @@ public class RegistrationScreen extends JPanel{
 	JFileChooser folderChooser;
 	JLabel infoPrompt=new JLabel("");
 
-	public RegistrationScreen(ClientProfile newprofile, ClientWindow newclientWindow){
+	public RegistrationScreen(ClientWindow newclientWindow){
 		profile=newprofile;
 		clientWindow=newclientWindow;
 		this.setLayout(new GridLayout(0,3,10,10));

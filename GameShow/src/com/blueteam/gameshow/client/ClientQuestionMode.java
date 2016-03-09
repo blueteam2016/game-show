@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class ClientQuestionMode extends JPanel
 {
-	private ClientIO c;
-	private ClientQuestionScreen qs;
+	private ClientIO clientIO;
+	private ClientQuestionScreen questScreen;
 	private Question question;
 	private JLabel questionText;
 	private Answer[] answerChoices;
@@ -20,9 +20,11 @@ public class ClientQuestionMode extends JPanel
 	
 	public ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
 	{
-		this.c = c;
-		this.qs = qs;
-		question = c.getQuestion();
+		clientIO = c;
+		questScreen = qs;
+		question = null;
+		while (question == null)
+			question = clientIO.getQuestion();
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
 		
@@ -46,6 +48,7 @@ public class ClientQuestionMode extends JPanel
 		this.add(questionText);
 		this.add(displayAnswers);
 	}
+	
 	class AnswerButton extends JButton implements ActionListener
 	{
 		public AnswerButton()
@@ -56,8 +59,8 @@ public class ClientQuestionMode extends JPanel
 		{
 			for (int i = 0; i < answerButtons.size(); i++)
 				if (answerButtons.get(i).equals(arg0.getSource()))
-					c.sendAnswer(answerChoices[i]);
-			qs.goToAnswerMode();
+					clientIO.sendAnswer(answerChoices[i]);
+			questScreen.goToAnswerMode();
 		}
 	}
 }
