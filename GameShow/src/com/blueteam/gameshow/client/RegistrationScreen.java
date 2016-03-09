@@ -84,7 +84,7 @@ public class RegistrationScreen extends JPanel{
 		this.add(registerButton);
 		registerButton.setEnabled(false);
 		
-	}
+	} 
 
 	private String fileChooser(String directoryType) {
 		folderLoc = "";
