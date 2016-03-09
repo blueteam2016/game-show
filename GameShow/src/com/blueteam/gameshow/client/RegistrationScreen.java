@@ -10,12 +10,12 @@ import com.blueteam.gameshow.data.ClientProfile;
 public class RegistrationScreen extends JPanel{
 
 	private static final long serialVersionUID = -4547016510843530603L;
+	private ClientWindow clientWindow;
 	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton registerButton;
 	private JTextField name, teamName, servFoldText, clientFoldText;
 	private String clientName, clientTeamName, folderLoc, servFoldLoc, clientFoldLoc;
-	private ClientWindow clientWindow;
 	private JFileChooser folderChooser;
 	private JLabel infoPrompt;
 
@@ -94,7 +94,7 @@ public class RegistrationScreen extends JPanel{
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLoc = folderChooser.getSelectedFile().getAbsolutePath();
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
 		}
 		return(folderLoc);
 

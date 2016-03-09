@@ -1,4 +1,7 @@
 package com.blueteam.gameshow.client;
+import java.awt.CardLayout;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.blueteam.gameshow.data.Question;
@@ -7,38 +10,64 @@ import com.blueteam.gameshow.data.Question;
 public class ClientQuestionScreen extends JPanel{
 
 	private static final long serialVersionUID = 335785158677578632L;
+	public final static String QUESTIONMODE = "Question Mode";
+	public final static String ANSWERMODE = "Answer Mode";
+	public final static String NOQUESTIONMODE = "No Questions Available";
+	public final static String NOTREGISTEREDMODE = "Not registered";
+	private ClientWindow clientWindow;
 	private ClientQuestionMode cQuestion;
 	private ClientAnswerMode cAnswer;
-	private ClientIO clientIO;
-	private Question currentQuestion;
 	private JPanel noQuestionAvailable;
 	private JPanel notRegistered;
-	private JPanel currentMode;
-
-	public ClientQuestionScreen(ClientWindow clientWindow) {
-		clientIO = clientWindow.getClientIO();
+	private JPanel cards;
+	private Question currentQuestion;
+	private String currentMode;
+	
+	
+	public ClientQuestionScreen(ClientWindow cWindow) {
+		clientWindow = cWindow;
+		
 		cQuestion = new ClientQuestionMode(this);
 		cAnswer = new ClientAnswerMode(this);
+		cAnswer.add(new JLabel("Answer"));
 		noQuestionAvailable = new JPanel();
+		noQuestionAvailable.add(new JLabel("No Question"));
 		notRegistered = new JPanel();
-		currentMode = noQuestionAvailable;		
+		notRegistered.add(new JLabel("Not Registered"));
+		
+		cards = new JPanel(new CardLayout());
+		
+		cards.add(cQuestion, QUESTIONMODE);
+		cards.add(cAnswer, ANSWERMODE);
+		cards.add(noQuestionAvailable, NOQUESTIONMODE);
+		cards.add(notRegistered, NOTREGISTEREDMODE);
+		this.add(cards);
 	}
 
 	public void goToAnswerMode() {
+		System.out.println("hi!");
 		cAnswer.update();
-		currentMode = cAnswer;
+		CardLayout cl = (CardLayout)cards.getLayout();
+		currentMode = ANSWERMODE;
+		cl.show(cards, currentMode);
 	}
 
 	public void goToQuestionMode() {
-		currentMode = cQuestion; 
+		CardLayout cl = (CardLayout)cards.getLayout();
+		currentMode = QUESTIONMODE;
+		cl.show(cards, currentMode);
 	}
 
 	public void goToNotRegistered() {
-		currentMode = notRegistered;
+		CardLayout cl = (CardLayout)cards.getLayout();
+		currentMode = NOTREGISTEREDMODE;
+		cl.show(cards, currentMode);
 	}
 
 	public void goToNoQuestion() {
-		currentMode = noQuestionAvailable;
+		CardLayout cl = (CardLayout)cards.getLayout();
+		currentMode = NOQUESTIONMODE;
+		cl.show(cards, currentMode);
 	}
 
 	public Question getQuestion() {
@@ -49,15 +78,17 @@ public class ClientQuestionScreen extends JPanel{
 		currentQuestion = question;
 	}
 
-	public JPanel getCurrentMode() {
+	public String getCurrentMode() {
 		return currentMode;
 	}
 	
-	public ClientIO getClientIO() {
-		return clientIO;
+	public ClientWindow getClientWindow() {
+		return clientWindow;
 	}
 
 	public void register() {
+		cQuestion.register();
+		goToNoQuestion();
 		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
 	}
 
