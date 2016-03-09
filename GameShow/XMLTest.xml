@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <quiz>
 	<item>
@@ -53,9 +53,9 @@
 	</item>
 	<item>
 		<question>What did Sahil, Allison, and I do during lunch that Helen was super fun?</question>
-		<answer correct=true>Climb a tree</answer>
-		<answer correct=true>Enjoy weather</answer>
-		<answer correct=true>Have fun</answer>
-		<answer correct=true>Feel the cool, cool breeze</answer>
+		<answer correct="true">Climb a tree</answer>
+		<answer correct="true">Enjoy weather</answer>
+		<answer correct="true">Have fun</answer>
+		<answer correct="true">Feel the cool, cool breeze</answer>
 	</item>
 </quiz>
