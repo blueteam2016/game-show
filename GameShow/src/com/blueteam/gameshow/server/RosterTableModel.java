@@ -59,7 +59,7 @@ public class RosterTableModel extends AbstractTableModel{
 		}
 	}
 	
-	public Object getStudentAt(int rowIndex){
+	public Player getStudentAt(int rowIndex){
 		for(int t=0; t<rost.numTeams(); t++){
 			for(int p = 0; p<rost.getTeam(t).numPlayers(); p++){
 				if(rowIndex==0){
