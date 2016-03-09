@@ -64,6 +64,7 @@ public class RegistrationScreen extends JPanel{
 		servFoldBrowser.addActionListener(new ServerButton());
 		this.add(servFoldBrowser);
 		servFoldText = new JTextField("");
+		servFoldText.setEditable(false);
 		this.add(servFoldText);
 
 		clientOutputLabel = new JLabel("Client Output Folder");
@@ -72,6 +73,7 @@ public class RegistrationScreen extends JPanel{
 		clientFoldBrowser.addActionListener(new ClientButton());
 		this.add(clientFoldBrowser);
 		clientFoldText = new JTextField("");
+		clientFoldText.setEditable(false);
 		this.add(clientFoldText);
 
 		this.add(infoPrompt);
@@ -82,7 +84,7 @@ public class RegistrationScreen extends JPanel{
 		this.add(registerButton);
 		registerButton.setEnabled(false);
 		
-	}
+	} 
 
 	private String fileChooser(String directoryType) {
 		folderLoc = "";
