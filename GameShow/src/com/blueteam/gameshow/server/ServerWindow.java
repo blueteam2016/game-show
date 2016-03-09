@@ -28,15 +28,7 @@ public class ServerWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		pScreen = new ProfileScreen(game, this);
-		rosterScreen = new RosterScreen(game);
-		sbScreen = new ScoreboardScreen(game);
-		sgScreen = new ServerGameScreen(game);
-		
 		tabs.addTab("Profile", pScreen);
-		tabs.addTab("Roster",rosterScreen);
-		tabs.addTab("Scoreboard", sbScreen);
-		tabs.addTab("Game", sgScreen);
-		tabs.setEnabled(false);
 		
 		content.add(tabs);
 		frame.setContentPane(content);
@@ -46,7 +38,15 @@ public class ServerWindow {
 	}
 
 	public void enableTabs(){
-		tabs.setEnabled(true);
+		game.createQuiz();
+		
+		rosterScreen = new RosterScreen(game);
+		sbScreen = new ScoreboardScreen(game);
+		sgScreen = new ServerGameScreen(game);
+		
+		tabs.addTab("Roster",rosterScreen);
+		tabs.addTab("Scoreboard", sbScreen);
+		tabs.addTab("Game", sgScreen);
 	}
 	
 	public static void main(String args[]) {

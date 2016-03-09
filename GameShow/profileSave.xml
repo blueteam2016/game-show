@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><profile><serverLoc>serverLocation</serverLoc><clientLoc>clientLocation</clientLoc><questionLoc>questionLocation</questionLoc><timeDefault>60</timeDefault><pointDefault>100</pointDefault></profile>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><profile><serverLoc>serverLocation</serverLoc><clientLoc>clientLocation</clientLoc><questionLoc>XMLTest.xml</questionLoc><timeDefault>60</timeDefault><pointDefault>100</pointDefault></profile>

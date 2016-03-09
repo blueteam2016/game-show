@@ -19,9 +19,12 @@ public class Game {
 	
 	public Game(){
 		roster = new Roster();
-		quiz = new Quiz(Profile.getQuestionFileLoc());
 		profile = new Profile();
 		
+	}
+	
+	public void createQuiz(){
+		quiz = new Quiz(Profile.getQuestionFileLoc());
 	}
 	
 	public Roster getRoster(){
