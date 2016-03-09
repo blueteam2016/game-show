@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
@@ -17,20 +19,11 @@ public class ServerIO {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
-	private void truncate(FileOutputStream out) {
-		try {
-			out.getChannel().truncate(0);
-			out.getChannel().force(true);
-			out.getChannel().lock();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public ServerIO(String pathToFolder) {
 		try {
-			FileOutputStream fOut = new FileOutputStream(pathToFolder + ".question");
-			truncate(fOut);
+			String path = pathToFolder + ".question";
+			Files.deleteIfExists(Paths.get(path));
+			FileOutputStream fOut = new FileOutputStream(path);
 			out = new ObjectOutputStream(fOut);
 		} catch (IOException e) {
 			e.printStackTrace();

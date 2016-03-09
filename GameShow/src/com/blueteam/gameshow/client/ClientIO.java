@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.ClientProfile;
@@ -16,22 +18,13 @@ public class ClientIO {
 	private ObjectInputStream questIn;
 	private ObjectOutputStream ansOut;
 	
-	private void truncate(FileOutputStream out) {
-		try {
-			out.getChannel().truncate(0);
-			out.getChannel().force(true);
-			out.getChannel().lock();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) {
 		String identifier = profile.getIdentifier();
 
 		try {
-			FileOutputStream fOut = new FileOutputStream(pathClientFold + ".profile_" + identifier);
-			truncate(fOut);
+			String path = pathClientFold + ".profile_" + identifier;
+			Files.deleteIfExists(Paths.get(path));
+			FileOutputStream fOut = new FileOutputStream(path);
 			ObjectOutputStream profOut = new ObjectOutputStream(fOut);
 			profOut.writeObject(profile);
 			profOut.close();
@@ -49,8 +42,9 @@ public class ClientIO {
 		}
 
 		try {
-			FileOutputStream fOut = new FileOutputStream(pathClientFold + ".answer_" + identifier);
-			truncate(fOut);
+			String path = pathClientFold + ".answer_" + identifier;
+			Files.deleteIfExists(Paths.get(path));
+			FileOutputStream fOut = new FileOutputStream(path);
 			ansOut = new ObjectOutputStream(fOut);
 		} catch (IOException e) {
 			e.printStackTrace();

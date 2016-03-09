@@ -45,7 +45,6 @@ public class ClientQuestionScreen extends JPanel{
 	}
 
 	public void goToAnswerMode() {
-		System.out.println("hi!");
 		cAnswer.update();
 		CardLayout cl = (CardLayout)cards.getLayout();
 		currentMode = ANSWERMODE;
