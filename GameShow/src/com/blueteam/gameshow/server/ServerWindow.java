@@ -47,6 +47,7 @@ public class ServerWindow {
 
 	public void enableTabs(){
 		tabs.setEnabled(true);
+		game.createQuiz();
 	}
 	
 	public static void main(String args[]) {
