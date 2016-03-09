@@ -48,21 +48,21 @@ public class RosterScreen extends JPanel{
 	}
 	class Unreg implements ActionListener{
 		public void actionPerformed(ActionEvent event){
-			game.getRoster().getTeam(model.getValueAt(selectedRow,1)).unregisterStudent.getStudentAt(selectedRow)));
+			game.getRoster().getTeam(model.getValueAt(selectedRow,1)).unregisterStudent(getStudentAt(selectedRow))));
 			
 		}
 	}
 	class OpenClose implements ActionListener{
 		public void actionPerformed(ActionEvent event){
-			if(event.getActionCommand().equals("Open Regestration")){
-				model.openRegestration();
-				openClose.setText("Close Regestration");
-				openClose.setActionCommand("Close Regestration");
+			if(event.getActionCommand().equals("Open Registration")){
+				model.openRegistration();
+				openClose.setText("Close Regeistration");
+				openClose.setActionCommand("Close Registration");
 			}
-			else if(event.getActionCommand().equals("Close Regestration")){
-				model.closeRegestration();
+			else if(event.getActionCommand().equals("Close Registration")){
+				model.closeRegistration();
 				openClose.setText("Open Regestration");
-				openClose.setActionCommand("Open Regestration");
+				openClose.setActionCommand("Open Registration");
 			}
 		}
 	}
