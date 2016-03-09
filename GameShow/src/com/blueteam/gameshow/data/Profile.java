@@ -15,25 +15,21 @@ public class Profile {
 	private static int defVal;
 	private static int defTime;
 	private static String qFileLoc;
-	private boolean useSavedFile;
 	
 	
 	public Profile(){
-		if(useSavedFile)
-		{
-			try{
-				Document profileSave;
-				DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
-				profileSave = profileBuilder.parse("profileSave.xml");
-				Element root = profileSave.getDocumentElement();
-				servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
-				clientFoldLoc = ((Element)root.getElementsByTagName("clientLoc").item(0)).getTextContent();
-				qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
-				defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
-				defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
-			}catch(Exception e){e.printStackTrace();}
-		}
+		try{
+			Document profileSave;
+			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
+			profileSave = profileBuilder.parse("profileSave.xml");
+			Element root = profileSave.getDocumentElement();
+			servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
+			clientFoldLoc = ((Element)root.getElementsByTagName("clientLoc").item(0)).getTextContent();
+			qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
+			defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
+			defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
+		}catch(Exception e){e.printStackTrace();}
 	}
 
 	public void saveProfile(){
@@ -85,10 +81,6 @@ public class Profile {
 	
 	public static int getDefaultTime(){
 		return defTime;
-	}
-	
-	public boolean useSaveFile(){
-		return useSavedFile;
 	}
 
 	public void setServerFolderLoc(String loc){

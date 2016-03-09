@@ -40,7 +40,8 @@ public class Game {
 		}	
 	}
 	
-	public void () {
+	/*
+	public void unnamed() {
 		FileOutputStream fOut = null;
 		try {
 			fOut = new FileOutputStream(pathToFolder + ".question");
@@ -53,6 +54,7 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	public void sendQuestion(Question question) {
 		try {

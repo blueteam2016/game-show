@@ -17,38 +17,43 @@ public class ServerIO {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
+	private void truncate(FileOutputStream out) {
+		try {
+			out.getChannel().truncate(0);
+			out.getChannel().force(true);
+			out.getChannel().lock();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ServerIO(String pathToFolder) {
-		FileOutputStream fOut = null;
-				try {
-					fOut = new FileOutputStream(pathToFolder + ".question");
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				try {
-					out = new ObjectOutputStream(fOut);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		try {
+			FileOutputStream fOut = new FileOutputStream(pathToFolder + ".question");
+			truncate(fOut);
+			out = new ObjectOutputStream(fOut);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	public void openIn(String pathToFolder) {
-		FileInputStream fIn = null;
 		String sysName = null;
-		try {
-			sysName = InetAddress.getLocalHost().getHostName(); //apparently the only way to get the machine hostname in Java
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			fIn = new FileInputStream(pathToFolder + ".answer_" + sysName);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		};
-		try {
-			in = new ObjectInputStream(fIn);
-		} catch (IOException e) {
-			e.printStackTrace();
+		while (true) {
+			try {
+				sysName = InetAddress.getLocalHost().getHostName(); //apparently the only way to get the machine hostname in Java
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				in = new ObjectInputStream(new FileInputStream(pathToFolder + ".answer_" + sysName));
+			} catch (FileNotFoundException e) {
+				continue;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		}
 	}
 
@@ -69,6 +74,7 @@ public class ServerIO {
 	public void sendQuestion(Question question) {
 				try {
 					out.writeObject(question);
+					out.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

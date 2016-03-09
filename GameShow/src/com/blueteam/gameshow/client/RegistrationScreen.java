@@ -1,75 +1,73 @@
-import javax.swing.*; 
-import javax.swing.border.EmptyBorder;
+package com.blueteam.gameshow.client;
 
+import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.Math;
-import java.util.ArrayList;
-import java.awt.Graphics;
-import java.io.*;
-import java.awt.event.*;
-
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.*;
+import com.blueteam.gameshow.data.ClientProfile;
 
 public class RegistrationScreen extends JPanel{
 
-	private JLabel NameLabel, teamNameLabel, ServerOutputLabel, ClienOutputLabel, ServerOutputFolder, ClientOutputLabel;
+	private static final long serialVersionUID = -4547016510843530603L;
+	private ClientWindow clientWindow;
+	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
-	private JButton Register;
-	private JTextField Name, teamName, servFoldText, clientFoldText;
-	private String clientName="", clientTeamName="", folderLoc, servFoldLoc="", clientFoldLoc="";
-	ClientProfile profile;
-	ClientWindow clientWindow;
-	JFileChooser folderChooser;
-	JLabel infoPrompt=new JLabel("");
+	private JButton registerButton;
+	private JTextField name, teamName, servFoldText, clientFoldText;
+	private String clientName, clientTeamName, folderLoc, servFoldLoc, clientFoldLoc;
+	private JFileChooser folderChooser;
+	private JLabel infoPrompt;
 
-	public RegistrationScreen(ClientProfile newprofile, ClientWindow newclientWindow){
-		profile=newprofile;
-		clientWindow=newclientWindow;
+	public RegistrationScreen(ClientWindow newclientWindow){
+		clientName = "";
+		clientTeamName = "";
+		folderLoc = "";
+		servFoldLoc = "";
+		clientFoldLoc = "";
+		infoPrompt = new JLabel("");
+		clientWindow = newclientWindow;
 		this.setLayout(new GridLayout(0,3,10,10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
 
-		JLabel BlankSpace=new JLabel("");
-		NameLabel = new JLabel("Name: ");
-		this.add(NameLabel);
-		Name=new JTextField("");
-		Name.getDocument().addDocumentListener(new DocumentListener() {
+		JLabel BlankSpace = new JLabel("");
+		nameLabel = new JLabel("Name: ");
+		this.add(nameLabel);
+		name = new JTextField("");
+		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
-				check();
+				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
-		this.add(Name);
+		this.add(name);
 		this.add(BlankSpace);
 
-		JLabel BlankSpace2=new JLabel("");
+		JLabel BlankSpace2 = new JLabel("");
 		teamNameLabel = new JLabel("Team Name:");
 		this.add(teamNameLabel);
-		teamName=new JTextField("");
+		teamName = new JTextField("");
 		this.add(teamName);
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
-				check();
+				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
 		this.add(BlankSpace2);
 
-		ServerOutputLabel = new JLabel("Server Output Folder");
-		this.add(ServerOutputLabel);
+		serverOutputLabel = new JLabel("Server Output Folder");
+		this.add(serverOutputLabel);
 		servFoldBrowser = new JButton("Browse");
 		servFoldBrowser.addActionListener(new ServerButton());
 		this.add(servFoldBrowser);
 		servFoldText = new JTextField("");
 		this.add(servFoldText);
 
-		ClienOutputLabel = new JLabel("Client Output Folder");
-		this.add(ClienOutputLabel);
+		clientOutputLabel = new JLabel("Client Output Folder");
+		this.add(clientOutputLabel);
 		clientFoldBrowser = new JButton("Browse");
 		clientFoldBrowser.addActionListener(new ClientButton());
 		this.add(clientFoldBrowser);
@@ -77,52 +75,38 @@ public class RegistrationScreen extends JPanel{
 		this.add(clientFoldText);
 
 		this.add(infoPrompt);
-		JLabel BlankSpace4=new JLabel("");
+		JLabel BlankSpace4 = new JLabel("");
 		this.add(BlankSpace4);
-		Register=new JButton("Register");
-		Register.addActionListener(new Register());
-		this.add(Register);
-		Register.setEnabled(false);
+		registerButton = new JButton("Register");
+		registerButton.addActionListener(new Register());
+		this.add(registerButton);
+		registerButton.setEnabled(false);
+		
 	}
 
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				runGUI();
-			}
-		});
-	}
-
-	private static void runGUI() {
-		JFrame frame = new JFrame("RegistrationScreen");
-		frame.add(new RegistrationScreen(new ClientProfile(), new ClientWindow()));
-
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		frame.pack();
-		frame.setVisible(true);    
-	}
-
-	private String fileChooser() {
-		folderLoc="";
+	private String fileChooser(String directoryType) {
+		folderLoc = "";
 		folderChooser = new JFileChooser();
+	
+		folderChooser.setCurrentDirectory(new java.io.File("."));
+	    folderChooser.setDialogTitle(directoryType + " Directory");
+	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLoc = folderChooser.getSelectedFile().getAbsolutePath();
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
 		}
 		return(folderLoc);
 
 	}
 
-	private void check(){
-		clientName=Name.getText();
-		clientTeamName=teamName.getText();
-		if (clientName.equals("")||clientTeamName.equals("")||servFoldLoc.equals("")||clientFoldLoc.equals("")){
-			Register.setEnabled(false);
+	private void checkCompletion(){
+		clientName = name.getText();
+		clientTeamName = teamName.getText();
+		if (clientName.equals("") || clientTeamName.equals("") || servFoldLoc.equals("") || clientFoldLoc.equals("")){
+			registerButton.setEnabled(false);
 		}else{
-			Register.setEnabled(true);
+			registerButton.setEnabled(true);
 		}
 	}
 
@@ -131,36 +115,38 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				System.out.println("Browse for server output folder");
+				//System.out.println("Browse for server output folder");
 			}
 
-			servFoldLoc = fileChooser();
+			servFoldLoc = fileChooser("Server");
 			servFoldText.setText(servFoldLoc);
-			System.out.println("serverfolderloc: " + servFoldLoc);
-			check();
+			//System.out.println("serverfolderloc: " + servFoldLoc);
+			checkCompletion();
 		}
-	}class ClientButton implements ActionListener{
+	}
+	
+	class ClientButton implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				System.out.println("Browse for client output folder");
+				//System.out.println("Browse for client output folder");
 			}
 
-			clientFoldLoc = fileChooser();
+			clientFoldLoc = fileChooser("Client");
 			clientFoldText.setText(clientFoldLoc);
-			System.out.println("clientFoldloc: " + clientFoldLoc);
-			check();
+			//System.out.println("clientFoldloc: " + clientFoldLoc);
+			checkCompletion();
 		}
 
-	}class Register implements ActionListener{
+	}
+	
+	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
-			clientName=Name.getText();
-			clientTeamName=teamName.getText();
-			profile.setPlayerName(clientName);
-			profile.setTeamName(clientTeamName);
-			clientWindow.register(servFoldLoc, clientFoldLoc);
+			clientName = name.getText();
+			clientTeamName = teamName.getText();
+			clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
 		}
 	}
 }
