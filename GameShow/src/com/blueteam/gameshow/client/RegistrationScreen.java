@@ -1,60 +1,58 @@
-import javax.swing.*; 
-import javax.swing.border.EmptyBorder;
+package com.blueteam.gameshow.client;
 
+import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.Math;
-import java.util.ArrayList;
-import java.awt.Graphics;
-import java.io.*;
-import java.awt.event.*;
-
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.*;
+import com.blueteam.gameshow.data.ClientProfile;
 
 public class RegistrationScreen extends JPanel{
 
-	private JLabel NameLabel, teamNameLabel, ServerOutputLabel, ClienOutputLabel, ServerOutputFolder, ClientOutputLabel;
+	private static final long serialVersionUID = -4547016510843530603L;
+	private JLabel NameLabel, teamNameLabel, ServerOutputLabel, ClienOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton Register;
 	private JTextField Name, teamName, servFoldText, clientFoldText;
-	private String clientName="", clientTeamName="", folderLoc, servFoldLoc="", clientFoldLoc="";
-	ClientProfile profile;
-	ClientWindow clientWindow;
-	JFileChooser folderChooser;
-	JLabel infoPrompt=new JLabel("");
+	private String clientName, clientTeamName, folderLoc, servFoldLoc, clientFoldLoc;
+	private ClientWindow clientWindow;
+	private JFileChooser folderChooser;
+	private JLabel infoPrompt;
 
 	public RegistrationScreen(ClientWindow newclientWindow){
-		profile=newprofile;
-		clientWindow=newclientWindow;
+		clientName = "";
+		clientTeamName = "";
+		folderLoc = "";
+		servFoldLoc = "";
+		clientFoldLoc = "";
+		infoPrompt = new JLabel("");
+		clientWindow = newclientWindow;
 		this.setLayout(new GridLayout(0,3,10,10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
 
-		JLabel BlankSpace=new JLabel("");
+		JLabel BlankSpace = new JLabel("");
 		NameLabel = new JLabel("Name: ");
 		this.add(NameLabel);
-		Name=new JTextField("");
+		Name = new JTextField("");
 		Name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
-				check();
+				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
 		this.add(Name);
 		this.add(BlankSpace);
 
-		JLabel BlankSpace2=new JLabel("");
+		JLabel BlankSpace2 = new JLabel("");
 		teamNameLabel = new JLabel("Team Name:");
 		this.add(teamNameLabel);
-		teamName=new JTextField("");
+		teamName = new JTextField("");
 		this.add(teamName);
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
-				check();
+				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
@@ -77,35 +75,17 @@ public class RegistrationScreen extends JPanel{
 		this.add(clientFoldText);
 
 		this.add(infoPrompt);
-		JLabel BlankSpace4=new JLabel("");
+		JLabel BlankSpace4 = new JLabel("");
 		this.add(BlankSpace4);
-		Register=new JButton("Register");
+		Register = new JButton("Register");
 		Register.addActionListener(new Register());
 		this.add(Register);
 		Register.setEnabled(false);
-	}
-
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				runGUI();
-			}
-		});
-	}
-
-	private static void runGUI() {
-		JFrame frame = new JFrame("RegistrationScreen");
-		frame.add(new RegistrationScreen(new ClientProfile(), new ClientWindow()));
-
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		frame.pack();
-		frame.setVisible(true);    
+		
 	}
 
 	private String fileChooser() {
-		folderLoc="";
+		folderLoc = "";
 		folderChooser = new JFileChooser();
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
@@ -116,10 +96,10 @@ public class RegistrationScreen extends JPanel{
 
 	}
 
-	private void check(){
-		clientName=Name.getText();
-		clientTeamName=teamName.getText();
-		if (clientName.equals("")||clientTeamName.equals("")||servFoldLoc.equals("")||clientFoldLoc.equals("")){
+	private void checkCompletion(){
+		clientName = Name.getText();
+		clientTeamName = teamName.getText();
+		if (clientName.equals("") || clientTeamName.equals("") || servFoldLoc.equals("") || clientFoldLoc.equals("")){
 			Register.setEnabled(false);
 		}else{
 			Register.setEnabled(true);
@@ -137,9 +117,11 @@ public class RegistrationScreen extends JPanel{
 			servFoldLoc = fileChooser();
 			servFoldText.setText(servFoldLoc);
 			System.out.println("serverfolderloc: " + servFoldLoc);
-			check();
+			checkCompletion();
 		}
-	}class ClientButton implements ActionListener{
+	}
+	
+	class ClientButton implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
@@ -150,17 +132,17 @@ public class RegistrationScreen extends JPanel{
 			clientFoldLoc = fileChooser();
 			clientFoldText.setText(clientFoldLoc);
 			System.out.println("clientFoldloc: " + clientFoldLoc);
-			check();
+			checkCompletion();
 		}
 
-	}class Register implements ActionListener{
+	}
+	
+	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
-			clientName=Name.getText();
-			clientTeamName=teamName.getText();
-			profile.setPlayerName(clientName);
-			profile.setTeamName(clientTeamName);
-			clientWindow.register(servFoldLoc, clientFoldLoc);
+			clientName = Name.getText();
+			clientTeamName = teamName.getText();
+			clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
 		}
 	}
 }

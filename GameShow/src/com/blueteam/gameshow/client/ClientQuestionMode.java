@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ClientQuestionMode extends JPanel
+public class ClientQuestionMode extends JPanel implements Runnable
 {
+
+	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientIO clientIO;
 	private ClientQuestionScreen questScreen;
 	private Question question;
@@ -18,13 +20,21 @@ public class ClientQuestionMode extends JPanel
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
 	
-	public ClientQuestionMode(ClientIO c, ClientQuestionScreen qs)
+	public ClientQuestionMode(ClientQuestionScreen qs)
 	{
-		clientIO = c;
+		clientIO = qs.getClientIO();
 		questScreen = qs;
-		question = null;
-		while (question == null)
-			question = clientIO.getQuestion();
+	}
+	
+	@Override
+	public void run() {
+		question = clientIO.getQuestion();
+		if (question == null) {
+			questScreen.goToNoQuestion();
+			while (question == null)
+				question = clientIO.getQuestion();
+		}
+		questScreen.setQuestion(question);
 		questionText = new JLabel(question.getText());
 		answerChoices = question.getAnswers();
 		
@@ -47,14 +57,18 @@ public class ClientQuestionMode extends JPanel
 		
 		this.add(questionText);
 		this.add(displayAnswers);
+		questScreen.goToQuestionMode();
 	}
 	
 	class AnswerButton extends JButton implements ActionListener
 	{
+		private static final long serialVersionUID = 688447363351164099L;
+		
 		public AnswerButton()
 		{
 			addActionListener(this);
 		}
+		
 		public void actionPerformed(ActionEvent arg0)
 		{
 			for (int i = 0; i < answerButtons.size(); i++)

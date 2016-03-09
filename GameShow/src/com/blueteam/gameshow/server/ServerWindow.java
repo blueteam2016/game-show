@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-
 public class ServerWindow {
 	
 	private JTabbedPane tabs;
@@ -19,15 +18,15 @@ public class ServerWindow {
 	
 	public ServerWindow(){
 		
-		tabs=new JTabbedPane();
-		content=new JPanel();
-		frame=new JFrame();
+		tabs = new JTabbedPane();
+		content = new JPanel();
+		frame = new JFrame("GameShow Server");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		pScreen=new ProfileScreen(game, this);
-		rosterScreen=new RosterScreen(game);
-		sbScreen=new ScoreboardScreen(game);
-		sgScreen=new ServerGameScreen(game);
+		pScreen = new ProfileScreen(game, this);
+		rosterScreen = new RosterScreen(game);
+		sbScreen = new ScoreboardScreen(game);
+		sgScreen = new ServerGameScreen(game);
 		
 		tabs.addTab("Profile", pScreen);
 		tabs.addTab("Roster",rosterScreen);
@@ -42,8 +41,12 @@ public class ServerWindow {
 		
 	}
 
-	void enableTabs(){
+	public void enableTabs(){
 		tabs.setEnabled(true);
+	}
+	
+	public static void main(String args[]) {
+		new ServerWindow();
 	}
 
 }

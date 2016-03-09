@@ -4,49 +4,59 @@ import javax.swing.JPanel;
 import com.blueteam.gameshow.data.Question;
 
 
-public class ClientQuestionScreen {
-private ClientQuestionMode cQuestion;
-private ClientAnswerMode cAnswer;
-private ClientIO clientIO;
-private Question currentQuestion;
-private JPanel noQuestionAvailable;
-private JPanel notRegistered;
-private JPanel currentMode;
+public class ClientQuestionScreen extends JPanel{
 
-public ClientQuestionScreen(ClientWindow clientWindow){
-	clientIO = clientWindow.getClientIO();
-	cQuestion = new ClientQuestionMode(clientIO, this);
-	cAnswer = new ClientAnswerMode(this);
-	noQuestionAvailable = new JPanel();
-	notRegistered = new JPanel();
-	currentMode = noQuestionAvailable;
-	currentQuestion = null;
-}
+	private static final long serialVersionUID = 335785158677578632L;
+	private ClientQuestionMode cQuestion;
+	private ClientAnswerMode cAnswer;
+	private ClientIO clientIO;
+	private Question currentQuestion;
+	private JPanel noQuestionAvailable;
+	private JPanel notRegistered;
+	private JPanel currentMode;
 
-public void goToAnswerMode() {
-	currentMode = cAnswer;
-}
+	public ClientQuestionScreen(ClientWindow clientWindow) {
+		clientIO = clientWindow.getClientIO();
+		cQuestion = new ClientQuestionMode(this);
+		cAnswer = new ClientAnswerMode(this);
+		noQuestionAvailable = new JPanel();
+		notRegistered = new JPanel();
+		currentMode = noQuestionAvailable;
+		
+		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
+		
+	}
 
-public void goToQuestionMode() {
-	currentMode = cQuestion; 
-}
+	public void goToAnswerMode() {
+		currentMode = cAnswer;
+	}
 
-public void goToNotRegistered() {
-	currentMode = notRegistered;
-}
+	public void goToQuestionMode() {
+		currentMode = cQuestion; 
+	}
 
-public void goToNoQuestion() {
-	currentMode = noQuestionAvailable;
-}
+	public void goToNotRegistered() {
+		currentMode = notRegistered;
+	}
 
-public Question getQuestion() {
-	return currentQuestion;
-}
+	public void goToNoQuestion() {
+		currentMode = noQuestionAvailable;
+	}
 
-public JPanel getCurrentMode() {
-	return currentMode;
-}
+	public Question getQuestion() {
+		return currentQuestion;
+	}
+	
+	public void setQuestion(Question question) {
+		currentQuestion = question;
+	}
 
-
+	public JPanel getCurrentMode() {
+		return currentMode;
+	}
+	
+	public ClientIO getClientIO() {
+		return clientIO;
+	}
 
 }
