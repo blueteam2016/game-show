@@ -39,8 +39,8 @@ public class RosterScreen extends JPanel{
 		unregButt.setEnabled(false);
 		regClosed = true;
 		panel.add(unregButt);
-		openClose = new JButton("Open Regestration");
-		openClose.setActionCommand("Open Regestration");
+		openClose = new JButton("Open Registration");
+		openClose.setActionCommand("Open Registration");
 		openClose.addActionListener(new OpenClose());
 		panel.add(openClose);
 		this.add(panel);
@@ -56,12 +56,12 @@ public class RosterScreen extends JPanel{
 		public void actionPerformed(ActionEvent event){
 			if(event.getActionCommand().equals("Open Registration")){
 				model.openRegistration();
-				openClose.setText("Close Regeistration");
+				openClose.setText("Close Registration");
 				openClose.setActionCommand("Close Registration");
 			}
 			else if(event.getActionCommand().equals("Close Registration")){
 				model.closeRegistration();
-				openClose.setText("Open Regestration");
+				openClose.setText("Open Registration");
 				openClose.setActionCommand("Open Registration");
 			}
 		}
