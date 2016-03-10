@@ -1,5 +1,5 @@
 package com.blueteam.gameshow.server;
-//hi helen
+
 import javax.swing.*;
 import javax.swing.JTable;
 
@@ -10,8 +10,10 @@ public class ScoreboardScreen extends JPanel{
 	public ScoreboardScreen(Game g){
 		model = new ScoreboardTableModel(g.getRoster());
 		table = new JTable(model);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.doLayout();
+		
+		table.getColumnModel().getColumn(0).setWidth(getWidth()/2);
+		table.getColumnModel().getColumn(1).setWidth(getWidth()/2);
+		
 		table.setFillsViewportHeight(true);
 		
 		add(table.getTableHeader());
