@@ -16,10 +16,12 @@ public class ServerWindow {
 	private ScoreboardScreen sbScreen;
 	private ServerGameScreen sgScreen;
 	
+	private boolean tabsEnabled;
 	private Game game;
 	
 	public ServerWindow(){
 		
+		tabsEnabled = false;
 		game = new Game();
 		
 		tabs = new JTabbedPane();
@@ -38,15 +40,18 @@ public class ServerWindow {
 	}
 
 	public void enableTabs(){
-		game.createQuiz();
+		if(!tabsEnabled){
+			tabsEnabled = true;
+			game.createQuiz();
+			
+			rosterScreen = new RosterScreen(game);
+			sbScreen = new ScoreboardScreen(game);
+			sgScreen = new ServerGameScreen(game);
 		
-		rosterScreen = new RosterScreen(game);
-		sbScreen = new ScoreboardScreen(game);
-		sgScreen = new ServerGameScreen(game);
-		
-		tabs.addTab("Roster",rosterScreen);
-		tabs.addTab("Scoreboard", sbScreen);
-		tabs.addTab("Game", sgScreen);
+			tabs.addTab("Roster",rosterScreen);
+			tabs.addTab("Scoreboard", sbScreen);
+			tabs.addTab("Game", sgScreen);
+		}
 	}
 	
 	public static void main(String args[]) {
