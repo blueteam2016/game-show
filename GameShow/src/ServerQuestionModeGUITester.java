@@ -36,7 +36,6 @@ public class ServerQuestionModeGUITester implements ActionListener{
 		timeRemaining = new JLabel("Time Remaining");
 		timer = new Timer(1000,this);
 		timer.setActionCommand("time");
-		System.out.println("YAAAAAAAA1");
 
 		//set bottom 3 buttons
 
@@ -51,7 +50,6 @@ public class ServerQuestionModeGUITester implements ActionListener{
 		skip = new JButton("Skip");
 		skip.setActionCommand("skip");
 		skip.addActionListener(this);
-		System.out.println("YAAAAAAAA2");
 
 
 		countdown = new JLabel("00:"+seconds);
@@ -65,7 +63,6 @@ public class ServerQuestionModeGUITester implements ActionListener{
 		answers.add(new JLabel("c) 70"));
 		answers.add(new JLabel("d) 68"));
 
-		System.out.println("YAAAAAAAA3");
 
 		testPanel.add(question);
 		for(int i=0; i<answers.size(); i++){
@@ -82,7 +79,7 @@ public class ServerQuestionModeGUITester implements ActionListener{
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		testPanel.add(buttonPanel);
-		System.out.println("YAAAAAAAA4");
+
 
 		testPanel.setLayout(new BoxLayout(testPanel,BoxLayout.PAGE_AXIS));
 
@@ -91,7 +88,7 @@ public class ServerQuestionModeGUITester implements ActionListener{
 		frame.pack();
 		frame.setVisible(true);
 		
-		System.out.println("YAAAAAAAA5");
+	
 	}
 
 
