@@ -23,7 +23,7 @@ public class Game {
 		
 	}
 	
-	public void createQuiz(){
+	public void createQuiz() throws Exception{
 		quiz = new Quiz(Profile.getQuestionFileLoc());
 	}
 	

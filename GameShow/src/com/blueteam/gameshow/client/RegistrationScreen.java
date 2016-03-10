@@ -15,14 +15,13 @@ public class RegistrationScreen extends JPanel{
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton registerButton;
 	private JTextField name, teamName, servFoldText, clientFoldText;
-	private String clientName, clientTeamName, folderLoc, servFoldLoc, clientFoldLoc;
+	private String clientName, clientTeamName, servFoldLoc, clientFoldLoc;
 	private JFileChooser folderChooser;
 	private JLabel infoPrompt;
 
 	public RegistrationScreen(ClientWindow newclientWindow){
 		clientName = "";
 		clientTeamName = "";
-		folderLoc = "";
 		servFoldLoc = "";
 		clientFoldLoc = "";
 		infoPrompt = new JLabel("");
@@ -86,12 +85,12 @@ public class RegistrationScreen extends JPanel{
 		
 	} 
 
-	private String fileChooser(String directoryType) {
-		folderLoc = "";
+	private String folderChooser(String title) {
+		String folderLoc = "";
 		folderChooser = new JFileChooser();
 	
 		folderChooser.setCurrentDirectory(new java.io.File("."));
-	    folderChooser.setDialogTitle(directoryType + " Directory");
+	    folderChooser.setDialogTitle(title);
 	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
@@ -120,7 +119,7 @@ public class RegistrationScreen extends JPanel{
 				//System.out.println("Browse for server output folder");
 			}
 
-			servFoldLoc = fileChooser("Server");
+			servFoldLoc = folderChooser("Server Directory");
 			servFoldText.setText(servFoldLoc);
 			//System.out.println("serverfolderloc: " + servFoldLoc);
 			checkCompletion();
@@ -135,7 +134,7 @@ public class RegistrationScreen extends JPanel{
 				//System.out.println("Browse for client output folder");
 			}
 
-			clientFoldLoc = fileChooser("Client");
+			clientFoldLoc = folderChooser("Client Directory");
 			clientFoldText.setText(clientFoldLoc);
 			//System.out.println("clientFoldloc: " + clientFoldLoc);
 			checkCompletion();
