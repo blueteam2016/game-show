@@ -24,8 +24,7 @@ public class ClientIO {
 		try {
 			String path = pathClientFold + ".profile_" + identifier;
 			Files.deleteIfExists(Paths.get(path));
-			FileOutputStream fOut = new FileOutputStream(path);
-			ObjectOutputStream profOut = new ObjectOutputStream(fOut);
+			ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(path));
 			profOut.writeObject(profile);
 			profOut.close();
 		} catch (IOException e) {
@@ -44,8 +43,7 @@ public class ClientIO {
 		try {
 			String path = pathClientFold + ".answer_" + identifier;
 			Files.deleteIfExists(Paths.get(path));
-			FileOutputStream fOut = new FileOutputStream(path);
-			ansOut = new ObjectOutputStream(fOut);
+			ansOut = new ObjectOutputStream(new FileOutputStream(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

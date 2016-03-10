@@ -23,8 +23,7 @@ public class ServerIO {
 		try {
 			String path = pathToFolder + ".question";
 			Files.deleteIfExists(Paths.get(path));
-			FileOutputStream fOut = new FileOutputStream(path);
-			out = new ObjectOutputStream(fOut);
+			out = new ObjectOutputStream(new FileOutputStream(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
