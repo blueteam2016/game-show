@@ -16,7 +16,7 @@ public class ClientWindow{
 	private RegistrationScreen rScreen;
 	private ClientQuestionScreen cqScreen;
 
-	public ClientWindow() {		
+	public ClientWindow() {	
 		
 		tabs = new JTabbedPane();
 		content = new JPanel();
@@ -51,6 +51,4 @@ public class ClientWindow{
 	public static void main(String args[]) {
 		new ClientWindow();
 	}
-	
-
 }

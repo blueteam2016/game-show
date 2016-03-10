@@ -1,14 +1,18 @@
 package com.blueteam.gameshow.data;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Roster {
+import javax.swing.Timer;
+
+public class Roster implements ActionListener{
 	private ArrayList<Team> teams;
 
-	private boolean questionRunning;
+	private Timer scanTime;
 	
 	public Roster(){
 		teams = new ArrayList<Team>();
-		questionRunning = false;
+		scanTime = new Timer(1, this);
 	}
 	
 	public Team getTeam(int t){
@@ -31,26 +35,28 @@ public class Roster {
 
 	
 	public void startQuestion(){
-		boolean allResponded;
-		
-		questionRunning = true;
-		while(questionRunning){
-			allResponded = true;
-			for(int i=0; i<teams.size(); i++){
-				if(!teams.get(i).hasEveryoneResponded()){
-					allResponded = false;
-				}
-			}
-			if(allResponded){
-				endQuestion();
-			}
-		}
+		scanTime.start();
 	}
 	
 	public void endQuestion(){
-		questionRunning = false;
+		scanTime.stop();
 		for(int i=0; i<teams.size(); i++){
 			teams.get(i).calculateScore();
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		boolean allResponded;
+		
+		allResponded = true;
+		for(int i=0; i<teams.size(); i++){
+			if(!teams.get(i).hasEveryoneResponded()){
+				allResponded = false;
+			}
+		}
+		if(allResponded){
+			endQuestion();
 		}
 	}
 }

@@ -1,6 +1,9 @@
 package com.blueteam.gameshow.server;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -9,12 +12,13 @@ import com.blueteam.gameshow.data.Roster;
 
 
 
-public class RosterTableModel extends AbstractTableModel{
+public class RosterTableModel extends AbstractTableModel implements ActionListener{
 	private Roster rost;
-	private boolean registrationOpen;
+	private Timer scanTime;
 	
 	public RosterTableModel(Roster r){
 		rost = r;
+		scanTime = new Timer(1, this);
 	}
 	
 	public String getColumnName(int col){
@@ -74,17 +78,19 @@ public class RosterTableModel extends AbstractTableModel{
 	}
 	
 	public void openRegistration(){
-		registrationOpen = true;
-		while(registrationOpen){
-			//look for registrations DANIEL!!!!!!!!!!
-		}
+		scanTime.start();
 	}
 	
 	public void closeRegistration(){
-		registrationOpen = false;
+		scanTime.stop();
 	}
 	
 	public void addMember(Player p, String teamName){
 		rost.getTeam(teamName).addMember(p);
+	}
+
+
+	public void actionPerformed(ActionEvent arg0) {
+		//look for registrations DANIEL!!!!!!!!!!
 	}
 }
