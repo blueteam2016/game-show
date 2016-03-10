@@ -1,32 +1,22 @@
 package com.blueteam.gameshow.server;
 
 import javax.swing.*; 
-import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.Math;
-import java.util.ArrayList;
-import java.awt.Graphics;
-import java.io.*;
-import java.awt.event.*;
-
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.*;
 
 
 
 public class ProfileScreen extends JPanel implements ActionListener {
 
-
+	private static final long serialVersionUID = 85730199279428197L;
 	private JLabel defTimeLabel, servFoldLabel, clientFoldLabel, defQValLabel, qFileLabel, sec, point;
 	private JButton qFileBrowser, servFoldBrowser, clientFoldBrowser, confirmButton;
 	private JTextField qFileText, servFoldText, clientFoldText;
 
 	private int defaultTimeInt=10, defaultValueInt=10;
-	private String folderLocation = "", servFoldLoc = "", clientFoldLoc = "", questionFileLoc = "";
+	private String servFoldLoc = "", clientFoldLoc = "", questionFileLoc = "";
 
 	private JSpinner spinnerDefTime, spinnerDefVal;
 
@@ -107,17 +97,37 @@ public class ProfileScreen extends JPanel implements ActionListener {
 	}
 
 
-	public String fileChooser() {
+	public String fileChooser(String title) {
 
-		folderLocation = "";
+		String folderLoc = "";
 		folderChooser = new JFileChooser();
+		
+		folderChooser.setCurrentDirectory(new java.io.File("."));
+	    folderChooser.setDialogTitle(title);
+	    folderChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLocation = folderChooser.getSelectedFile().getAbsolutePath();
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath();
 		}
 
-		return(folderLocation);
+		return(folderLoc);
+
+	}
+	
+	private String folderChooser(String title) {
+		String folderLoc = "";
+		folderChooser = new JFileChooser();
+	
+		folderChooser.setCurrentDirectory(new java.io.File("."));
+	    folderChooser.setDialogTitle(title);
+	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		int returnVal = folderChooser.showOpenDialog(folderChooser);
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
+		}
+		return(folderLoc);
 
 	}
 
@@ -125,9 +135,7 @@ public class ProfileScreen extends JPanel implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
 
-			String eventName = event.getActionCommand();
-
-			servFoldLoc = fileChooser();
+			servFoldLoc = folderChooser("Server Directory");
 			servFoldText.setText(servFoldLoc);
 
 
@@ -138,7 +146,7 @@ public class ProfileScreen extends JPanel implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
 
-			clientFoldLoc = fileChooser();
+			clientFoldLoc = folderChooser("Client Directory");
 			clientFoldText.setText(clientFoldLoc);
 
 		}
@@ -147,9 +155,7 @@ public class ProfileScreen extends JPanel implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
 
-			String eventName = event.getActionCommand();
-
-			questionFileLoc = fileChooser();
+			questionFileLoc = fileChooser("Question File");
 			qFileText.setText(questionFileLoc);
 
 		}
@@ -174,8 +180,7 @@ public class ProfileScreen extends JPanel implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 
 			if (servFoldLoc.equals("")||questionFileLoc.equals("")||clientFoldLoc.equals("")){
-				JOptionPane pane = new JOptionPane();
-				pane.showMessageDialog(null, "Enter all of the required information.");
+				JOptionPane.showMessageDialog(null, "Enter all of the required information.");
 			}else{
 				gameParameter.getProfile().setDefaultTime(defaultTimeInt);
 				gameParameter.getProfile().setDefaultValue(defaultValueInt);
