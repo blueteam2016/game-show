@@ -62,7 +62,45 @@
 		<time>0</time>
 	</item>
 	<item>
-		<question></question>
-		<answer correct = "false"></answer>
+		<question>What mythical creature was killed by the Holy Hand Grenade?</question>
+		<answer correct = "true">The Rabbit of Caerbannog</answer>
+		<answer correct = "false">The Jabberwocky</answer>
+		<answer correct = "false">The Bandersnatch</answer>
+		<answer correct = "false">The Killer Bunny of York</answer>
+	</item>
+	<item>
+		<question>What is the name of the extremely powerful being composed of the time vortex in Doctor Who?</question>
+		<answer correct = "false">Red</answer>
+		<answer correct = "false">Thanatos</answer>
+		<answer correct = "false">Rose Tyler</answer>
+		<answer correct = "true">Bad Wolf</answer>
+	</item>
+	<item>
+		<question>What is the name of the dual-hybrids forseen by the Ood?</question>
+		<answer correct = "false">Doctor-Dalek</answer>
+		<answer correct = "true">Doctor-Donna</answer>
+		<answer correct = "false">Medusa</answer>
+		<answer correct = "false">Serenity</answer>
+	</item>
+	<item>
+		<question>What multiverse-permeating weapon caused the stars to briefly go out due to its detonation in alternate timelines?</question>
+		<answer correct = "false">The Moment</answer>
+		<answer correct = "true">The Reality Bomb</answer>
+		<answer correct = "false">The Infinity Flare</answer>
+		<answer correct = "false">The Janus Ray</answer>
+	</item>
+	<item>
+		<question>What universe-ending weapon was used by the Doctor to save Gallifrey from the Time War and Time Lock?</question>
+		<answer correct = "true">The Moment</answer>
+		<answer correct = "false">The Reality Bomb</answer>
+		<answer correct = "false">The Infinity Flare</answer>
+		<answer correct = "false">The Janus Ray</answer>
+	</item>
+	<item>
+		<question>By what name is Melody Pond known in the majority of the series?</question>
+		<answer correct = "true">River Song</answer>
+		<answer correct = "false">Melody Pond</answer>
+		<answer correct = "false">Mel</answer>
+		<answer correct = "false">Professor Waters</answer>
 	</item>
 </quiz>
