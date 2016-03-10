@@ -1,6 +1,7 @@
 package com.blueteam.gameshow.server;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -40,17 +41,29 @@ public class ServerWindow {
 	}
 
 	public void enableTabs(){
-		if(!tabsEnabled){
-			tabsEnabled = true;
-			game.createQuiz();
-			
-			rosterScreen = new RosterScreen(game);
-			sbScreen = new ScoreboardScreen(game);
-			sgScreen = new ServerGameScreen(game);
+		boolean error = false;
 		
-			tabs.addTab("Roster",rosterScreen);
-			tabs.addTab("Scoreboard", sbScreen);
-			tabs.addTab("Game", sgScreen);
+		if(!tabsEnabled){
+			try{
+				game.createQuiz();
+			}catch(Exception e){
+				error = true;
+				
+				JFrame popUp = new JFrame();
+				JPanel content = new JPanel();
+				content.add(new JLabel("Question file is not valid."));
+			}
+			
+			if(!error){
+				tabsEnabled = true;
+				rosterScreen = new RosterScreen(game);
+				sbScreen = new ScoreboardScreen(game);
+				sgScreen = new ServerGameScreen(game);
+		
+				tabs.addTab("Roster",rosterScreen);
+				tabs.addTab("Scoreboard", sbScreen);
+				tabs.addTab("Game", sgScreen);
+			}
 		}
 	}
 	
