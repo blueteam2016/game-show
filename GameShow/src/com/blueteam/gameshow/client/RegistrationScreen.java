@@ -1,10 +1,13 @@
 package com.blueteam.gameshow.client;
 
 import javax.swing.*; 
+
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import com.blueteam.gameshow.data.ClientProfile;
 
 public class RegistrationScreen extends JPanel{
@@ -29,6 +32,7 @@ public class RegistrationScreen extends JPanel{
 		this.setLayout(new GridLayout(0,3,10,10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
 
+		
 		JLabel BlankSpace = new JLabel("");
 		nameLabel = new JLabel("Name: ");
 		this.add(nameLabel);
@@ -43,6 +47,7 @@ public class RegistrationScreen extends JPanel{
 		this.add(name);
 		this.add(BlankSpace);
 
+		
 		JLabel BlankSpace2 = new JLabel("");
 		teamNameLabel = new JLabel("Team Name:");
 		this.add(teamNameLabel);
@@ -66,6 +71,7 @@ public class RegistrationScreen extends JPanel{
 		servFoldText.setEditable(false);
 		this.add(servFoldText);
 
+		
 		clientOutputLabel = new JLabel("Client Output Folder");
 		this.add(clientOutputLabel);
 		clientFoldBrowser = new JButton("Browse");
@@ -75,6 +81,7 @@ public class RegistrationScreen extends JPanel{
 		clientFoldText.setEditable(false);
 		this.add(clientFoldText);
 
+		
 		this.add(infoPrompt);
 		JLabel BlankSpace4 = new JLabel("");
 		this.add(BlankSpace4);
@@ -116,12 +123,12 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				//System.out.println("Browse for server output folder");
 			}
-
-			servFoldLoc = folderChooser("Server Directory");
-			servFoldText.setText(servFoldLoc);
-			//System.out.println("serverfolderloc: " + servFoldLoc);
+			String newlocation=folderChooser("Server");
+			if (!newlocation.equals("")){
+				servFoldLoc = newlocation;
+				servFoldText.setText(servFoldLoc);
+			}
 			checkCompletion();
 		}
 	}
@@ -131,12 +138,12 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String eventName = event.getActionCommand();
 			if (eventName.equals("Browse")) {
-				//System.out.println("Browse for client output folder");
 			}
-
-			clientFoldLoc = folderChooser("Client Directory");
-			clientFoldText.setText(clientFoldLoc);
-			//System.out.println("clientFoldloc: " + clientFoldLoc);
+			String newlocation=folderChooser("Client");
+			if (!newlocation.equals("")){
+				clientFoldLoc = newlocation;
+				clientFoldText.setText(clientFoldLoc);
+			}
 			checkCompletion();
 		}
 
