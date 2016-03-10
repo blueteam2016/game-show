@@ -38,8 +38,11 @@ public class Quiz {
 							answers[answerIndex]=new Answer(answerElement.getTextContent(),answerElement.getAttribute("correct").equals("true"));
 						}
 					}
-					String questionString =questionElement.getFirstChild().getTextContent();
-					String explanation = questionElement.getElementsByTagName("explanation").item(0).getTextContent();
+					String questionString =questionElement.getElementsByTagName("question").item(0).getTextContent();
+					String explanation;
+					try{
+						explanation = questionElement.getElementsByTagName("explanation").item(0).getTextContent();
+					}catch(Exception e){explanation = null;}
 					int pointValue;
 					int time;
 					try{

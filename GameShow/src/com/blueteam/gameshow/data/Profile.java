@@ -104,9 +104,9 @@ public class Profile {
 	}
 	
 	public boolean isComplete(){
-		if (!servFoldLoc.equals(""))
-			if (!clientFoldLoc.equals(""))
-				if (!qFileLoc.equals(""))
+		if (!servFoldLoc.equals("") && servFoldLoc!= null)
+			if (!clientFoldLoc.equals("") && clientFoldLoc!= null)
+				if (!qFileLoc.equals("") && qFileLoc!= null)
 					if (defVal!=0)
 						if(defTime!=0)
 							return true;

@@ -177,18 +177,12 @@ public class ProfileScreen extends JPanel implements ActionListener {
 				JOptionPane pane = new JOptionPane();
 				pane.showMessageDialog(null, "Enter all of the required information.");
 			}else{
-
-
 				gameParameter.getProfile().setDefaultTime(defaultTimeInt);
 				gameParameter.getProfile().setDefaultValue(defaultValueInt);
 				gameParameter.getProfile().setServerFolderLoc(servFoldLoc);
 				gameParameter.getProfile().setClientFolderLoc(clientFoldLoc);
 				gameParameter.getProfile().setQuestionFileLoc(questionFileLoc);
-
-
 			}
-
-
 
 			if (gameParameter.getProfile().isComplete()) {
 				serverWindowParameter.enableTabs();

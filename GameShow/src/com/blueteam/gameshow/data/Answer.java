@@ -3,7 +3,7 @@ package com.blueteam.gameshow.data;
 import java.io.Serializable;
 
 public class Answer implements Serializable{
-	private static final long serialVersionUID = 6123925312090914404L; //required for serialization
+	private static final long serialVersionUID = -9143774235663880153L;
 	private String text;
 	private boolean correct;
 	
