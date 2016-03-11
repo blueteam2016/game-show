@@ -1,5 +1,7 @@
 package com.blueteam.gameshow.client;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -20,6 +22,7 @@ public class ClientWindow{
 		
 		tabs = new JTabbedPane();
 		content = new JPanel();
+		content.setLayout( new BorderLayout() );
 		frame = new JFrame("GameShow Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
