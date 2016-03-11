@@ -17,7 +17,7 @@ public class Profile {
 	private static String qFileLoc;
 	
 	
-	public Profile(){
+	public Profile(){//sdguiserg
 		try{
 			Document profileSave;
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
@@ -33,6 +33,7 @@ public class Profile {
 	}
 
 	public void saveProfile(){
+		System.out.println("HELLOE HELEN");
 		try{
 			Document profileDoc;
 			DocumentBuilderFactory profileDocFactory = DocumentBuilderFactory.newInstance();

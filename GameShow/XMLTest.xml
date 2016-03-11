@@ -166,4 +166,18 @@
 		<answer correct="false">Rainbow</answer>
 		<answer correct="false">It depends on the viewer's personality</answer>
 	</item>
+	<item>
+		<question>What was the slang term for the aliens in Ender's Game?</question>
+		<answer correct="false">Beetles</answer>
+		<answer correct="true">Buggers</answer>
+		<answer correct="false">Rough skins</answer>
+		<answer correct="false">Cavern Drones</answer>
+	</item>
+	<item>
+		<question>What is the name of the weapon that detaches molecular bonds in Ender's Game?</question>
+		<answer correct="true">The Little Doctor</answer>
+		<answer correct="false">The Noisy Cricket</answer>
+		<answer correct="false">The Lance of Olympus</answer>
+		<answer correct="false">The Heisenburg Deactivator</answer>
+	</item>
 </quiz>
