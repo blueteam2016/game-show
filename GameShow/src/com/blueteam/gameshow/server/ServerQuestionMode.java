@@ -213,9 +213,6 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 					
 				
 				}
-			}
-			
+			}	
 		}
-		
-	
 }
