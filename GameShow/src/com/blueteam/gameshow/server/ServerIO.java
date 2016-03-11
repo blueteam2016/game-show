@@ -16,8 +16,10 @@ import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
 public class ServerIO {
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
+	private String outPath;
+	private long outModTime;
+	private String inPath;
+	private long inModTime;
 	
 	public ServerIO(String pathToFolder) {
 		try {
@@ -66,10 +68,18 @@ public class ServerIO {
 	public void sendQuestion(Question question) {
 				try {
 					out.writeObject(question);
-					out.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
+	
+	public void destroy() {
+		try {
+			Files.deleteIfExists(Paths.get(outPath));
+			Files.deleteIfExists(Paths.get(inPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

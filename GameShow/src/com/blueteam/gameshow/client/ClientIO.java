@@ -12,13 +12,18 @@ import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.ClientProfile;
+import com.blueteam.gameshow.data.OldDataException;
 import com.blueteam.gameshow.data.Question;
 
 public class ClientIO {
+	private String questionPath;
+	private long questionModTime;
+	private String answerPath;
+	private long answerModTime;
 	private ObjectInputStream questIn;
 	private ObjectOutputStream ansOut;
 	
-	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) {
+	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) throws OldDataException{
 		String identifier = profile.getIdentifier();
 
 		try {
@@ -67,8 +72,17 @@ public class ClientIO {
 	public void sendAnswer(Answer answer) {
 		try {
 			ansOut.writeObject(answer);
-			ansOut.flush();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void destroy() {
+		try {
+			Files.deleteIfExists(Paths.get(questionPath));
+			Files.deleteIfExists(Paths.get(answerPath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
