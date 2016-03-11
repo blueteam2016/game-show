@@ -33,6 +33,7 @@ public class Profile {
 	}
 
 	public void saveProfile(){
+		System.out.println("HELLOE HELEN");
 		try{
 			Document profileDoc;
 			DocumentBuilderFactory profileDocFactory = DocumentBuilderFactory.newInstance();
