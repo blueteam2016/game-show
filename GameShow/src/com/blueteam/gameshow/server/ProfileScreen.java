@@ -187,11 +187,13 @@ public class ProfileScreen extends JPanel implements ActionListener {
 				gameParameter.getProfile().setServerFolderLoc(servFoldLoc);
 				gameParameter.getProfile().setClientFolderLoc(clientFoldLoc);
 				gameParameter.getProfile().setQuestionFileLoc(questionFileLoc);
-			}
-
-			if (gameParameter.getProfile().isComplete()) {
+				
 				serverWindowParameter.enableTabs();
 			}
+
+			/*if (gameParameter.getProfile().isComplete()) {
+				serverWindowParameter.enableTabs();
+			}*/
 
 
 

@@ -1,13 +1,15 @@
 package com.blueteam.gameshow.server;
 
+import java.awt.BorderLayout;
+
 import javax.swing.*;
-import javax.swing.JTable;
 
 public class ScoreboardScreen extends JPanel{
 	private ScoreboardTableModel model;
 	private JTable table;
 	
 	public ScoreboardScreen(Game g){
+		setLayout(new BorderLayout());
 		model = new ScoreboardTableModel(g.getRoster());
 		table = new JTable(model);
 		
@@ -16,8 +18,8 @@ public class ScoreboardScreen extends JPanel{
 		
 		table.setFillsViewportHeight(true);
 		
-		add(table.getTableHeader());
-		add(table);
+		add(table.getTableHeader(), BorderLayout.NORTH);
+		add(table, BorderLayout.CENTER);
 	}
 	
 	public void update(){

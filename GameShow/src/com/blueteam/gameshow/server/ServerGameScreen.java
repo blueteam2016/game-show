@@ -17,6 +17,8 @@ public class ServerGameScreen extends JPanel{
 		answer = new ServerAnswerMode(g, this);
 		
 		game = g;
+		
+		goToQuestionMode();
 	}
 	
 	public void goToAnswerMode(){
@@ -26,6 +28,7 @@ public class ServerGameScreen extends JPanel{
 		//maybe call start/end Question in Roster
 		currentMode = question;
 		game.getQuiz().nextQuestion();
+		question.startTimer();
 		
 	}
 	public void goToResultMode(){

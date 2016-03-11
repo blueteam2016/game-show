@@ -1,5 +1,8 @@
 package com.blueteam.gameshow.server;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,14 +29,15 @@ public class ServerWindow {
 		game = new Game();
 		
 		tabs = new JTabbedPane();
-		content = new JPanel();
+		content = new JPanel(new BorderLayout());
 		frame = new JFrame("GameShow Server");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		pScreen = new ProfileScreen(game, this);
 		tabs.addTab("Profile", pScreen);
 		
-		content.add(tabs);
+		
+		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
 		frame.pack();
 		frame.setVisible(true);
@@ -42,28 +46,27 @@ public class ServerWindow {
 
 	public void enableTabs(){
 		boolean error = false;
-		
-		if(!tabsEnabled){
-			try{
-				game.createQuiz();
-			}catch(Exception e){
-				error = true;
-				
-				JFrame popUp = new JFrame();
-				JPanel content = new JPanel();
-				content.add(new JLabel("Question file is not valid."));
-			}
-			
-			if(!error){
-				tabsEnabled = true;
-				rosterScreen = new RosterScreen(game);
-				sbScreen = new ScoreboardScreen(game);
-				sgScreen = new ServerGameScreen(game);
-		
-				tabs.addTab("Roster",rosterScreen);
-				tabs.addTab("Scoreboard", sbScreen);
-				tabs.addTab("Game", sgScreen);
-			}
+
+		try{
+			game.createQuiz();
+		}catch(Exception e){
+			error = true;
+
+			JFrame popUp = new JFrame();
+			JPanel content = new JPanel();
+			content.add(new JLabel("Question file is not valid."));
+		}
+
+		if(!tabsEnabled && !error){
+			tabsEnabled = true;
+			rosterScreen = new RosterScreen(game);
+			sbScreen = new ScoreboardScreen(game);
+			sgScreen = new ServerGameScreen(game);
+
+
+			tabs.addTab("Roster",rosterScreen);
+			tabs.addTab("Scoreboard", sbScreen);
+			tabs.addTab("Game", sgScreen.getCurrentMode());
 		}
 	}
 	
