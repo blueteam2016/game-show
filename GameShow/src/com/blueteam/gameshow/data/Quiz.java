@@ -15,7 +15,6 @@ public class Quiz {
 		Document quizFile;
 		DocumentBuilderFactory quizBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder quizBuilder = quizBuilderFactory.newDocumentBuilder();
-		System.out.println(filePath.substring(filePath.length() - 4));
 		if(!filePath.substring(filePath.length() - 4).equals(".xml"))
 			throw new Exception();
 		quizFile = quizBuilder.parse(filePath);
