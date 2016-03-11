@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<profile>
-	<serverLoc>serverLocation</serverLoc>
-	<clientLoc>clientLocation</clientLoc>
-	<questionLoc>questionLocation</questionLoc>
-	<timeDefault>60</timeDefault>
-	<pointDefault>100</pointDefault>
-</profile>
