@@ -2,13 +2,15 @@ package com.blueteam.gameshow.server;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class ServerWindow {
+public class ServerWindow implements WindowListener{
 	
 	private JTabbedPane tabs;
 	private JPanel content;
@@ -51,8 +53,6 @@ public class ServerWindow {
 			game.createQuiz();
 		}catch(Exception e){
 			error = true;
-			
-			e.printStackTrace();
 			JFrame popUp = new JFrame();
 			JPanel content = new JPanel();
 			content.add(new JLabel("Question file is not valid."));
@@ -78,6 +78,28 @@ public class ServerWindow {
 	
 	public static void main(String args[]) {
 		new ServerWindow();
+	}
+
+	public void windowActivated(WindowEvent arg0) {
+	}
+
+	public void windowClosed(WindowEvent arg0) {
+		game.getProfile().saveProfile();
+	}
+
+	public void windowClosing(WindowEvent arg0) {	
+	}
+
+	public void windowDeactivated(WindowEvent arg0) {
+	}
+
+	public void windowDeiconified(WindowEvent arg0) {		
+	}
+
+	public void windowIconified(WindowEvent arg0) {	
+	}
+
+	public void windowOpened(WindowEvent arg0) {		
 	}
 
 }
