@@ -159,4 +159,11 @@
 		<answer correct="false">Centurion Pine</answer>
 		<answer correct="false">Acacia Heartwood</answer>
 	</item>
+	<item>
+		<question>What is the color of magic?</question>
+		<answer correct="false">Colorless</answer>
+		<answer correct="true">Octarine</answer>
+		<answer correct="false">Rainbow</answer>
+		<answer correct="false">It depends on the viewer's personality</answer>
+	</item>
 </quiz>
