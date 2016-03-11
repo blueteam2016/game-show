@@ -63,44 +63,100 @@
 	</item>
 	<item>
 		<question>What mythical creature was killed by the Holy Hand Grenade?</question>
-		<answer correct = "true">The Rabbit of Caerbannog</answer>
-		<answer correct = "false">The Jabberwocky</answer>
-		<answer correct = "false">The Bandersnatch</answer>
-		<answer correct = "false">The Killer Bunny of York</answer>
+		<answer correct="true">The Rabbit of Caerbannog</answer>
+		<answer correct="false">The Jabberwocky</answer>
+		<answer correct="false">The Bandersnatch</answer>
+		<answer correct="false">The Killer Bunny of York</answer>
 	</item>
 	<item>
 		<question>What is the name of the extremely powerful being composed of the time vortex in Doctor Who?</question>
-		<answer correct = "false">Red</answer>
-		<answer correct = "false">Thanatos</answer>
-		<answer correct = "false">Rose Tyler</answer>
-		<answer correct = "true">Bad Wolf</answer>
+		<answer correct="false">Red</answer>
+		<answer correct="false">Thanatos</answer>
+		<answer correct="false">Rose Tyler</answer>
+		<answer correct="true">Bad Wolf</answer>
 	</item>
 	<item>
 		<question>What is the name of the dual-hybrids forseen by the Ood?</question>
-		<answer correct = "false">Doctor-Dalek</answer>
-		<answer correct = "true">Doctor-Donna</answer>
-		<answer correct = "false">Medusa</answer>
-		<answer correct = "false">Serenity</answer>
+		<answer correct="false">Doctor-Dalek</answer>
+		<answer correct="true">Doctor-Donna</answer>
+		<answer correct="false">Medusa</answer>
+		<answer correct="false">Serenity</answer>
 	</item>
 	<item>
 		<question>What multiverse-permeating weapon caused the stars to briefly go out due to its detonation in alternate timelines?</question>
-		<answer correct = "false">The Moment</answer>
-		<answer correct = "true">The Reality Bomb</answer>
-		<answer correct = "false">The Infinity Flare</answer>
-		<answer correct = "false">The Janus Ray</answer>
+		<answer correct="false">The Moment</answer>
+		<answer correct="true">The Reality Bomb</answer>
+		<answer correct="false">The Infinity Flare</answer>
+		<answer correct="false">The Janus Ray</answer>
 	</item>
 	<item>
 		<question>What universe-ending weapon was used by the Doctor to save Gallifrey from the Time War and Time Lock?</question>
-		<answer correct = "true">The Moment</answer>
-		<answer correct = "false">The Reality Bomb</answer>
-		<answer correct = "false">The Infinity Flare</answer>
-		<answer correct = "false">The Janus Ray</answer>
+		<answer correct="true">The Moment</answer>
+		<answer correct="false">The Reality Bomb</answer>
+		<answer correct="false">The Infinity Flare</answer>
+		<answer correct="false">The Janus Ray</answer>
 	</item>
 	<item>
-		<question>By what name is Melody Pond known in the majority of the series?</question>
-		<answer correct = "true">River Song</answer>
-		<answer correct = "false">Melody Pond</answer>
-		<answer correct = "false">Mel</answer>
-		<answer correct = "false">Professor Waters</answer>
+		<question>By what name is Melody Pond known throughout the majority of Doctor Who?</question>
+		<answer correct="true">River Song</answer>
+		<answer correct="false">Melody Pond</answer>
+		<answer correct="false">Mel</answer>
+		<answer correct="false">Professor Waters</answer>
+	</item>
+	<item>
+		<question>Which planet did humans threaten to destroy using the Osterhagen project to prevent its use in the Medusa Cascade transmitter?</question>
+		<answer correct="false">Callufrax Minor</answer>
+		<answer correct="false">Pyrovillia</answer>
+		<answer correct="false">Adipose Three</answer>
+		<answer correct="true">Earth</answer>
+	</item>
+	<item>
+		<question>What patronus did Luna Lovegood possess?</question>
+		<answer correct="false">Fox</answer>
+		<answer correct="false">Raven</answer>
+		<answer correct="false">Doe</answer>
+		<answer correct="true">Hare</answer>
+	</item>
+	<item>
+		<question>What was the name of the memory-viewing device in Dumbledore's study?</question>
+		<answer correct="false">Palantir</answer>
+		<answer correct="true">Pensieve</answer>
+		<answer correct="false">Scrying disk</answer>
+		<answer correct="false">Piltrone</answer>
+	</item>
+	<item>
+		<question>What legendary weapon is used to kill the Jabberwocky?</question>
+		<answer correct="false">Gram</answer>
+		<answer correct="false">The Staff of Alderheim</answer>
+		<answer correct="true">The Vorpal Sword</answer>
+		<answer correct="false">The Sword of Godric Gryffindor</answer>
+	</item>
+	<item>
+		<question>What is the setting of Winnie-the-Pooh?</question>
+		<answer correct="false">The Yorkshire Glen</answer>
+		<answer correct="false">Frederick Forest</answer>
+		<answer correct="false">The Tulgy Wood</answer>
+		<answer correct="true">The Thousand Acre Wood</answer>
+	</item>
+	<item>
+		<question>What was the name of the poetically inclined member of The Mysterious Benedict Society?</question>
+		<answer correct="false">Reynard Muldoon</answer>
+		<answer correct="false">Sticky Washington</answer>
+		<answer correct="false">Kate Wetherall</answer>
+		<answer correct="true">Constance Contraire</answer>
+	</item>
+	<item>
+		<question>What is the name of the super computer constructed by Artemis Fowl using stolen Fairy technology?</question>
+		<answer correct="false">The Tesseract</answer>
+		<answer correct="true">The C Cube</answer>
+		<answer correct="false">Alice</answer>
+		<answer correct="false">Artemis II</answer>
+	</item>
+	<item>
+		<question>What material is the Luggage in Discworld made of?</question>
+		<answer correct="true">Sapient Pearwood</answer>
+		<answer correct="false">Rainbow Eucalyptus</answer>
+		<answer correct="false">Centurion Pine</answer>
+		<answer correct="false">Acacia Heartwood</answer>
 	</item>
 </quiz>
