@@ -62,13 +62,18 @@ public class ServerWindow {
 			tabsEnabled = true;
 			rosterScreen = new RosterScreen(game);
 			sbScreen = new ScoreboardScreen(game);
-			sgScreen = new ServerGameScreen(game);
+			sgScreen = new ServerGameScreen(game, this);
 
 
 			tabs.addTab("Roster",rosterScreen);
 			tabs.addTab("Scoreboard", sbScreen);
 			tabs.addTab("Game", sgScreen.getCurrentMode());
 		}
+	}
+	
+	public void update(){
+		content.revalidate();
+		content.repaint();
 	}
 	
 	public static void main(String args[]) {
