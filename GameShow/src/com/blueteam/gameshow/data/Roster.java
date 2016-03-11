@@ -32,7 +32,18 @@ public class Roster implements ActionListener{
 		return teams.size();
 	}
 	
-
+	public void addPlayer(String teamName, Player p){
+		boolean found = false;
+		for(int t=0; t<teams.size() && !found; t++){
+			if(teams.get(t).getName().equals(teamName)){
+				found = true;
+				teams.get(t).addMember(p);
+			}
+		}
+		if(!found){
+			teams.add(new Team(teamName));
+		}
+	}
 	
 	public void startQuestion(){
 		scanTime.start();
