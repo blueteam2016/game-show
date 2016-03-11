@@ -18,7 +18,7 @@ public class ServerGameScreen extends JPanel{
 		
 		game = g;
 		
-		goToQuestionMode();
+		currentMode = question;
 	}
 	
 	public void goToAnswerMode(){
