@@ -32,6 +32,9 @@ public class ServerGameScreen{
 		//maybe call start/end Question in Roster
 		currentMode = question;
 		game.getQuiz().nextQuestion();
+		
+		question.newQuestion();
+		question.revalidate();
 		question.startTimer();
 		
 		servWin.update();

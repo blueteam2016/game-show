@@ -53,6 +53,7 @@ public class ServerWindow implements WindowListener{
 			game.createQuiz();
 		}catch(Exception e){
 			error = true;
+			e.printStackTrace();
 			JFrame popUp = new JFrame();
 			JPanel content = new JPanel();
 			content.add(new JLabel("Question file is not valid."));

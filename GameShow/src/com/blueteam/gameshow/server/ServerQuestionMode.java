@@ -74,6 +74,7 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 			answers.add(new JLabel((char)(65+i) + ") " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
 		}
 		
+		setUpGUI();
 	}
 	
 	private void setUpGUI(){
