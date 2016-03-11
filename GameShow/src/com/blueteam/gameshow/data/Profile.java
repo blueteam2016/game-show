@@ -17,7 +17,7 @@ public class Profile {
 	private static String qFileLoc;
 	
 	
-	public Profile(){//sdguiserg
+	public Profile(){
 		try{
 			Document profileSave;
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
