@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,26 +18,35 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private JLabel explanation;
 	private JButton moveOn;
 	private ServerGameScreen SGS;
+	private Game game;
 	
-	public ServerAnswerMode(Game g, ServerGameScreen s){
-		
+	public ServerAnswerMode(Game g, ServerGameScreen s){	
 		SGS = s;
+		game = g;
 		
-		question = new JLabel(g.getQuiz().getCurrentQuestion().getText());
+		moveOn = new JButton("Continue");
+		moveOn.addActionListener(this);
 		
-		explanation = new JLabel("Explanation: " + g.getQuiz().getCurrentQuestion().getExplanationText());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		newQuestion();
+	}
+	
+	public void newQuestion(){
+		removeAll();
+		
+		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
+		
+		explanation = new JLabel("Explanation: " + game.getQuiz().getCurrentQuestion().getExplanationText());
 		
 		answerLabel = new ArrayList<JLabel>();
 		
-		Answer[] answers = g.getQuiz().getCurrentQuestion().getAnswers();
+		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		
 		for(int x = 0; x< answers.length; x++){
 			if(answers[x].isCorrect())
 				answerLabel.add(new JLabel((char)(65+x) + ") " + answers[x].getText()));	
 		}
-		
-		moveOn = new JButton("Continue");
-		moveOn.addActionListener(this);
 		
 		add(question);
 		for(int y = 0; y< answerLabel.size(); y++){
@@ -47,17 +57,12 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		add(explanation);
 		
-		
 		add(moveOn);
-		
-		
 	}
 
 
 	public void actionPerformed(ActionEvent arg0) {
-		
 		SGS.goToResultMode();
-		
 	}
 	
 }

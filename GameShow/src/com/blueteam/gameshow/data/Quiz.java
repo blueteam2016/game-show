@@ -69,9 +69,10 @@ public class Quiz {
 	
 	public Question getLastQuestion()
 	{
-		if(questionNum > 0)
-			return questions[questionNum-1];
-		else
+		if(questionNum > 0){
+			questionNum--;
+			return questions[questionNum];
+		}else
 			return null;
 	}
 	
@@ -79,6 +80,13 @@ public class Quiz {
 	{
 		if(questionNum == questions.length - 1)
 			return true;
+		return false;
+	}
+	
+	public boolean isFirstQuestion(){
+		if(questionNum == 0){
+			return true;
+		}
 		return false;
 	}
 	

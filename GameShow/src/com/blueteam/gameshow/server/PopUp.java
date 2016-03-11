@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class PopUp implements ActionListener{
+public abstract class PopUp{
 
 	protected JFrame frame;
 	private JPanel panel;
@@ -25,15 +25,26 @@ public class PopUp implements ActionListener{
 		frame = new JFrame();
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1,5,5));
+		
 		bp = new JPanel();
 		bp.setLayout(new GridLayout(1,2,5,5));
+		
 		label = new JLabel("Are you sure?", SwingConstants.CENTER);
+		
 		yes = new JButton("yes");
-		yes.addActionListener(this);
-		yes.setActionCommand("yes");
+		yes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				yes();
+			}
+		});
+		
 		no = new JButton("no");
-		no.addActionListener(this);
 		no.setActionCommand("no");
+		no.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				no();
+			}
+		});
 		
 		panel.add(label);
 		
@@ -47,20 +58,9 @@ public class PopUp implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
+	public abstract void yes();
+	public abstract void no();
 
 
-	public void actionPerformed(ActionEvent event) {
-		
-		yn = event.getActionCommand().equals("yes");
-		
-	}
-	
-	
-	public boolean resultOfPopUp(){
-		
-		return yn;
-				
-	}
-	
-	
 }

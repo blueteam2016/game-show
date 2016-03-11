@@ -25,6 +25,8 @@ public class ServerGameScreen{
 	}
 
 	public void goToAnswerMode(){
+		answer.newQuestion();
+		
 		currentMode = answer;
 		servWin.update();
 	}
@@ -34,7 +36,6 @@ public class ServerGameScreen{
 		game.getQuiz().nextQuestion();
 		
 		question.newQuestion();
-		question.revalidate();
 		question.startTimer();
 		
 		servWin.update();
@@ -52,7 +53,6 @@ public class ServerGameScreen{
 	
 	public JPanel getCurrentMode(){
 		return currentMode;
-		
 	}
 
 }

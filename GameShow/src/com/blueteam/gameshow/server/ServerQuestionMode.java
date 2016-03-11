@@ -1,6 +1,5 @@
 package com.blueteam.gameshow.server;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
-public class ServerQuestionMode extends JPanel implements ActionListener{
+public class ServerQuestionMode extends JPanel{
 	
 	private JLabel question;
 	private ArrayList<JLabel> answers;
@@ -36,22 +35,56 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		
 		//make timer
 		timeRemaining = new JLabel("Time Remaining");
-		timer = new Timer(1000,this);
-		timer.setActionCommand("time");
+		timer = new Timer(1000, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				seconds-=1;
+				countdown.setText("00:"+ seconds);
+				if(seconds==0){
+					timer.stop();
+					qScreen.goToAnswerMode();
+				}	
+			}
+		});
 		
 		//set bottom 3 buttons
 		
 		back = new JButton("Back");
 		back.setActionCommand("back");
-		back.addActionListener(this);
+		back.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				stopTimer();
+				new BackPopUp();	
+			}
+		});
+		if(game.getQuiz().isFirstQuestion()){
+			back.setEnabled(false);
+		}
+		
 		
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
-		pause.addActionListener(this);
+		pause.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				if(e.getActionCommand().equals("pause")){
+					pause.setText("Run");
+					pause.setActionCommand("run");
+					stopTimer();
+				}else if(e.getActionCommand().equals("run")){
+					pause.setText("Pause");
+					pause.setActionCommand("pause");
+					startTimer();
+				}
+			}
+		});
 		
 		skip = new JButton("Skip");
 		skip.setActionCommand("skip");
-		skip.addActionListener(this);
+		skip.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				stopTimer();
+				new SkipPopUp();
+			}
+		});
 		
 		//sets Question info
 		newQuestion();
@@ -60,7 +93,9 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 	
 	public void newQuestion(){
 		//set time remaining
-		
+		if(!game.getQuiz().isFirstQuestion()){
+			back.setEnabled(true);
+		}
 	
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
 		countdown = new JLabel("00:"+seconds);
@@ -79,6 +114,8 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 	
 	private void setUpGUI(){
 		//organizes components in visually appealing manner
+		
+		removeAll();
 		
 		add(question);
 		for(int i=0; i<answers.size(); i++){
@@ -99,121 +136,46 @@ public class ServerQuestionMode extends JPanel implements ActionListener{
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 	
-	public void actionPerformed(ActionEvent arg0) {
-		String eventName = arg0.getActionCommand();
-	
-		switch(eventName){
-		
-		case "time":
-				
-			countdown = new JLabel("00:"+(seconds-1));
-			seconds-=1;
-			if(seconds==0){
-				
-				timer.stop();
-				qScreen.goToAnswerMode();
-			}
-			
-			break;
-			
-		case "back":
-			
-			new BackPopUp();
-			
-			break;
-			
-		case "pause":
-			
-			pause.setText("Run");
-			pause.setActionCommand("run");
-			stopTimer();
-			
-			break;
-		
-		case "skip":
-			
-			new SkipPopUp();
-			
-			break;
-			
-		case "run":
-			
-			pause.setText("Pause");
-			pause.setActionCommand("pause");
-			stopTimer();
-		
-			break;
-			
-		}
-		
+	public void startTimer(){	
+		timer.start();	
 	}
 	
-	public void startTimer(){
-		
-		timer.start();
-		
-	}
-	
-	public void stopTimer(){
-		
+	public void stopTimer(){		
 		timer.stop();
-		
 	}
 	
 	private class SkipPopUp extends PopUp{
 		
-		public SkipPopUp(){
-			
+		public SkipPopUp(){		
 			super();
-			
 		}
 		
-		public void actionPerformed(ActionEvent arg0) {
-			
-			switch(arg0.getActionCommand()){
-			
-			case "yes":
-				
-				yn=true;
-				qScreen.goToAnswerMode();
-				frame.dispose();
-				
-			case "no":
-				
-				yn=false;
-				frame.dispose();
-				
-			
-			}
+		public void no(){
+			frame.dispose();
+			startTimer();	
+		}	
+
+		public void yes(){
+			qScreen.goToAnswerMode();
+			frame.dispose();
 		}
-		
 	}
-	
+
 	private class BackPopUp extends PopUp{
-			
-			public BackPopUp(){
-				
-				super();
-				
-			}
-			
-			public void actionPerformed(ActionEvent arg0) {
-				
-				switch(arg0.getActionCommand()){
-				
-				case "yes":
-					
-					yn=true;
-					qScreen.goToResultMode();
-					frame.dispose();
-					
-				case "no":
-					
-					yn=false;
-					frame.dispose();
-					
-				
-				}
-			}	
+
+		public BackPopUp(){				
+			super();		
 		}
+
+		public void yes(){
+			game.getQuiz().getLastQuestion();
+			qScreen.goToResultMode();
+			frame.dispose();
+		}
+
+		public void no(){
+			frame.dispose();
+			startTimer();		
+		}
+	}
 }
