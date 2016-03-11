@@ -72,8 +72,8 @@ public class ServerWindow {
 	}
 	
 	public void update(){
-		content.revalidate();
-		content.repaint();
+		tabs.setComponentAt(3,sgScreen.getCurrentMode());
+		tabs.getComponentAt(3).repaint();
 	}
 	
 	public static void main(String args[]) {
