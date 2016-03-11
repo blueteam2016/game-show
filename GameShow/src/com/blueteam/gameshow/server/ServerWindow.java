@@ -1,16 +1,18 @@
 package com.blueteam.gameshow.server;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class ServerWindow implements WindowListener{
+public class ServerWindow implements WindowListener, ChangeListener{
 	
 	private JTabbedPane tabs;
 	private JPanel content;
@@ -31,12 +33,16 @@ public class ServerWindow implements WindowListener{
 		game = new Game();
 		
 		tabs = new JTabbedPane();
+		tabs.addChangeListener(this);
+		
 		content = new JPanel(new BorderLayout());
 		frame = new JFrame("GameShow Server");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(this);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		pScreen = new ProfileScreen(game, this);
-		tabs.addTab("Profile", pScreen);
+		tabs.add(pScreen, 0);
+		tabs.setSelectedIndex(0);
 		
 		
 		content.add(tabs, BorderLayout.CENTER);
@@ -73,8 +79,10 @@ public class ServerWindow implements WindowListener{
 	}
 	
 	public void update(){
-		tabs.setComponentAt(3,sgScreen.getCurrentMode());
-		tabs.getComponentAt(3).repaint();
+		int i = tabs.indexOfTab("Game");
+		
+		tabs.setComponentAt(i,sgScreen.getCurrentMode());
+		tabs.getComponentAt(i).repaint();
 	}
 	
 	public static void main(String args[]) {
@@ -85,6 +93,7 @@ public class ServerWindow implements WindowListener{
 	}
 
 	public void windowClosed(WindowEvent arg0) {
+		//System.out.println("WINDOW CLOSED");
 		game.getProfile().saveProfile();
 	}
 
@@ -101,6 +110,22 @@ public class ServerWindow implements WindowListener{
 	}
 
 	public void windowOpened(WindowEvent arg0) {		
+	}
+
+
+
+	public void stateChanged(ChangeEvent e) {
+		//System.out.println("CHANGED");
+		JTabbedPane p = (JTabbedPane) e.getSource();
+		if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
+			sgScreen.getServerQuestionMode().stopTimer();
+		}else if(sgScreen.onQuestionMode()){
+			sgScreen.getServerQuestionMode().startTimer();
+		}
+		if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
+			rosterScreen.getTableModel().closeRegistration();
+		}
+		
 	}
 
 }

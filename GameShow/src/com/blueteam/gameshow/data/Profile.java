@@ -16,9 +16,9 @@ public class Profile {
 	private static int defTime;
 	private static String qFileLoc;
 	
-	
 	public Profile(){
 		try{
+			//System.out.println("LOADING PROFILE");
 			Document profileSave;
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
@@ -29,11 +29,12 @@ public class Profile {
 			qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
 			defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
 			defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
+			//System.out.println("PROFILE LOADED");
 		}catch(Exception e){e.printStackTrace();}
 	}
 
 	public void saveProfile(){
-		System.out.println("HELLOE HELEN");
+		//System.out.println("HELLOE HELEN");
 		try{
 			Document profileDoc;
 			DocumentBuilderFactory profileDocFactory = DocumentBuilderFactory.newInstance();
@@ -105,12 +106,11 @@ public class Profile {
 	}
 	
 	public boolean isComplete(){
-		if (!servFoldLoc.equals("") && servFoldLoc!= null)
-			if (!clientFoldLoc.equals("") && clientFoldLoc!= null)
-				if (!qFileLoc.equals("") && qFileLoc!= null)
-					if (defVal!=0)
-						if(defTime!=0)
-							return true;
+		if (servFoldLoc!=null && clientFoldLoc!=null && qFileLoc!=null && defVal!=0 && defTime!=0){
+			//System.out.println("COMPLETE");
+			return true;
+		}
+		//System.out.println("INCOMPLETE");
 		return false;
 	}
 }

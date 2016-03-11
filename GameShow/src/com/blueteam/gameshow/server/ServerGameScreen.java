@@ -54,5 +54,15 @@ public class ServerGameScreen{
 	public JPanel getCurrentMode(){
 		return currentMode;
 	}
+	
+	public ServerQuestionMode getServerQuestionMode(){
+		return question;
+	}
+	
+	public boolean onQuestionMode(){
+		if(currentMode.equals(question)){
+			return true;
+		}return false;
+	}
 
 }
