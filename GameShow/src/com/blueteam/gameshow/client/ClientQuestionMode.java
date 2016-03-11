@@ -17,6 +17,7 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	private ClientIO clientIO;
 	private Question question;
 	private JLabel questionText;
+	private JLabel timer;
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
@@ -59,7 +60,10 @@ public class ClientQuestionMode extends JPanel implements Runnable
 				answer.add(answerText);
 				displayAnswers.add(answer);
 			}
+			
+			timer = new JLabel();
 		
+			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(questionText);
 			this.add(displayAnswers);
 			questScreen.goToQuestionMode();

@@ -14,6 +14,7 @@ public class ClientAnswerMode extends JPanel
 	private ClientQuestionScreen qs;
 	private Question question;
 	private JLabel questionText;
+	private JLabel timer;
 	private Answer[] answerChoices;
 	private JPanel displayAnswers;
 	
@@ -37,9 +38,13 @@ public class ClientAnswerMode extends JPanel
 			JPanel answer = new JPanel();
 			displayAnswers.add(answerText);
 		}
+		
+		timer = new JLabel("Time Remaining" + "");
 	
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(questionText);
 		this.add(displayAnswers);
+		this.add(timer);
 	}
 	
 }
