@@ -20,7 +20,11 @@ public class Quiz {
 		quizFile = quizBuilder.parse(filePath);
 		quizFile.getDocumentElement().normalize();
 		Element root = quizFile.getDocumentElement();
+		if(root.getNodeName().equals("quiz"))
+			throw new Exception();
 		NodeList questionList = root.getElementsByTagName("item");
+		if(questionList.getLength() == 0)
+			throw new Exception();
 		questions = new Question[questionList.getLength()];
 		for(int index=0; index < questionList.getLength();index++)
 		{
