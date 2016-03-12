@@ -39,7 +39,7 @@ public class ServerQuestionMode extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				seconds-=1;
 				countdown.setText("00:"+ seconds);
-				if(seconds==0){
+				if(seconds<=0){
 					timer.stop();
 					qScreen.goToAnswerMode();
 				}	
