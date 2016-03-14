@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -154,7 +155,11 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event){
 			clientName = name.getText();
 			clientTeamName = teamName.getText();
-			clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
+			try {
+				clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

@@ -1,8 +1,6 @@
 package com.blueteam.gameshow.client;
 
-import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,20 +18,21 @@ public class ClientIO {
 	private String questionPath;
 	private long questionModTime;
 	private String answerPath;
+	private String profilePath;
 	
-	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) throws IOException{
+	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) throws IOException {
 		String identifier = profile.getIdentifier();
 		questionPath = pathServerFold + ".question";
 		answerPath = pathClientFold + ".answer_" + identifier;
+		profilePath = pathClientFold + ".profile_" + identifier;
 		questionModTime = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
 		
-		ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(answerPath));
+		ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(profilePath));
 		profOut.writeObject(profile);
 		profOut.close();
 	}
 	
-	private void truncate(String file) throws IOException {
-		FileOutputStream fOut = new FileOutputStream(file, true);
+	private void truncate(FileOutputStream fOut) throws IOException {
 		FileChannel outChan = fOut.getChannel();
 		outChan.truncate(0);
 		outChan.close();
@@ -61,11 +60,14 @@ public class ClientIO {
 	}
 	
 	public void sendAnswer(Answer answer) {
-		ObjectOutputStream ansOutnew = new ObjectOutputStream(new FileOutputStream(answerPath));
-		
-		
 		try {
+			FileOutputStream fOut = new FileOutputStream(answerPath, true);
+			FileLock fLock = fOut.getChannel().lock();
+			truncate(fOut);
+			ObjectOutputStream ansOut = new ObjectOutputStream(fOut);
 			ansOut.writeObject(answer);
+			fLock.close();
+			ansOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -38,8 +38,6 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	public void run() {
 		while (true) {
 			question = clientIO.getQuestion();
-			while (question == null)
-				question = clientIO.getQuestion();
 		
 			seconds = question.getTime();
 			questScreen.setQuestion(question);
