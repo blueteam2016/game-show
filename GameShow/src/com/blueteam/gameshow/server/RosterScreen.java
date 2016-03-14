@@ -3,11 +3,14 @@ package com.blueteam.gameshow.server;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-public class RosterScreen extends JPanel{
+public class RosterScreen extends JPanel implements TableModelListener{
 	private JPanel panel;
 	private JScrollPane scroll;
 	private JTable table;
@@ -72,5 +75,9 @@ public class RosterScreen extends JPanel{
 		}
 	}
 	
+	public void tableChanged(TableModelEvent e){
+		table.revalidate();
+		repaint();
+	}
 	
 }

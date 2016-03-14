@@ -86,7 +86,9 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	}
 	
 	public void addMember(Player p, String teamName){
-		rost.getTeam(teamName).addMember(p);
+		System.out.println(p.getName() + " " + teamName);
+		rost.addPlayer(teamName, p);
+		fireTableDataChanged();
 	}
 
 
