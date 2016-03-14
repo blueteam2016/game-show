@@ -18,7 +18,6 @@ public class Profile {
 	
 	public Profile(){
 		try{
-			//System.out.println("LOADING PROFILE");
 			Document profileSave;
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
@@ -29,12 +28,10 @@ public class Profile {
 			qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
 			defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
 			defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
-			//System.out.println("PROFILE LOADED");
 		}catch(Exception e){e.printStackTrace();}
 	}
 
 	public void saveProfile(){
-		//System.out.println("HELLOE HELEN");
 		try{
 			Document profileDoc;
 			DocumentBuilderFactory profileDocFactory = DocumentBuilderFactory.newInstance();
