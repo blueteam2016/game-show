@@ -39,7 +39,7 @@ public class ClientAnswerMode extends JPanel
 			displayAnswers.add(answerText);
 		}
 		
-		timer = new JLabel("Time Remaining" + "");
+		timer = new JLabel("Time Remaining: " + "");
 	
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(questionText);

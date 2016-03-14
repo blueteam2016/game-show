@@ -34,7 +34,7 @@ public class ServerQuestionMode extends JPanel{
 		
 		
 		//make timer
-		timeRemaining = new JLabel("Time Remaining");
+		timeRemaining = new JLabel("Time Remaining: ");
 		timer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				seconds -= 1;
