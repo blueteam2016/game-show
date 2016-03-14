@@ -27,8 +27,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	private boolean tabsEnabled;
 	private Game game;
 	
-	private String danielString;
-	
 	public ServerWindow(){
 		
 		tabsEnabled = false;
@@ -45,10 +43,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		pScreen = new ProfileScreen(game, this);
 		tabs.add(pScreen, 0);
 		tabs.setSelectedIndex(0);
-		
-		displayDaniel();   //displays extra tab with daniel's confirmation stuff
-		
-		
+			
 		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
 		frame.pack();
@@ -56,12 +51,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		
 	}
 
-	private void displayDaniel(){
-		JPanel panel = new JPanel();
-		panel.add(new JLabel("danielString: " + danielString));
-		tabs.addTab("Daniel", panel);
-	}
-	
 	public void enableTabs(){
 		boolean error = false;
 
