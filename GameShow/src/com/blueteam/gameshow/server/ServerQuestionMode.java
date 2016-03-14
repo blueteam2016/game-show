@@ -37,12 +37,12 @@ public class ServerQuestionMode extends JPanel{
 		timeRemaining = new JLabel("Time Remaining");
 		timer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				seconds-=1;
-				countdown.setText("00:"+ seconds);
-				if(seconds<=0){
+				seconds -= 1;
+				countdown.setText(seconds/60 + ":" + secondsText(seconds));
+				if (seconds <= 0){
 					timer.stop();
 					qScreen.goToAnswerMode();
-				}	
+				}
 			}
 		});
 		
@@ -89,6 +89,18 @@ public class ServerQuestionMode extends JPanel{
 		//sets Question info
 		newQuestion();
 		setUpGUI();
+	}
+	
+	private static String secondsText(int seconds)
+	{
+		String secondsText = "";
+		if (seconds % 60 == 0)
+			secondsText = "00";
+		else if (seconds % 60 < 10)
+			secondsText = "0" + seconds;
+		else
+			secondsText = "" + seconds%60;
+		return secondsText;
 	}
 	
 	public void newQuestion(){
