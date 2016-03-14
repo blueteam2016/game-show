@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.ClientProfile;
-import com.blueteam.gameshow.data.OldDataException;
 import com.blueteam.gameshow.data.Question;
 
 public class ClientIO {
@@ -23,7 +22,7 @@ public class ClientIO {
 	private ObjectInputStream questIn;
 	private ObjectOutputStream ansOut;
 	
-	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) throws OldDataException{
+	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile){
 		String identifier = profile.getIdentifier();
 
 		try {
