@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -18,57 +20,50 @@ public class ClientIO {
 	private String questionPath;
 	private long questionModTime;
 	private String answerPath;
-	private long answerModTime;
-	private ObjectInputStream questIn;
-	private ObjectOutputStream ansOut;
 	
-	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile){
+	public ClientIO(String pathServerFold, String pathClientFold, ClientProfile profile) throws IOException{
 		String identifier = profile.getIdentifier();
-
-		try {
-			String path = pathClientFold + ".profile_" + identifier;
-			Files.deleteIfExists(Paths.get(path));
-			ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(path));
-			profOut.writeObject(profile);
-			profOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			questIn = new ObjectInputStream(new FileInputStream(pathServerFold + ".question"));
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.");
-			//TODO: error handling
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			String path = pathClientFold + ".answer_" + identifier;
-			Files.deleteIfExists(Paths.get(path));
-			ansOut = new ObjectOutputStream(new FileOutputStream(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		questionPath = pathServerFold + ".question";
+		answerPath = pathClientFold + ".answer_" + identifier;
+		questionModTime = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+		
+		ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(answerPath));
+		profOut.writeObject(profile);
+		profOut.close();
+	}
+	
+	private void truncate(String file) throws IOException {
+		FileOutputStream fOut = new FileOutputStream(file, true);
+		FileChannel outChan = fOut.getChannel();
+		outChan.truncate(0);
+		outChan.close();
+		fOut.close();
 	}
 
 	public Question getQuestion() {
-		Question qIn = null;
 		try {
-			qIn = (Question)questIn.readObject();
-		} catch (EOFException e) {
-			return null;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			long lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+			while(questionModTime == lastModified) {
+				lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+			}
+			questionModTime = lastModified;
+			FileInputStream fIn = new FileInputStream(questionPath);
+			FileLock fLock = fIn.getChannel().lock();
+			ObjectInputStream questIn = new ObjectInputStream(fIn);
+			Question qIn = (Question)questIn.readObject();
+			fLock.close();
+			questIn.close();
+			return qIn;
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return qIn;
+		return null;
 	}
 	
 	public void sendAnswer(Answer answer) {
+		ObjectOutputStream ansOutnew = new ObjectOutputStream(new FileOutputStream(answerPath));
+		
+		
 		try {
 			ansOut.writeObject(answer);
 		} catch (IOException e) {
@@ -81,7 +76,6 @@ public class ClientIO {
 			Files.deleteIfExists(Paths.get(questionPath));
 			Files.deleteIfExists(Paths.get(answerPath));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
