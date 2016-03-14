@@ -24,6 +24,7 @@ public class ProfileScreen extends JPanel{
 	private JFileChooser folderChooser;
 
 	private ServerWindow serverWindowParameter;
+	
 	private Profile prof;
 
 
@@ -99,7 +100,6 @@ public class ProfileScreen extends JPanel{
 			servFoldText.setText(prof.getServerFolderLoc());
 			clientFoldText.setText(prof.getClientFolderLoc());
 			qFileText.setText(prof.getQuestionFileLoc());
-			serverWindowParameter.enableTabs();
 		}
 	}
 	

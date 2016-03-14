@@ -126,16 +126,18 @@ public class ServerWindow implements WindowListener, ChangeListener{
 
 	public void stateChanged(ChangeEvent e) {
 		//System.out.println("CHANGED");
-		JTabbedPane p = (JTabbedPane) e.getSource();
-		if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
-			sgScreen.getServerQuestionMode().stopTimer();
-		}else if(sgScreen.onQuestionMode()){
-			sgScreen.getServerQuestionMode().startTimer();
+		if(tabsEnabled)
+		{
+			JTabbedPane p = (JTabbedPane) e.getSource();
+			if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
+				sgScreen.getServerQuestionMode().stopTimer();
+			}else if(sgScreen.onQuestionMode()){
+				sgScreen.getServerQuestionMode().startTimer();
+			}
+			if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
+				rosterScreen.getTableModel().closeRegistration();
+			}
 		}
-		if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
-			rosterScreen.getTableModel().closeRegistration();
-		}
-		
 	}
 
 }
