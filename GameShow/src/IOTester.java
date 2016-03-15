@@ -21,7 +21,7 @@ public class IOTester {
 		ServerIO sIO = new ServerIO("");
 		
 		{
-			sIO.getProfile();
+			sIO.getClientProfile();
 			System.out.println("Profile Received!");
 			sIO.sendQuestion(question);
 			System.out.println("Question sent!");

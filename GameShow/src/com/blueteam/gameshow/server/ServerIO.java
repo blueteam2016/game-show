@@ -13,12 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
-import com.blueteam.gameshow.data.Profile;
+import com.blueteam.gameshow.data.ClientProfile;
 import com.blueteam.gameshow.data.Question;
 
 public class ServerIO {
-	private String answerPath;
-	private long answerModTime;
+	
 	private String questionPath;
 	private String profilePath;
 	
@@ -30,15 +29,10 @@ public class ServerIO {
 			e1.printStackTrace();
 		}
 		questionPath = pathToFolder + ".question";
-		answerPath = pathToFolder + ".answer_" + identifier;
 		profilePath = pathToFolder + ".profile_" + identifier;
 		try {
 			Files.deleteIfExists(Paths.get(questionPath));
 			Files.createFile(Paths.get(questionPath));
-			if (Files.exists(Paths.get(answerPath)))
-				answerModTime = Files.getLastModifiedTime(Paths.get(answerPath)).toMillis();
-			else
-				answerModTime = 0;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,41 +41,17 @@ public class ServerIO {
 	private void truncate(FileOutputStream fOut) throws IOException {
 		FileChannel outChan = fOut.getChannel();
 		outChan.truncate(0);
-		outChan.close();
-		fOut.close();
 	}
 	
-	public Answer getAnswer() {
-		try {
-			if (Files.exists(Paths.get(answerPath))) {
-				long lastModified = Files.getLastModifiedTime(Paths.get(answerPath)).toMillis();
-				while(answerModTime == lastModified) {
-					lastModified = Files.getLastModifiedTime(Paths.get(answerPath)).toMillis();
-				}
-				answerModTime = lastModified;
-			} else {
-				while(!Files.exists(Paths.get(profilePath)));
-			}
-			FileInputStream fIn = new FileInputStream(answerPath);
-			FileLock fLock = fIn.getChannel().lock();
-			ObjectInputStream ansIn = new ObjectInputStream(fIn);
-			Answer aIn = (Answer)ansIn.readObject();
-			fLock.close();
-			ansIn.close();
-			return aIn;
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
-	public Profile getProfile() {
+	
+	public ClientProfile getClientProfile() {
 		try {
 			while(!Files.exists(Paths.get(profilePath)));
 			FileInputStream fIn = new FileInputStream(profilePath);
-			FileLock fLock = fIn.getChannel().lock();
+			FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
 			ObjectInputStream profIn = new ObjectInputStream(fIn);
-			Profile pIn = (Profile)profIn.readObject();
+			ClientProfile pIn = (ClientProfile)profIn.readObject();
 			fLock.close();
 			profIn.close();
 			return pIn;
