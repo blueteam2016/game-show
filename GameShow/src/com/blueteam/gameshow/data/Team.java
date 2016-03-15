@@ -7,13 +7,16 @@ public class Team {
 	private double score;
 	private double latestPercentage;
 	private String name;
-	private int numResponses;
+	private boolean[] answerReceived;
+	private boolean[] answerCorrect;
 	
 	public Team(String n){
 		name = n;
 		members = new ArrayList<Player>();
 		score = 0;
 		latestPercentage = 0;
+		answerReceived = new boolean[];
+		answerCorrect = new boolean[];
 	}
 	
 	public double getPercentage(){
@@ -73,11 +76,6 @@ public class Team {
 	public void calculateScore(){
 		calculatePercentage();
 		score += latestPercentage*members.size();
-	}
-	
-	public void zeroPercentage(){
-		//clearAnswers DANIEL!!!!!!
-		//should erase answers from whatever folder getAnswerChecks or something equivalent
 	}
 		
 }
