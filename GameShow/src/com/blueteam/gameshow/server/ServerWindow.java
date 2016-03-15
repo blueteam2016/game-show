@@ -16,7 +16,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	
 	private JTabbedPane tabs;
 	private JPanel content;
-	private JFrame frame;
+	private static JFrame frame;
 
 
 	private ProfileScreen pScreen;
@@ -101,12 +101,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 
 	public void windowClosed(WindowEvent arg0) {
 		//System.out.println("WINDOW CLOSED");
-		if(tabsEnabled)
-		{
-			sgScreen.getServerQuestionMode().stopTimer();
-			rosterScreen.getTableModel().closeRegistration();
-		}
 		game.getProfile().saveProfile();
+		System.exit(0);
 		game.destroy();
 	}
 
@@ -141,6 +137,11 @@ public class ServerWindow implements WindowListener, ChangeListener{
 				rosterScreen.getTableModel().closeRegistration();
 			}
 		}
+	}
+	
+	public static JFrame accessFrame()
+	{
+		return frame;
 	}
 
 }

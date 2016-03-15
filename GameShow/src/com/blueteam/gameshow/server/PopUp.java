@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +13,7 @@ import javax.swing.SwingConstants;
 
 public abstract class PopUp{
 
-	protected JFrame frame;
+	protected JDialog popUp;
 	private JPanel panel;
 	private JPanel bp;
 	private JLabel label;
@@ -22,7 +23,7 @@ public abstract class PopUp{
 	
 	public PopUp() {
 		
-		frame = new JFrame();
+		popUp = new JDialog(ServerWindow.accessFrame());
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1,5,5));
 		
@@ -53,10 +54,11 @@ public abstract class PopUp{
 		
 		panel.add(bp);
 		
-		frame.setContentPane(panel);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		popUp.setContentPane(panel);
+		popUp.pack();
+		popUp.setModal(true);
+		popUp.setLocationRelativeTo(ServerWindow.accessFrame());
+		popUp.setVisible(true);
 	}
 	
 	public abstract void yes();
