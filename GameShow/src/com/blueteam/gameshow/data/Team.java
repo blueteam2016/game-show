@@ -45,7 +45,7 @@ public class Team {
 	
 	public void addMember(Player newPlayer){
 		for(int i=0; i<members.size(); i++){
-			if(members.get(i).getIP().equals(newPlayer.getIP())){
+			if(members.get(i).getIdentifier().equals(newPlayer.getIdentifier())){
 				members.remove(i);
 			}
 		}
