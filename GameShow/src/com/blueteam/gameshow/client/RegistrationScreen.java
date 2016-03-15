@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -22,6 +23,7 @@ public class RegistrationScreen extends JPanel{
 	private String clientName, clientTeamName, servFoldLoc, clientFoldLoc;
 	private JFileChooser folderChooser;
 	private JLabel infoPrompt;
+	private Font newFont;
 
 	public RegistrationScreen(ClientWindow newclientWindow){
 		clientName = "";
@@ -33,7 +35,7 @@ public class RegistrationScreen extends JPanel{
 		this.setLayout(new GridLayout(0,3,10,10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 5));
 
-		
+
 		JLabel BlankSpace = new JLabel("");
 		nameLabel = new JLabel("Name: ");
 		this.add(nameLabel);
@@ -48,7 +50,7 @@ public class RegistrationScreen extends JPanel{
 		this.add(name);
 		this.add(BlankSpace);
 
-		
+
 		JLabel BlankSpace2 = new JLabel("");
 		teamNameLabel = new JLabel("Team Name:");
 		this.add(teamNameLabel);
@@ -72,7 +74,7 @@ public class RegistrationScreen extends JPanel{
 		servFoldText.setEditable(false);
 		this.add(servFoldText);
 
-		
+
 		clientOutputLabel = new JLabel("Client Output Folder");
 		this.add(clientOutputLabel);
 		clientFoldBrowser = new JButton("Browse");
@@ -82,7 +84,7 @@ public class RegistrationScreen extends JPanel{
 		clientFoldText.setEditable(false);
 		this.add(clientFoldText);
 
-		
+
 		this.add(infoPrompt);
 		JLabel BlankSpace4 = new JLabel("");
 		this.add(BlankSpace4);
@@ -90,16 +92,85 @@ public class RegistrationScreen extends JPanel{
 		registerButton.addActionListener(new Register());
 		this.add(registerButton);
 		registerButton.setEnabled(false);
+
 		
+		//Font Resizer
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				ArrayList<JLabel> garn=new ArrayList();
+				garn.add(nameLabel);
+				garn.add(teamNameLabel);
+				garn.add(serverOutputLabel);
+				garn.add(clientOutputLabel);
+
+				
+				ArrayList<JTextField> garn2=new ArrayList();
+				garn2.add(name);
+				garn2.add(teamName);
+				garn2.add(servFoldText);
+				garn2.add(clientFoldText);
+
+				
+				ArrayList<JButton> garn3=new ArrayList();
+				garn3.add(servFoldBrowser);
+				garn3.add(clientFoldBrowser);
+				garn3.add(registerButton);
+
+				
+				for (JTextField field:garn2){
+					Font labelFont = field.getFont();
+					String labelText = field.getText();      		
+					int stringWidth = field.getFontMetrics(labelFont).stringWidth(labelText);
+					int componentWidth =field.getWidth();
+					double widthRatio = (double)componentWidth / (double)stringWidth;
+					int newFontSize = (int)(labelFont.getSize() * widthRatio);
+					int componentHeight = field.getHeight();
+					int fontSizeToUse = Math.min(newFontSize, componentHeight);
+					newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
+					if (newFont.getSize()<12)
+						newFont=new Font(labelFont.getName(), Font.PLAIN, 12);
+					field.setFont(newFont);
+				}
+
+				
+				Font labelFont = serverOutputLabel.getFont();
+				String labelText = serverOutputLabel.getText();      		
+				int stringWidth = serverOutputLabel.getFontMetrics(labelFont).stringWidth(labelText);
+				int componentWidth =serverOutputLabel.getWidth();
+				double widthRatio = (double)componentWidth / (double)stringWidth;
+				int newFontSize = (int)(labelFont.getSize() * widthRatio);
+				int componentHeight = serverOutputLabel.getHeight();
+				int fontSizeToUse = Math.min(newFontSize, componentHeight);
+				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
+				for (JLabel field:garn){
+					field.setFont(newFont);
+				}			
+				
+				
+				labelFont = servFoldBrowser.getFont();
+				labelText = servFoldBrowser.getText();      		
+				stringWidth = servFoldBrowser.getFontMetrics(labelFont).stringWidth(labelText);
+				componentWidth =servFoldBrowser.getWidth();
+				widthRatio = (double)componentWidth / (double)stringWidth;
+				newFontSize = (int)(labelFont.getSize() * widthRatio);
+				componentHeight = servFoldBrowser.getHeight();
+				fontSizeToUse = Math.min(newFontSize, componentHeight);
+				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
+				for (JButton field:garn3){
+					field.setFont(newFont);
+				}	
+			}
+
+		});
 	} 
 
 	private String folderChooser(String title) {
 		String folderLoc = "";
 		folderChooser = new JFileChooser();
-	
+
 		folderChooser.setCurrentDirectory(new java.io.File("."));
-	    folderChooser.setDialogTitle(title);
-	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		folderChooser.setDialogTitle(title);
+		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -133,7 +204,7 @@ public class RegistrationScreen extends JPanel{
 			checkCompletion();
 		}
 	}
-	
+
 	class ClientButton implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {
@@ -149,7 +220,7 @@ public class RegistrationScreen extends JPanel{
 		}
 
 	}
-	
+
 	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
