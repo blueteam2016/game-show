@@ -38,7 +38,7 @@ public class ServerQuestionMode extends JPanel{
 		timer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				seconds -= 1;
-				countdown.setText(seconds/60 + ":" + secondsText(seconds));
+				countdown.setText(numberText(seconds/60) + ":" + numberText(seconds%60));
 				if (seconds <= 0){
 					timer.stop();
 					qScreen.goToAnswerMode();
@@ -91,16 +91,16 @@ public class ServerQuestionMode extends JPanel{
 		setUpGUI();
 	}
 	
-	private static String secondsText(int seconds)
+	private static String numberText(int timeNum)
 	{
-		String secondsText = "";
-		if (seconds % 60 == 0)
-			secondsText = "00";
-		else if (seconds % 60 < 10)
-			secondsText = "0" + seconds;
+		String numberText = "";
+		if (timeNum >= 10)
+			numberText = "" + timeNum;
+		else if (timeNum < 10 && timeNum > 0)
+			numberText = "0" + timeNum;
 		else
-			secondsText = "" + seconds%60;
-		return secondsText;
+			numberText = "00";
+		return numberText;
 	}
 	
 	public void newQuestion(){

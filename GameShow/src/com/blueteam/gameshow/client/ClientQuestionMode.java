@@ -8,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ClientQuestionMode extends JPanel implements ActionListener
-{
+public class ClientQuestionMode extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientWindow clientWindow;
@@ -21,9 +20,9 @@ public class ClientQuestionMode extends JPanel implements ActionListener
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
 	private Timer questionTimer;
+	private static int choice;
 	
-	public ClientQuestionMode(ClientQuestionScreen qs)
-	{
+	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
 		questionTimer = new Timer(1, this);
@@ -38,7 +37,6 @@ public class ClientQuestionMode extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent arg0) {
 		while (true) {
 			question = clientIO.getQuestion();
-
 			questScreen.setQuestion(question);
 			this.removeAll();
 			questionText = new JLabel(question.getText());
@@ -60,7 +58,6 @@ public class ClientQuestionMode extends JPanel implements ActionListener
 				answer.add(answerText);
 				displayAnswers.add(answer);
 			}
-
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(questionText);
 			this.add(displayAnswers);
@@ -68,8 +65,22 @@ public class ClientQuestionMode extends JPanel implements ActionListener
 		}
 	}
 
-	class AnswerButton extends JButton implements ActionListener
-	{
+	public static int getChoice() {
+		return choice;
+	}
+	
+	private static String numberText(int timeNum) {
+		String numberText = "";
+		if (timeNum >= 10)
+			numberText = "" + timeNum;
+		else if (timeNum < 10 && timeNum > 0)
+			numberText = "0" + timeNum;
+		else
+			numberText = "00";
+		return numberText;
+	}
+	
+	class AnswerButton extends JButton implements ActionListener {
 		private static final long serialVersionUID = 688447363351164099L;
 		
 		public AnswerButton()
@@ -81,9 +92,12 @@ public class ClientQuestionMode extends JPanel implements ActionListener
 		{
 			for (int i = 0; i < answerButtons.size(); i++)
 				if (answerButtons.get(i).equals(arg0.getSource()))
+				{
 					clientIO.sendAnswer(answerChoices[i]);
+					choice = i;
+				}
 			questScreen.goToAnswerMode();
 		}
 	}
-
 }
+
