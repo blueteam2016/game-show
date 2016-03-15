@@ -107,9 +107,10 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			rosterScreen.getTableModel().closeRegistration();
 		}
 		game.getProfile().saveProfile();
+		game.destroy();
 	}
 
-	public void windowClosing(WindowEvent arg0) {	
+	public void windowClosing(WindowEvent arg0) {
 	}
 
 	public void windowDeactivated(WindowEvent arg0) {
