@@ -35,8 +35,6 @@ public class ClientIO {
 	private void truncate(FileOutputStream fOut) throws IOException {
 		FileChannel outChan = fOut.getChannel();
 		outChan.truncate(0);
-		outChan.close();
-		fOut.close();
 	}
 
 	public Question getQuestion() {
@@ -47,7 +45,7 @@ public class ClientIO {
 			}
 			questionModTime = lastModified;
 			FileInputStream fIn = new FileInputStream(questionPath);
-			FileLock fLock = fIn.getChannel().lock();
+			FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
 			ObjectInputStream questIn = new ObjectInputStream(fIn);
 			Question qIn = (Question)questIn.readObject();
 			fLock.close();
