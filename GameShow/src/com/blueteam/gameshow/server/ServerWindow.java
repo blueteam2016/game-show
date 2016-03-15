@@ -95,6 +95,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 
 	public void windowClosed(WindowEvent arg0) {
 		//System.out.println("WINDOW CLOSED");
+		sgScreen.getServerQuestionMode().stopTimer();
+		rosterScreen.getTableModel().closeRegistration();
 		game.getProfile().saveProfile();
 	}
 
