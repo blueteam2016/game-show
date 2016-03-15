@@ -65,7 +65,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			JPanel content = new JPanel();
 			content.add(new JLabel("The Question File is invalid"));
 			popUp.setModal(true);
-			popUp.setTitle("ERROR");
+			popUp.setTitle("!ERROR!");
 			popUp.add(content);
 			popUp.pack();
 			popUp.setLocationRelativeTo(frame);
