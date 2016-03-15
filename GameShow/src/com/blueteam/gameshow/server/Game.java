@@ -73,13 +73,22 @@ public class Game {
 	public void destroy() {
 		try {
 			File folder = new File(profile.getClientFolderLoc());
-			File[] files = folder.listFiles(new FilenameFilter() {
+			File[] ansFiles = folder.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(final File dir, final String name) {
 					return name.matches(".answer_*");
 				}
 			});
-			for (File file : files) {
+			for (File file : ansFiles) {
+				file.delete();	
+			}
+			File[] profFiles = folder.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(final File dir, final String name) {
+					return name.matches(".profile_*");
+				}
+			});
+			for (File file : profFiles) {
 				file.delete();	
 			}
 			Files.deleteIfExists(Paths.get(questionPath));
