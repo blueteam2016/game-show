@@ -60,7 +60,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			game.createQuiz();
 		}catch(Exception e){
 			error = true;
-			e.printStackTrace();
 			JDialog popUp = new JDialog(frame);
 			JPanel content = new JPanel();
 			content.add(new JLabel("The Question File is invalid"));
