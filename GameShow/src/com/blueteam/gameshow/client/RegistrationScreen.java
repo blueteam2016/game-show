@@ -146,7 +146,7 @@ public class RegistrationScreen extends JPanel{
 					field.setFont(newFont);
 				}			
 				
-				
+				 
 				labelFont = servFoldBrowser.getFont();
 				labelText = servFoldBrowser.getText();      		
 				stringWidth = servFoldBrowser.getFontMetrics(labelFont).stringWidth(labelText);
