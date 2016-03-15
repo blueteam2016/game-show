@@ -144,7 +144,7 @@ public class ServerQuestionMode extends JPanel{
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
-		
+		//Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 	
