@@ -135,6 +135,9 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
 				rosterScreen.getTableModel().closeRegistration();
 			}
+			if(p.getSelectedIndex() == tabs.indexOfTab("Scoreboard")){
+				sbScreen.update();
+			}
 		}
 	}
 	

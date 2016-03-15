@@ -52,7 +52,24 @@ public class Team {
 				members.remove(i);
 			}
 		}
-		members.add(newPlayer);
+		alphaAdd(newPlayer);
+	}
+	
+	private void alphaAdd(Player p){
+		//adds player to correct alphabetical position in list
+		boolean found = false;
+
+		for(int i=0; i<members.size() && !found;i++){
+			if(p.getName().compareTo(members.get(i).getName())<0){
+				found = true;
+				members.add(i, p);
+			}
+		}
+
+		if(!found){
+			members.add(p);
+		}
+
 	}
 	
 	public void unregisterStudent(Player p){

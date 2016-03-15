@@ -28,6 +28,10 @@ public class Roster implements ActionListener{
 		return null;
 	}
 	
+	public ArrayList<Team> getTeams(){
+		return teams;
+	}
+	
 	public int numTeams(){
 		return teams.size();
 	}
@@ -41,11 +45,29 @@ public class Roster implements ActionListener{
 			}
 		}
 		if(!found){
-			teams.add(new Team(teamName));
+			addTeam(teamName);
 			getTeam(teamName).addMember(p);
 		}
 	}
 	
+	private void addTeam(String teamName){
+		//adds team to correct alphabetical location
+		
+		boolean found = false;
+
+		for(int i=0; i<teams.size() && !found;i++){
+			if(teamName.compareTo(teams.get(i).getName())<0){
+				found = true;
+				teams.add(i, new Team(teamName));
+			}
+		}
+
+		if(!found){
+			teams.add(new Team(teamName));
+		}
+
+	}
+
 	public void startQuestion(){
 		scanTime.start();
 	}
