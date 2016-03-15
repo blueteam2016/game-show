@@ -92,7 +92,7 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	{		
 		timer.stop();
 	}
-	public static int getSeconds()
+	public static int getseconds()
 	{
 		return seconds;
 	}
