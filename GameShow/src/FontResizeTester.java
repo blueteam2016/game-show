@@ -28,8 +28,7 @@ public class FontResizeTester {
 		
         frame.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-            	
-            	System.out.println("hi");
+       
             	
             	Font labelFont = label.getFont();
             	String labelText = label.getText();
