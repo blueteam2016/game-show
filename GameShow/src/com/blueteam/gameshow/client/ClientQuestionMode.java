@@ -18,11 +18,12 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	private Question question;
 	private JLabel questionText;
 	private JLabel timerLabel;
-	private int seconds;
+	private static int seconds;
 	private Timer timer;
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
+	private static int choice;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs)
 	{
@@ -38,7 +39,10 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	public void run() {
 		while (true) {
 			question = clientIO.getQuestion();
+			while (question == null)
+				question = clientIO.getQuestion();
 		
+			choice = -1;
 			seconds = question.getTime();
 			questScreen.setQuestion(question);
 			this.removeAll();
@@ -62,11 +66,11 @@ public class ClientQuestionMode extends JPanel implements Runnable
 				displayAnswers.add(answer);
 			}
 			
-			timerLabel = new JLabel("Time Remaining: " + seconds/60 + ":" + secondsText(seconds));
+			timerLabel = new JLabel("Time Remaining: " + numberText(seconds/60) + ":" + numberText(seconds%60));
 			timer = new Timer(1000, new ActionListener(){
 				public void actionPerformed(ActionEvent arg0){
 					seconds -= 1;
-					timerLabel.setText("Time Remaining: " + seconds/60 + ":" + secondsText(seconds));
+					timerLabel.setText("Time Remaining: " + numberText(seconds/60) + ":" + numberText(seconds%60));
 					if (seconds <= 0){
 						timer.stop();
 						questScreen.goToAnswerMode();
@@ -88,16 +92,24 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	{		
 		timer.stop();
 	}
-	private static String secondsText(int seconds)
+	public static int getSeconds()
 	{
-		String secondsText = "";
-		if (seconds % 60 == 0)
-			secondsText = "00";
-		else if (seconds % 60 < 10)
-			secondsText = "0" + seconds;
+		return seconds;
+	}
+	public static int getChoice()
+	{
+		return choice;
+	}
+	private static String numberText(int timeNum)
+	{
+		String numberText = "";
+		if (timeNum >= 10)
+			numberText = "" + timeNum;
+		else if (timeNum < 10 && timeNum > 0)
+			numberText = "0" + timeNum;
 		else
-			secondsText = "" + seconds%60;
-		return secondsText;
+			numberText = "00";
+		return numberText;
 	}	
 	class AnswerButton extends JButton implements ActionListener
 	{
@@ -112,7 +124,10 @@ public class ClientQuestionMode extends JPanel implements Runnable
 		{
 			for (int i = 0; i < answerButtons.size(); i++)
 				if (answerButtons.get(i).equals(arg0.getSource()))
+				{
 					clientIO.sendAnswer(answerChoices[i]);
+					choice = i;
+				}
 			questScreen.goToAnswerMode();
 		}
 	}
