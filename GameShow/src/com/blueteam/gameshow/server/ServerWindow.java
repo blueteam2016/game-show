@@ -1,10 +1,12 @@
 package com.blueteam.gameshow.server;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -61,9 +63,15 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		}catch(Exception e){
 			error = true;
 			e.printStackTrace();
-			JFrame popUp = new JFrame();
+			JDialog popUp = new JDialog(frame);
 			JPanel content = new JPanel();
 			content.add(new JLabel("Question file is not valid."));
+			popUp.setModal(true);
+			popUp.setName("ERROR");
+			popUp.add(content);
+			popUp.pack();
+			popUp.setLocationRelativeTo(frame);
+			popUp.setVisible(true);
 		}
 
 		if(!tabsEnabled && !error){
