@@ -69,7 +69,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			popUp.setModal(true);
 			popUp.setName("ERROR");
 			popUp.add(content);
-			popUp.pack();
+			popUp.pack();;
 			popUp.setLocationRelativeTo(frame);
 			popUp.setVisible(true);
 		}
