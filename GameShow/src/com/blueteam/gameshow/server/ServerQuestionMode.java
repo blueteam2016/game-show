@@ -144,7 +144,7 @@ public class ServerQuestionMode extends JPanel{
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
-		
+		//Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 	
@@ -163,13 +163,13 @@ public class ServerQuestionMode extends JPanel{
 		}
 		
 		public void no(){
-			frame.dispose();
+			popUp.dispose();
 			startTimer();	
 		}	
 
 		public void yes(){
 			qScreen.goToAnswerMode();
-			frame.dispose();
+			popUp.dispose();
 		}
 	}
 
@@ -182,11 +182,11 @@ public class ServerQuestionMode extends JPanel{
 		public void yes(){
 			game.getQuiz().getLastQuestion();
 			qScreen.goToResultMode();
-			frame.dispose();
+			popUp.dispose();
 		}
 
 		public void no(){
-			frame.dispose();
+			popUp.dispose();
 			startTimer();		
 		}
 	}
