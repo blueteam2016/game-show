@@ -18,30 +18,15 @@ import com.blueteam.gameshow.data.Question;
 
 public class ServerIO {
 	
-	private String questionPath;
+	
 	private String profilePath;
 	
 	public ServerIO(String pathToFolder) {
-		String identifier = null;
-		try {
-			identifier = InetAddress.getLocalHost().getHostName(); //apparently the only way to get the machine hostname in Java
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
-		questionPath = pathToFolder + ".question";
 		profilePath = pathToFolder + ".profile_" + identifier;
-		try {
-			Files.deleteIfExists(Paths.get(questionPath));
-			Files.createFile(Paths.get(questionPath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 	
-	private void truncate(FileOutputStream fOut) throws IOException {
-		FileChannel outChan = fOut.getChannel();
-		outChan.truncate(0);
-	}
+
 	
 	
 	
@@ -61,27 +46,8 @@ public class ServerIO {
 		return null;
 	}
 	
-	public void sendQuestion(Question question) {
-		try {
-			FileOutputStream fOut = new FileOutputStream(questionPath, true);
-			FileLock fLock = fOut.getChannel().lock();
-			truncate(fOut);
-			ObjectOutputStream questOut = new ObjectOutputStream(fOut);
-			questOut.writeObject(question);
-			fLock.close();
-			questOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
-	public void destroy() {
-		try {
-			Files.deleteIfExists(Paths.get(answerPath));
-			Files.deleteIfExists(Paths.get(questionPath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 }

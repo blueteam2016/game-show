@@ -70,15 +70,6 @@ public class ClientIO {
 			e.printStackTrace();
 		}
 	}
-	
-	public void destroy() {
-		try {
-			Files.deleteIfExists(Paths.get(questionPath));
-			Files.deleteIfExists(Paths.get(answerPath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 
 }

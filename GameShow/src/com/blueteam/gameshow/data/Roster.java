@@ -45,6 +45,7 @@ public class Roster implements ActionListener{
 				
 			}
 			teams.add(new Team(teamName));
+			getTeam(teamName).addMember(p);
 		}
 	}
 	

@@ -1,26 +1,34 @@
 package com.blueteam.gameshow.server;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.*;
-import com.blueteam.gameshow.data.Profile;
-import com.blueteam.gameshow.data.Question;
-import com.blueteam.gameshow.data.Quiz;
 
 
 public class Game {
 	private Roster roster;
 	private Quiz quiz;
 	private Profile profile;
-	private ObjectOutputStream out;
+	private String questionPath;
 	
 	public Game(){
 		roster = new Roster();
 		profile = new Profile();
-		
+		questionPath = profile.getServerFolderLoc() + ".question";
+		try {
+			Files.deleteIfExists(Paths.get(questionPath));
+			Files.createFile(Paths.get(questionPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void createQuiz() throws Exception{
@@ -43,28 +51,50 @@ public class Game {
 		}	
 	}
 	
-	/*
-	public void unnamed() {
-		FileOutputStream fOut = null;
+	private void truncate(FileOutputStream fOut) throws IOException {
+		FileChannel outChan = fOut.getChannel();
+		outChan.truncate(0);
+	}
+	
+	public void sendQuestion(Question question) {
 		try {
-			fOut = new FileOutputStream(pathToFolder + ".question");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			out = new ObjectOutputStream(fOut);
+			FileOutputStream fOut = new FileOutputStream(questionPath, true);
+			FileLock fLock = fOut.getChannel().lock();
+			truncate(fOut);
+			ObjectOutputStream questOut = new ObjectOutputStream(fOut);
+			questOut.writeObject(question);
+			fLock.close();
+			questOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	*/
 	
-	public void sendQuestion(Question question) {
+	public void destroy() {
 		try {
-			out.writeObject(question);
+			File folder = new File(profile.getClientFolderLoc());
+			File[] ansFiles = folder.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(final File dir, final String name) {
+					return name.matches(".answer_*");
+				}
+			});
+			for (File file : ansFiles) {
+				file.delete();	
+			}
+			File[] profFiles = folder.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(final File dir, final String name) {
+					return name.matches(".profile_*");
+				}
+			});
+			for (File file : profFiles) {
+				file.delete();	
+			}
+			Files.deleteIfExists(Paths.get(questionPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
 	
 }
