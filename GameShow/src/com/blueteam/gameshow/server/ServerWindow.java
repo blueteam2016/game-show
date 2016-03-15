@@ -140,7 +140,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	
 	public static JFrame accessFrame()
 	{
-		return frame;;
+		return frame;
 	}
 
 }
