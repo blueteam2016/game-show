@@ -93,7 +93,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 
 
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("REGISTER");
+		//System.out.println("REGISTER");
 		//look for registrations DANIEL!!!!!!!!!!
 	}
 }
