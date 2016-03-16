@@ -151,16 +151,16 @@ public class RegistrationScreen extends JPanel{
 				labelText = servFoldBrowser.getText();      		
 				stringWidth = servFoldBrowser.getFontMetrics(labelFont).stringWidth(labelText);
 				componentWidth =servFoldBrowser.getWidth();
-				widthRatio = (double)componentWidth / (double)stringWidth;
+				widthRatio = (double)componentWidth / (double)6;
 				newFontSize = (int)(labelFont.getSize() * widthRatio);
 				componentHeight = servFoldBrowser.getHeight();
 				fontSizeToUse = Math.min(newFontSize, componentHeight);
+				fontSizeToUse = Math.min(fontSizeToUse, (int) widthRatio);
 				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
 				for (JButton field:garn3){
 					field.setFont(newFont);
 				}	
 			}
-
 		});
 	} 
 
