@@ -11,6 +11,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 public class RosterScreen extends JPanel implements TableModelListener{
+	private static final long serialVersionUID = 8457546251705691933L;
 	private JPanel panel;
 	private JScrollPane scroll;
 	private JTable table;

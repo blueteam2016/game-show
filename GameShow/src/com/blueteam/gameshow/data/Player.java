@@ -1,6 +1,5 @@
 package com.blueteam.gameshow.data;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,14 +11,12 @@ import java.nio.file.Paths;
 public class Player {
 	private String identifier;
 	private String name;
-	private String path;
 	private String answerPath;
 	private long answerModTime;
 	
 	public Player(ClientProfile cProfile, String pathToFolder){
 		name = cProfile.getPlayerName();
 		identifier = cProfile.getIdentifier();
-		path = pathToFolder;
 		answerPath = pathToFolder + ".answer_" + identifier;
 		try {
 			if (Files.exists(Paths.get(answerPath)))
