@@ -7,13 +7,16 @@ public class Team {
 	private double score;
 	private double latestPercentage;
 	private String name;
-	private int numResponses;
+	private boolean[] answerReceived;
+	private boolean[] answerCorrect;
 	
 	public Team(String n){
 		name = n;
 		members = new ArrayList<Player>();
 		score = 0;
 		latestPercentage = 0;
+		answerReceived = new boolean[];
+		answerCorrect = new boolean[];
 	}
 	
 	public double getPercentage(){
@@ -49,7 +52,24 @@ public class Team {
 				members.remove(i);
 			}
 		}
-		members.add(newPlayer);
+		alphaAdd(newPlayer);
+	}
+	
+	private void alphaAdd(Player p){
+		//adds player to correct alphabetical position in list
+		boolean found = false;
+
+		for(int i=0; i<members.size() && !found;i++){
+			if(p.getName().compareTo(members.get(i).getName())<0){
+				found = true;
+				members.add(i, p);
+			}
+		}
+
+		if(!found){
+			members.add(p);
+		}
+
 	}
 	
 	public void unregisterStudent(Player p){
@@ -73,11 +93,6 @@ public class Team {
 	public void calculateScore(){
 		calculatePercentage();
 		score += latestPercentage*members.size();
-	}
-	
-	public void zeroPercentage(){
-		//clearAnswers DANIEL!!!!!!
-		//should erase answers from whatever folder getAnswerChecks or something equivalent
 	}
 		
 }

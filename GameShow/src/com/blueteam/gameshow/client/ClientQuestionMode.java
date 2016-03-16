@@ -8,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ClientQuestionMode extends JPanel implements Runnable
-{
+public class ClientQuestionMode extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientWindow clientWindow;
@@ -17,33 +16,27 @@ public class ClientQuestionMode extends JPanel implements Runnable
 	private ClientIO clientIO;
 	private Question question;
 	private JLabel questionText;
-	private JLabel timerLabel;
-	private static int seconds;
-	private Timer timer;
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
+	private Timer questionTimer;
 	private static int choice;
 	
-	public ClientQuestionMode(ClientQuestionScreen qs)
-	{
+	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
+		questionTimer = new Timer(1, this);
 	}
 	
 	public void register() {
 		clientIO = clientWindow.getClientIO();
+		questionTimer.start();
 	}
 	
 	@Override
-	public void run() {
+	public void actionPerformed(ActionEvent arg0) {
 		while (true) {
 			question = clientIO.getQuestion();
-			while (question == null)
-				question = clientIO.getQuestion();
-		
-			choice = -1;
-			seconds = question.getTime();
 			questScreen.setQuestion(question);
 			this.removeAll();
 			questionText = new JLabel(question.getText());
@@ -65,43 +58,18 @@ public class ClientQuestionMode extends JPanel implements Runnable
 				answer.add(answerText);
 				displayAnswers.add(answer);
 			}
-			
-			timerLabel = new JLabel("Time Remaining: " + numberText(seconds/60) + ":" + numberText(seconds%60));
-			timer = new Timer(1000, new ActionListener(){
-				public void actionPerformed(ActionEvent arg0){
-					seconds -= 1;
-					timerLabel.setText("Time Remaining: " + numberText(seconds/60) + ":" + numberText(seconds%60));
-					if (seconds <= 0){
-						timer.stop();
-						questScreen.goToAnswerMode();
-					}
-				}	
-			});
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			this.add(questionText);
 			this.add(displayAnswers);
-			this.add(timerLabel);
 			questScreen.goToQuestionMode();
 		}
 	}
-	public void startTimer()
-	{	
-		timer.start();	
-	}	
-	public void stopTimer()
-	{		
-		timer.stop();
-	}
-	public static int getseconds()
-	{
-		return seconds;
-	}
-	public static int getChoice()
-	{
+
+	public static int getChoice() {
 		return choice;
 	}
-	private static String numberText(int timeNum)
-	{
+	
+	private static String numberText(int timeNum) {
 		String numberText = "";
 		if (timeNum >= 10)
 			numberText = "" + timeNum;
@@ -110,9 +78,9 @@ public class ClientQuestionMode extends JPanel implements Runnable
 		else
 			numberText = "00";
 		return numberText;
-	}	
-	class AnswerButton extends JButton implements ActionListener
-	{
+	}
+	
+	class AnswerButton extends JButton implements ActionListener {
 		private static final long serialVersionUID = 688447363351164099L;
 		
 		public AnswerButton()
@@ -132,3 +100,4 @@ public class ClientQuestionMode extends JPanel implements Runnable
 		}
 	}
 }
+

@@ -23,6 +23,7 @@ public class ScoreboardScreen extends JPanel{
 	}
 	
 	public void update(){
+		model.sort();
 		table.revalidate();
 		repaint();
 	}

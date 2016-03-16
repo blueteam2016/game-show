@@ -48,6 +48,7 @@ public class ResultMode extends JPanel{
 	}
 	
 	public void update(){
+		model.sort();
 		table.revalidate();
 		repaint();
 	}
