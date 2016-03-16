@@ -40,6 +40,4 @@ public class ClientAnswerMode extends JPanel
 		this.add(questionText);
 		this.add(displayAnswers);
 	}
-
-	
 }
