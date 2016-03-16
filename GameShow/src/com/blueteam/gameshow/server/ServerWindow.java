@@ -101,8 +101,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	public void windowClosed(WindowEvent arg0) {
 		//System.out.println("WINDOW CLOSED");
 		game.getProfile().saveProfile();
-		System.exit(0);
 		game.destroy();
+		System.exit(0);
 	}
 
 	public void windowClosing(WindowEvent arg0) {
