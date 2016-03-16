@@ -94,5 +94,12 @@ public class Team {
 		calculatePercentage();
 		score += latestPercentage*members.size();
 	}
+	
+	public boolean isFound(String identifier) {
+		for (Player player : members)
+			if (player.getIdentifier().equals(identifier))
+				return true;
+		return false;
+	}
 		
 }

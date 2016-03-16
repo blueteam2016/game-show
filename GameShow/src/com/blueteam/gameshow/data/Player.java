@@ -14,9 +14,9 @@ public class Player {
 	private String answerPath;
 	private long answerModTime;
 	
-	public Player(String name, String identifier, String pathToFolder){
-		this.name = name;
-		this.identifier = identifier;
+	public Player(ClientProfile cProfile, String pathToFolder){
+		name = cProfile.getPlayerName();
+		identifier = cProfile.getIdentifier();
 		answerPath = pathToFolder + ".answer_" + identifier;
 		try {
 			if (Files.exists(Paths.get(answerPath)))
