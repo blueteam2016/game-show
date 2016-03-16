@@ -22,7 +22,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private RosterTableModel model;
 	RosterScreen(Game g){
 		game = g;
-		model = new RosterTableModel(game.getRoster());
+		model = new RosterTableModel(game);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		table = new JTable(model);
 		

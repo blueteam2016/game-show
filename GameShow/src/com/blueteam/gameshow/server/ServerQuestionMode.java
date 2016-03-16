@@ -32,7 +32,6 @@ public class ServerQuestionMode extends JPanel{
 		qScreen = s;
 		game = g;
 		
-		
 		//make timer
 		timeRemaining = new JLabel("Time Remaining: ");
 		timer = new Timer(1000, new ActionListener(){
@@ -47,7 +46,6 @@ public class ServerQuestionMode extends JPanel{
 		});
 		
 		//set bottom 3 buttons
-		
 		back = new JButton("Back");
 		back.setActionCommand("back");
 		back.addActionListener(new ActionListener(){
@@ -59,8 +57,7 @@ public class ServerQuestionMode extends JPanel{
 		if(game.getQuiz().isFirstQuestion()){
 			back.setEnabled(false);
 		}
-		
-		
+			
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
 		pause.addActionListener(new ActionListener(){
@@ -110,7 +107,7 @@ public class ServerQuestionMode extends JPanel{
 		}
 	
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
-		countdown = new JLabel("00:"+seconds);
+		countdown = new JLabel(numberText(seconds/60) + ":" + numberText(seconds%60));
 		
 		
 		//set questions and answers
