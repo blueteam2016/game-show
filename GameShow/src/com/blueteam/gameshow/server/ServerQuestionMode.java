@@ -128,6 +128,8 @@ public class ServerQuestionMode extends JPanel{
 		//organizes components in visually appealing manner
 		
 		removeAll();
+		//Sets layout
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		add(question);
 		for(int i=0; i<answers.size(); i++){
@@ -144,8 +146,6 @@ public class ServerQuestionMode extends JPanel{
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
-		//Sets layout
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 	}
 	
 	public void startTimer(){	

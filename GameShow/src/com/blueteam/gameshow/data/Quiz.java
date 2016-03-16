@@ -57,7 +57,7 @@ public class Quiz {
 					time = Integer.parseInt(questionElement.getElementsByTagName("time").item(0).getTextContent());
 				}catch(Exception e){time = Profile.getDefaultTime();}
 				//Fine for now, sets time t=0 to default time
-				if(time > Profile.getDefaultTime())
+				if(time < Profile.getDefaultTime())
 					time = Profile.getDefaultTime();
 				questions[index] = new Question(questionString,answers,explanation,pointValue,time);
 			}
