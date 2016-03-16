@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ClientQuestionMode extends JPanel implements ActionListener {
+public class ClientQuestionMode extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientWindow clientWindow;
@@ -19,65 +19,50 @@ public class ClientQuestionMode extends JPanel implements ActionListener {
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
-	private Timer questionTimer;
 	private static int choice;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
-		questionTimer = new Timer(1, this);
 	}
 	
 	public void register() {
 		clientIO = clientWindow.getClientIO();
-		questionTimer.start();
+		
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		while (true) {
-			question = clientIO.getQuestion();
-			questScreen.setQuestion(question);
-			this.removeAll();
-			questionText = new JLabel(question.getText());
-			answerChoices = question.getAnswers();
+	public void run() {
+		question = clientIO.getQuestion();
+		questScreen.setQuestion(question);
+		this.removeAll();
+		questionText = new JLabel(question.getText());
+		answerChoices = question.getAnswers();
 		
-			answerButtons = new ArrayList<AnswerButton>();
-			displayAnswers = new JPanel();
-			displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
+		answerButtons = new ArrayList<AnswerButton>();
+		displayAnswers = new JPanel();
+		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
 		
-			for(int i = 0; i < answerChoices.length; i++)
-			{
-				AnswerButton answerSelect = new AnswerButton();
-				answerButtons.add(answerSelect);
-				JLabel answerText = new JLabel(answerChoices[i].getText());
+		for(int i = 0; i < answerChoices.length; i++)
+		{
+			AnswerButton answerSelect = new AnswerButton();
+			answerButtons.add(answerSelect);
+			JLabel answerText = new JLabel(answerChoices[i].getText());
 			
-				JPanel answer = new JPanel();
-				answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
-				answer.add(answerSelect);
-				answer.add(answerText);
-				displayAnswers.add(answer);
-			}
-			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			this.add(questionText);
-			this.add(displayAnswers);
-			questScreen.goToQuestionMode();
+			JPanel answer = new JPanel();
+			answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
+			answer.add(answerSelect);
+			answer.add(answerText);
+			displayAnswers.add(answer);
 		}
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(questionText);
+		this.add(displayAnswers);
+		questScreen.goToQuestionMode();
 	}
 
 	public static int getChoice() {
 		return choice;
-	}
-	
-	private static String numberText(int timeNum) {
-		String numberText = "";
-		if (timeNum >= 10)
-			numberText = "" + timeNum;
-		else if (timeNum < 10 && timeNum > 0)
-			numberText = "0" + timeNum;
-		else
-			numberText = "00";
-		return numberText;
 	}
 	
 	class AnswerButton extends JButton implements ActionListener {
