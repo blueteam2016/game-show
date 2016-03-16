@@ -126,7 +126,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 					e.printStackTrace();
 				}
 			}
-				
+			file.delete();
 		}
 	}
 }
