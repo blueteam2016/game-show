@@ -93,4 +93,12 @@ public class Roster implements ActionListener{
 			endQuestion();
 		}
 	}
+	
+	public boolean isFound(String identifier) {
+		for (Team team : teams)
+			if (team.isFound(identifier))
+				return true;
+		return false;
+	}
+	
 }

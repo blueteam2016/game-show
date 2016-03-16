@@ -151,16 +151,16 @@ public class RegistrationScreen extends JPanel{
 				labelText = servFoldBrowser.getText();      		
 				stringWidth = servFoldBrowser.getFontMetrics(labelFont).stringWidth(labelText);
 				componentWidth =servFoldBrowser.getWidth();
-				widthRatio = (double)componentWidth / (double)stringWidth;
+				widthRatio = (double)componentWidth / (double)6;
 				newFontSize = (int)(labelFont.getSize() * widthRatio);
 				componentHeight = servFoldBrowser.getHeight();
 				fontSizeToUse = Math.min(newFontSize, componentHeight);
+				fontSizeToUse = Math.min(fontSizeToUse, (int) widthRatio);
 				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
 				for (JButton field:garn3){
 					field.setFont(newFont);
 				}	
 			}
-
 		});
 	} 
 
@@ -221,9 +221,29 @@ public class RegistrationScreen extends JPanel{
 
 	}
 
-	
+	private static String correctCaps(String phrase){
+		phrase += " ";
+		
+		ArrayList<String> words = new ArrayList<String>();
+		String correct = "";
+		int oldIndex = 0;
+		int spaceIndex = phrase.indexOf(' ');
+		while(oldIndex<phrase.length() && spaceIndex!=-1){
+			words.add(phrase.substring(oldIndex, spaceIndex));
+			oldIndex = spaceIndex+1;
+			spaceIndex = phrase.indexOf(' ', oldIndex);
+		}
+		
+		
+		for(int i=0; i<words.size(); i++){
+			String w = words.get(i).toLowerCase();
+			w = w.substring(0,1).toUpperCase() + w.substring(1);
+			correct += w + " ";
+		}
+		
+		return correct;	
+	}
 
-	
 	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
