@@ -7,6 +7,7 @@ public class Team {
 	private double score;
 	private double latestPercentage;
 	private String name;
+	private int numResponses;
 	private boolean[] answerReceived;
 	private boolean[] answerCorrect;
 	
@@ -15,8 +16,8 @@ public class Team {
 		members = new ArrayList<Player>();
 		score = 0;
 		latestPercentage = 0;
-		answerReceived = new boolean[];
-		answerCorrect = new boolean[];
+		//answerReceived = new boolean[];
+		//answerCorrect = new boolean[];
 	}
 	
 	public double getPercentage(){
