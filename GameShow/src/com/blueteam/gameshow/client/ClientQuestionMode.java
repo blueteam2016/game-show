@@ -33,32 +33,33 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	
 	@Override
 	public void run() {
-		question = clientIO.getQuestion();
-		questScreen.setQuestion(question);
-		this.removeAll();
-		questionText = new JLabel(question.getText());
-		answerChoices = question.getAnswers();
+		while (true) {
+			question = clientIO.getQuestion();
+			questScreen.setQuestion(question);
+			this.removeAll();
+			questionText = new JLabel(question.getText());
+			answerChoices = question.getAnswers();
 		
-		answerButtons = new ArrayList<AnswerButton>();
-		displayAnswers = new JPanel();
-		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
+			answerButtons = new ArrayList<AnswerButton>();
+			displayAnswers = new JPanel();
+			displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
 		
-		for(int i = 0; i < answerChoices.length; i++)
-		{
-			AnswerButton answerSelect = new AnswerButton();
-			answerButtons.add(answerSelect);
-			JLabel answerText = new JLabel(answerChoices[i].getText());
+			for(int i = 0; i < answerChoices.length; i++) {
+				AnswerButton answerSelect = new AnswerButton();
+				answerButtons.add(answerSelect);
+				JLabel answerText = new JLabel(answerChoices[i].getText());
 			
-			JPanel answer = new JPanel();
-			answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
-			answer.add(answerSelect);
-			answer.add(answerText);
-			displayAnswers.add(answer);
+				JPanel answer = new JPanel();
+				answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
+				answer.add(answerSelect);
+				answer.add(answerText);
+				displayAnswers.add(answer);
+			}
+			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			this.add(questionText);
+			this.add(displayAnswers);
+			questScreen.goToQuestionMode();
 		}
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(questionText);
-		this.add(displayAnswers);
-		questScreen.goToQuestionMode();
 	}
 
 	public static int getChoice() {
