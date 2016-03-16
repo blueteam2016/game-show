@@ -4,10 +4,15 @@ package com.blueteam.gameshow.server;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.channels.FileLock;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import com.blueteam.gameshow.data.ClientProfile;
 import com.blueteam.gameshow.data.Player;
 import com.blueteam.gameshow.data.Roster;
 
@@ -15,12 +20,12 @@ import com.blueteam.gameshow.data.Roster;
 
 public class RosterTableModel extends AbstractTableModel implements ActionListener {
 	private static final long serialVersionUID = -1561458490688644986L;
-	private Roster rost;
+	private Roster roster;
 	private String pathToFolder;
 	private Timer scanTime;
 	
 	public RosterTableModel(Game game){
-		rost = game.getRoster();
+		roster = game.getRoster();
 		pathToFolder = game.getProfile().getClientFolderLoc();
 		scanTime = new Timer(1, this);
 	}
@@ -35,8 +40,8 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	
 	public int getRowCount() {
 		int numPlayers = 0;
-		for(int t=0; t<rost.numTeams(); t++){
-			numPlayers+=rost.getTeam(t).numPlayers();
+		for(int t=0; t<roster.numTeams(); t++){
+			numPlayers+=roster.getTeam(t).numPlayers();
 		}
 		return numPlayers;
 	}
@@ -46,39 +51,39 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	}
 
 	public String getValueAt(int rowIndex, int columnIndex) {
-		for(int t=0; t<rost.numTeams(); t++){
-			for(int p = 0; p<rost.getTeam(t).numPlayers(); p++){
+		for(int t=0; t<roster.numTeams(); t++){
+			for(int p = 0; p<roster.getTeam(t).numPlayers(); p++){
 				if(rowIndex==0){
 					if(columnIndex == 0){
-						return rost.getTeam(t).getPlayer(p).getName();
+						return roster.getTeam(t).getPlayer(p).getName();
 					}else{
-						return rost.getTeam(t).getName();
+						return roster.getTeam(t).getName();
 					}
 				}else{
 					rowIndex--;
 				}
 			}
 		}
-		int t = rost.numTeams()-1;
+		int t = roster.numTeams()-1;
 		if(columnIndex == 0){
-			return rost.getTeam(t).getPlayer(rost.getTeam(t).numPlayers()-1).getName();
+			return roster.getTeam(t).getPlayer(roster.getTeam(t).numPlayers()-1).getName();
 		}else{
-			return rost.getTeam(t).getName();
+			return roster.getTeam(t).getName();
 		}
 	}
 	
 	public Player getStudentAt(int rowIndex){
-		for(int t=0; t<rost.numTeams(); t++){
-			for(int p = 0; p<rost.getTeam(t).numPlayers(); p++){
+		for(int t=0; t<roster.numTeams(); t++){
+			for(int p = 0; p<roster.getTeam(t).numPlayers(); p++){
 				if(rowIndex==0){
-					return rost.getTeam(t).getPlayer(p);
+					return roster.getTeam(t).getPlayer(p);
 				}else{
 					rowIndex--;
 				}
 			}
 		}
-		int t = rost.numTeams()-1;
-		return rost.getTeam(t).getPlayer(rost.getTeam(t).numPlayers()-1);
+		int t = roster.numTeams()-1;
+		return roster.getTeam(t).getPlayer(roster.getTeam(t).numPlayers()-1);
 	}
 	
 	public void openRegistration(){
@@ -91,7 +96,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	
 	public void addMember(Player p, String teamName){
 		System.out.println(p.getName() + " " + teamName);
-		rost.addPlayer(teamName, p);
+		roster.addPlayer(teamName, p);
 		fireTableDataChanged();
 	}
 
@@ -105,7 +110,23 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 			}
 		});
 		for (File file : ansFiles) {
-			file.delete();	
+			String fileName = file.getName();
+			String identifier = fileName.replaceFirst(".profile_", "");
+			if (!roster.isFound(identifier)) {
+				try {
+					FileInputStream fIn = new FileInputStream(file);
+					FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
+					ObjectInputStream profIn = new ObjectInputStream(fIn);
+					ClientProfile pIn = (ClientProfile)profIn.readObject();
+					fLock.close();
+					profIn.close();
+					Player newPlayer = new Player(pIn, pathToFolder);
+					addMember(newPlayer, pIn.getTeamName());
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+				
 		}
 	}
 }
