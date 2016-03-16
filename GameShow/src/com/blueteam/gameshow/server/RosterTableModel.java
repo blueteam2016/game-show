@@ -3,7 +3,8 @@ package com.blueteam.gameshow.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
+import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -12,12 +13,15 @@ import com.blueteam.gameshow.data.Roster;
 
 
 
-public class RosterTableModel extends AbstractTableModel implements ActionListener{
+public class RosterTableModel extends AbstractTableModel implements ActionListener {
+	private static final long serialVersionUID = -1561458490688644986L;
 	private Roster rost;
+	private String pathToFolder;
 	private Timer scanTime;
 	
-	public RosterTableModel(Roster r){
-		rost = r;
+	public RosterTableModel(Game game){
+		rost = game.getRoster();
+		pathToFolder = game.getProfile().getClientFolderLoc();
 		scanTime = new Timer(1, this);
 	}
 	
@@ -93,7 +97,15 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 
 
 	public void actionPerformed(ActionEvent arg0) {
-		//System.out.println("REGISTER");
-		//look for registrations DANIEL!!!!!!!!!!
+		File folder = new File(pathToFolder);
+		File[] ansFiles = folder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return name.matches(".profile_*");
+			}
+		});
+		for (File file : ansFiles) {
+			file.delete();	
+		}
 	}
 }
