@@ -27,17 +27,21 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		moveOn = new JButton("Continue");
 		moveOn.addActionListener(this);
 		
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		newQuestion();
 	}
 	
 	public void newQuestion(){
 		removeAll();
+
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		
-		explanation = new JLabel("Explanation: " + game.getQuiz().getCurrentQuestion().getExplanationText());
+		
+		String explanationString = game.getQuiz().getCurrentQuestion().getExplanationText();
+		if(explanationString != null)
+			explanation = new JLabel("Explanation: " + game.getQuiz().getCurrentQuestion().getExplanationText());
 		
 		answerLabel = new ArrayList<JLabel>();
 		
@@ -55,7 +59,8 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 			
 		}
 		
-		add(explanation);
+		if(explanationString != null)
+			add(explanation);
 		
 		add(moveOn);
 	}
