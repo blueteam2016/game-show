@@ -243,6 +243,27 @@ public class RegistrationScreen extends JPanel{
 		return correct;	
 	}
 	
+	private String correctCaps(String phrase){
+		ArrayList<String> words = new ArrayList<String>();
+		String correct = "";
+		int oldIndex = 0;
+		int spaceIndex = phrase.indexOf(' ');
+		while(spaceIndex<phrase.length() && oldIndex<phrase.length() && spaceIndex!=-1){
+			words.add(phrase.substring(oldIndex, spaceIndex));
+			oldIndex = spaceIndex+1;
+			spaceIndex = phrase.indexOf(' ', oldIndex);
+		}
+		
+		
+		for(int i=0; i<words.size(); i++){
+			String w = words.get(i).toLowerCase();
+			w = w.substring(0,1).toUpperCase() + w.substring(1);
+			correct += w;
+		}
+		
+		return correct;	
+	}
+	
 	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){

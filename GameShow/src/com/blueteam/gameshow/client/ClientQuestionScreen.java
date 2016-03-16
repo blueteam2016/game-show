@@ -88,6 +88,7 @@ public class ClientQuestionScreen extends JPanel{
 	public void register() {
 		cQuestion.register();
 		goToNoQuestion();
+		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
 	}
 
 }

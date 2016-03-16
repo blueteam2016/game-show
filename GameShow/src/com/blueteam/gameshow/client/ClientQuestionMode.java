@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ClientQuestionMode extends JPanel implements ActionListener {
+public class ClientQuestionMode extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientWindow clientWindow;
@@ -19,22 +19,20 @@ public class ClientQuestionMode extends JPanel implements ActionListener {
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
-	private Timer questionTimer;
 	private static int choice;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
-		questionTimer = new Timer(1, this);
 	}
 	
 	public void register() {
 		clientIO = clientWindow.getClientIO();
-		questionTimer.start();
+		
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void run() {
 		while (true) {
 			question = clientIO.getQuestion();
 			questScreen.setQuestion(question);
@@ -46,8 +44,7 @@ public class ClientQuestionMode extends JPanel implements ActionListener {
 			displayAnswers = new JPanel();
 			displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
 		
-			for(int i = 0; i < answerChoices.length; i++)
-			{
+			for(int i = 0; i < answerChoices.length; i++) {
 				AnswerButton answerSelect = new AnswerButton();
 				answerButtons.add(answerSelect);
 				JLabel answerText = new JLabel(answerChoices[i].getText());
@@ -67,17 +64,6 @@ public class ClientQuestionMode extends JPanel implements ActionListener {
 
 	public static int getChoice() {
 		return choice;
-	}
-	
-	private static String numberText(int timeNum) {
-		String numberText = "";
-		if (timeNum >= 10)
-			numberText = "" + timeNum;
-		else if (timeNum < 10 && timeNum > 0)
-			numberText = "0" + timeNum;
-		else
-			numberText = "00";
-		return numberText;
 	}
 	
 	class AnswerButton extends JButton implements ActionListener {
