@@ -165,6 +165,8 @@ public class ServerQuestionMode extends JPanel{
 		}	
 
 		public void yes(){
+			pause.setText("Pause");
+			pause.setActionCommand("pause");
 			qScreen.goToAnswerMode();
 			popUp.dispose();
 		}
