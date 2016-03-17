@@ -19,7 +19,7 @@ public class RegistrationScreen extends JPanel{
 	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton registerButton;
-	private JTextField name, teamName, servFoldText, clientFoldText;
+	private JTextArea name, teamName, servFoldText, clientFoldText;
 	private String clientName, clientTeamName, servFoldLoc, clientFoldLoc;
 	private JFileChooser folderChooser;
 	private JLabel infoPrompt;
@@ -39,7 +39,9 @@ public class RegistrationScreen extends JPanel{
 		JLabel BlankSpace = new JLabel("");
 		nameLabel = new JLabel("Name: ");
 		this.add(nameLabel);
-		name = new JTextField("");
+		name = new JTextArea("");
+		name.setLineWrap(true);
+		name.setWrapStyleWord(true);
 		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
@@ -54,8 +56,9 @@ public class RegistrationScreen extends JPanel{
 		JLabel BlankSpace2 = new JLabel("");
 		teamNameLabel = new JLabel("Team Name:");
 		this.add(teamNameLabel);
-		teamName = new JTextField("");
-		this.add(teamName);
+		teamName = new JTextArea("");
+		teamName.setLineWrap(true);
+		teamName.setWrapStyleWord(true);
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
@@ -63,6 +66,7 @@ public class RegistrationScreen extends JPanel{
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
+		this.add(teamName);
 		this.add(BlankSpace2);
 
 		serverOutputLabel = new JLabel("Server Output Folder");
@@ -70,7 +74,9 @@ public class RegistrationScreen extends JPanel{
 		servFoldBrowser = new JButton("Browse");
 		servFoldBrowser.addActionListener(new ServerButton());
 		this.add(servFoldBrowser);
-		servFoldText = new JTextField("");
+		servFoldText = new JTextArea("");
+		servFoldText.setLineWrap(true);
+		servFoldText.setWrapStyleWord(true);
 		servFoldText.setEditable(false);
 		this.add(servFoldText);
 
@@ -80,7 +86,9 @@ public class RegistrationScreen extends JPanel{
 		clientFoldBrowser = new JButton("Browse");
 		clientFoldBrowser.addActionListener(new ClientButton());
 		this.add(clientFoldBrowser);
-		clientFoldText = new JTextField("");
+		clientFoldText = new JTextArea("");
+		clientFoldText.setLineWrap(true);
+		clientFoldText.setWrapStyleWord(true);
 		clientFoldText.setEditable(false);
 		this.add(clientFoldText);
 
@@ -104,7 +112,7 @@ public class RegistrationScreen extends JPanel{
 				garn.add(clientOutputLabel);
 
 				
-				ArrayList<JTextField> garn2=new ArrayList();
+				ArrayList<JTextArea> garn2=new ArrayList();
 				garn2.add(name);
 				garn2.add(teamName);
 				garn2.add(servFoldText);
@@ -117,7 +125,7 @@ public class RegistrationScreen extends JPanel{
 				garn3.add(registerButton);
 
 				
-				for (JTextField field:garn2){
+				for (JTextArea field:garn2){
 					Font labelFont = field.getFont();
 					String labelText = field.getText();      		
 					int stringWidth = field.getFontMetrics(labelFont).stringWidth(labelText);
@@ -129,6 +137,8 @@ public class RegistrationScreen extends JPanel{
 					newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
 					if (newFont.getSize()<12)
 						newFont=new Font(labelFont.getName(), Font.PLAIN, 12);
+					if (newFont.getSize()>45)
+						newFont=new Font(labelFont.getName(), Font.PLAIN, 45);
 					field.setFont(newFont);
 				}
 
@@ -142,6 +152,8 @@ public class RegistrationScreen extends JPanel{
 				int componentHeight = serverOutputLabel.getHeight();
 				int fontSizeToUse = Math.min(newFontSize, componentHeight);
 				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
+				if (newFont.getSize()>45)
+					newFont=new Font(labelFont.getName(), Font.PLAIN, 45);
 				for (JLabel field:garn){
 					field.setFont(newFont);
 				}			
@@ -157,6 +169,8 @@ public class RegistrationScreen extends JPanel{
 				fontSizeToUse = Math.min(newFontSize, componentHeight);
 				fontSizeToUse = Math.min(fontSizeToUse, (int) widthRatio);
 				newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
+				if (newFont.getSize()>45)
+					newFont=new Font(labelFont.getName(), Font.PLAIN, 45);
 				for (JButton field:garn3){
 					field.setFont(newFont);
 				}	
