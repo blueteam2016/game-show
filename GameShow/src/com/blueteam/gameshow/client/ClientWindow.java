@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import com.blueteam.gameshow.data.ClientProfile;
 
-public class ClientWindow{
+public class ClientWindow {
 	
 	private JTabbedPane tabs;
 	private JPanel content;

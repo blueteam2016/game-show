@@ -1,12 +1,13 @@
 package com.blueteam.gameshow.server;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -116,6 +117,7 @@ public class ServerQuestionMode extends JPanel{
 		answers = new ArrayList<JLabel>();
 		for(int i=0; i<game.getQuiz().getCurrentQuestion().getAnswers().length; i++){
 			answers.add(new JLabel((char)(65+i) + ") " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
+			answers.get(i).setAlignmentX(LEFT_ALIGNMENT);
 		}
 		
 		setUpGUI();
@@ -127,12 +129,16 @@ public class ServerQuestionMode extends JPanel{
 		removeAll();
 		//Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		
-		add(question);
+		JPanel questionInfo = new JPanel();
+		questionInfo.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
+		questionInfo.add(question);
+		questionInfo.add(Box.createRigidArea(new Dimension(0,15)));
 		for(int i=0; i<answers.size(); i++){
-			add(answers.get(i));
+			questionInfo.add(answers.get(i));
+			questionInfo.add(Box.createRigidArea(new Dimension(0,5)));
 		}
-		
+		questionInfo.setAlignmentX(CENTER_ALIGNMENT);
+		add(questionInfo);
 		JPanel timePanel = new JPanel();
 		timePanel.add(timeRemaining);
 		timePanel.add(countdown);

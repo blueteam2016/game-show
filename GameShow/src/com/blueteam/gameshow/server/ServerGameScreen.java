@@ -2,18 +2,15 @@ package com.blueteam.gameshow.server;
 import javax.swing.JPanel;
 
 
-public class ServerGameScreen{
+public class ServerGameScreen {
 	private ResultMode result;
 	private ServerQuestionMode question;
 	private ServerAnswerMode answer;
-	
 	private JPanel currentMode;
-	
 	private ServerWindow servWin;
+	private Game game;
 	
-	Game game;
-	
-	ServerGameScreen(Game g, ServerWindow sw){
+	ServerGameScreen(Game g, ServerWindow sw) {
 		result = new ResultMode(g, this);
 		question = new ServerQuestionMode(g, this);
 		answer = new ServerAnswerMode(g, this);
@@ -24,13 +21,14 @@ public class ServerGameScreen{
 		currentMode = question;
 	}
 
-	public void goToAnswerMode(){
+	public void goToAnswerMode() {
 		answer.newQuestion();
 		
 		currentMode = answer;
 		servWin.update();
 	}
-	public void goToQuestionMode(){
+	
+	public void goToQuestionMode() {
 		//maybe call start/end Question in Roster
 		currentMode = question;
 		game.getQuiz().nextQuestion();
@@ -41,8 +39,8 @@ public class ServerGameScreen{
 		servWin.update();
 		
 	}
-	public void goToResultMode(){
-		if(game.getQuiz().isLastQuestion()){
+	public void goToResultMode() {
+		if(game.getQuiz().isLastQuestion()) {
 			result.lastQuestion();
 		}
 		currentMode = result;
@@ -51,16 +49,16 @@ public class ServerGameScreen{
 		servWin.update();
 	}
 	
-	public JPanel getCurrentMode(){
+	public JPanel getCurrentMode() {
 		return currentMode;
 	}
 	
-	public ServerQuestionMode getServerQuestionMode(){
+	public ServerQuestionMode getServerQuestionMode() {
 		return question;
 	}
 	
-	public boolean onQuestionMode(){
-		if(currentMode.equals(question)){
+	public boolean onQuestionMode() {
+		if(currentMode.equals(question)) {
 			return true;
 		}return false;
 	}
