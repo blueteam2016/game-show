@@ -69,39 +69,41 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		add(moveOn);
 		
-		allLabels = new ArrayList<JLabel>();
-		allLabels.add(question);
-		allLabels.add(explanation);
-		for(int y = 0; y< answerLabel.size(); y++){
-			
-			allLabels.add(answerLabel.get(y));
-			
-		}
+		
 		
 		
 		
 		 addComponentListener(new ComponentAdapter() {
 	            public void componentResized(ComponentEvent e) {
 	            	
-	            	for(JLabel label: allLabels){
+	            	allLabels = new ArrayList<JLabel>();
+	        		allLabels.add(question);
+	        		allLabels.add(explanation);
+	        		for(int y = 0; y< answerLabel.size(); y++){
+	        			
+	        			allLabels.add(answerLabel.get(y));
+	        			
+	        		}
 	            	
-	            	Font labelFont = label.getFont();
+	            	for(JLabel l: allLabels){
 	            	
-	            	String labelText = label.getText();
+	            	Font labelFont = l.getFont();
 	            	
-	            	int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
+	            	String labelText = l.getText();
 	            	
-	            	int componentWidth = label.getWidth();
+	            	int stringWidth = l.getFontMetrics(labelFont).stringWidth(labelText);
+	            	
+	            	int componentWidth = l.getWidth();
 	            	
 	            	double widthRatio = (double)componentWidth / (double)stringWidth;
 	            	
 	            	int newFontSize = (int)(labelFont.getSize() * widthRatio);
 	            	
-	            	int componentHeight = label.getHeight();
+	            	int componentHeight = l.getHeight();
 	            	
 	            	int fontSizeToUse = Math.min(newFontSize, componentHeight);
 	            	
-	            	label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
+	            	l.setFont(new Font(labelFont.getName(), labelFont.getStyle(), fontSizeToUse));
 	             
 	            	}
 	            	
@@ -121,10 +123,12 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	            	
 	            	int fontSizeToUse = Math.min(newFontSize, componentHeight);
 	            	
-	            	moveOn.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
+	            	moveOn.setFont(new Font(labelFont.getName(), labelFont.getStyle(), fontSizeToUse));
 	               
 	            }
 	        });
+	        
+	        
 			
 	}
 
