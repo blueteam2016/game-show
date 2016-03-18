@@ -21,6 +21,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private int selectedRow;
 	private Game game;
 	private RosterTableModel model;
+	
 	RosterScreen(Game g){
 		game = g;
 		model = new RosterTableModel(game);
