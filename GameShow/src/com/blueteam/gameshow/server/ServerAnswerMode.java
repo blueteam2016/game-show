@@ -1,5 +1,6 @@
 package com.blueteam.gameshow.server;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -39,7 +40,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	public void newQuestion(){
 		removeAll();
 
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setLayout(new GridLayout(0,1,30,30));
 		
 		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		
@@ -57,16 +58,27 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 				answerLabel.add(new JLabel((char)(65+x) + ") " + answers[x].getText()));	
 		}
 		
+		//adds question
+		
+		question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		add(question);
+		
+		//adds correct answer(s)
+		
 		for(int y = 0; y< answerLabel.size(); y++){
 			
 			add(answerLabel.get(y));
 			
 		}
 		
+		//add explanation
+		
 		if(explanationString != null)
 			add(explanation);
 		
+		//add button
+		
+		moveOn.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		add(moveOn);
 		
 		
