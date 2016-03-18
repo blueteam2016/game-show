@@ -10,30 +10,22 @@ import javax.swing.event.ChangeListener;
 
 import com.blueteam.gameshow.data.Profile;
 
-
-
 public class ProfileScreen extends JPanel{
 
 	private static final long serialVersionUID = 85730199279428197L;
 	private JLabel defTimeLabel, servFoldLabel, clientFoldLabel, defQValLabel, qFileLabel, sec, point;
 	private JButton qFileBrowser, servFoldBrowser, clientFoldBrowser, confirmButton;
 	private JTextArea qFileText, servFoldText, clientFoldText;
-
 	private JSpinner spinnerDefTime, spinnerDefVal;
-
 	private JFileChooser folderChooser;
-
 	private ServerWindow serverWindowParameter;
-	
 	private Profile prof;
-
 
 	public ProfileScreen(Game g, ServerWindow sw) {
 		setLayout(new GridLayout(6,3,10,10));
 
 		prof = g.getProfile();
 		serverWindowParameter = sw;
-
 
 		defTimeLabel = new JLabel("Default Time");
 		add(defTimeLabel);
@@ -42,7 +34,6 @@ public class ProfileScreen extends JPanel{
 		add(spinnerDefTime);
 		sec = new JLabel("seconds");
 		add(sec);	
-
 
 		servFoldLabel = new JLabel("Server Output Folder");
 		add(servFoldLabel);
@@ -55,7 +46,6 @@ public class ProfileScreen extends JPanel{
 		servFoldText.setEditable(false);
 		add(servFoldText);
 
-
 		clientFoldLabel = new JLabel("Client Output Folder");
 		add(clientFoldLabel);
 		clientFoldBrowser = new JButton("Browse");
@@ -67,7 +57,6 @@ public class ProfileScreen extends JPanel{
 		clientFoldText.setEditable(false);
 		add(clientFoldText);
 
-
 		defQValLabel = new JLabel("Default Question Value");
 		add(defQValLabel);
 		spinnerDefVal = new JSpinner(new SpinnerNumberModel(10, 1, 999, 1));
@@ -75,7 +64,6 @@ public class ProfileScreen extends JPanel{
 		add(spinnerDefVal);
 		point = new JLabel("points");
 		add(point);
-
 
 		qFileLabel = new JLabel("Question File");
 		add(qFileLabel);
