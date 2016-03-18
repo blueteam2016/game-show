@@ -61,6 +61,7 @@ public class ServerQuestionMode extends JPanel{
 			
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
+		pause.setPreferredSize(new Dimension(80,40));
 		pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(e.getActionCommand().equals("pause")){
@@ -74,7 +75,6 @@ public class ServerQuestionMode extends JPanel{
 				}
 			}
 		});
-		
 		skip = new JButton("Skip");
 		skip.setActionCommand("skip");
 		skip.addActionListener(new ActionListener(){
