@@ -22,13 +22,6 @@ public class Game {
 	public Game(){
 		roster = new Roster();
 		profile = new Profile();
-		questionPath = profile.getServerFolderLoc() + ".question";
-		try {
-			Files.deleteIfExists(Paths.get(questionPath));
-			Files.createFile(Paths.get(questionPath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void createQuiz() throws Exception{
@@ -49,6 +42,17 @@ public class Game {
 		}else{
 			return null;
 		}	
+	}
+	
+	public boolean openIO() {
+		questionPath = profile.getServerFolderLoc() + ".question";
+		try {
+			Files.deleteIfExists(Paths.get(questionPath));
+			Files.createFile(Paths.get(questionPath));
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
 	}
 	
 	private void truncate(FileOutputStream fOut) throws IOException {

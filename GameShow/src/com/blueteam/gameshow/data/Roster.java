@@ -12,7 +12,7 @@ public class Roster implements ActionListener{
 	
 	public Roster(){
 		teams = new ArrayList<Team>();
-		scanTime = new Timer(1, this);
+		scanTime = new Timer(10, this);
 	}
 	
 	public Team getTeam(int t){
@@ -69,12 +69,15 @@ public class Roster implements ActionListener{
 	}
 
 	public void startQuestion(){
+		for(int i = 0; i < teams.size(); i++){
+			teams.get(i).resetScore();
+		}
 		scanTime.start();
 	}
 	
 	public void endQuestion(){
 		scanTime.stop();
-		for(int i=0; i<teams.size(); i++){
+		for(int i = 0; i < teams.size(); i++){
 			teams.get(i).calculateScore();
 		}
 	}
@@ -85,6 +88,7 @@ public class Roster implements ActionListener{
 		
 		allResponded = true;
 		for(int i=0; i<teams.size(); i++){
+			teams.get(i).update();
 			if(!teams.get(i).hasEveryoneResponded()){
 				allResponded = false;
 			}

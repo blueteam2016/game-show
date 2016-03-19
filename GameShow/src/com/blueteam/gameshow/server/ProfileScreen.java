@@ -20,8 +20,10 @@ public class ProfileScreen extends JPanel{
 	private JFileChooser folderChooser;
 	private ServerWindow serverWindowParameter;
 	private Profile prof;
+	private Game game;
 
 	public ProfileScreen(Game g, ServerWindow sw) {
+		game = g;
 		setLayout(new GridLayout(6,3,10,10));
 
 		prof = g.getProfile();
@@ -170,6 +172,8 @@ public class ProfileScreen extends JPanel{
 			
 			if (!prof.isComplete()){
 				JOptionPane.showMessageDialog(null, "Enter all of the required information.");
+			}else if (!game.openIO()){
+				JOptionPane.showMessageDialog(null, "Server path invalid!");
 			}else{
 				serverWindowParameter.enableTabs();
 			}

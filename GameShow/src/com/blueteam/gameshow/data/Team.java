@@ -7,7 +7,6 @@ public class Team {
 	private double score;
 	private double latestPercentage;
 	private String name;
-	private int numResponses;
 	private boolean[] answerReceived;
 	private boolean[] answerCorrect;
 	
@@ -16,8 +15,6 @@ public class Team {
 		members = new ArrayList<Player>();
 		score = 0;
 		latestPercentage = 0;
-		//answerReceived = new boolean[];
-		//answerCorrect = new boolean[];
 	}
 	
 	public double getPercentage(){
@@ -41,10 +38,11 @@ public class Team {
 	}
 	
 	boolean hasEveryoneResponded(){
-		calculatePercentage();
-		if(numResponses == members.size()){
-			return true;
-		}return false;
+		for (boolean responded : answerReceived) {
+			if (!responded)
+				return false;
+		}
+		return true;
 	}
 	
 	public void addMember(Player newPlayer){
@@ -54,6 +52,8 @@ public class Team {
 			}
 		}
 		alphaAdd(newPlayer);
+		answerReceived = new boolean[members.size()];
+		answerCorrect = new boolean[members.size()];
 	}
 	
 	private void alphaAdd(Player p){
@@ -75,18 +75,15 @@ public class Team {
 	
 	public void unregisterStudent(Player p){
 		members.remove(p);
+		answerReceived = new boolean[members.size()];
+		answerCorrect = new boolean[members.size()];
 	}
 	
 	public void calculatePercentage(){
 		int numCorrect = 0;
-		numResponses = 0;
-		for(int i=0; i<members.size(); i++){
-			if(members.get(i).getAnswer()!=null){
-				numResponses++;
-				if(members.get(i).getAnswer().isCorrect()){
-					numCorrect++;
-				}
-			}
+		for(int i = 0; i < members.size(); i++){
+			if (answerReceived[i] && answerCorrect[i])
+				numCorrect++;
 		}
 		latestPercentage = ((double)numCorrect)/(members.size());
 	}
@@ -101,6 +98,23 @@ public class Team {
 			if (player.getIdentifier().equals(identifier))
 				return true;
 		return false;
+	}
+
+	public void update() {
+		for (int i = 0; i < answerReceived.length; i++) {
+			if (!answerReceived[i]) {
+				Answer ans = members.get(i).getAnswer();
+				if (ans != null) {
+					answerCorrect[i] = ans.isCorrect();
+					answerReceived[i] = true;
+				}
+			}
+		}
+	}
+
+	public void resetScore() {
+		answerReceived = new boolean[members.size()];
+		answerCorrect = new boolean[members.size()];
 	}
 		
 }
