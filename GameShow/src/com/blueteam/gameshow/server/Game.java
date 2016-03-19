@@ -76,26 +76,30 @@ public class Game {
 	
 	public void destroy() {
 		try {
-			File folder = new File(profile.getClientFolderLoc());
-			File[] ansFiles = folder.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(final File dir, final String name) {
-					return name.matches(".answer_*");
+			String clientPath = profile.getClientFolderLoc();
+			if (clientPath != null) {
+				File folder = new File(clientPath);
+				File[] ansFiles = folder.listFiles(new FilenameFilter() {
+					@Override
+					public boolean accept(final File dir, final String name) {
+						return name.contains(".answer_");
+					}
+				});
+				for (File file : ansFiles) {
+					file.delete();	
 				}
-			});
-			for (File file : ansFiles) {
-				file.delete();	
-			}
-			File[] profFiles = folder.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(final File dir, final String name) {
-					return name.matches(".profile_*");
+				File[] profFiles = folder.listFiles(new FilenameFilter() {
+					@Override
+					public boolean accept(final File dir, final String name) {
+						return name.contains(".profile_");
+					}
+				});
+				for (File file : profFiles) {
+					file.delete();	
 				}
-			});
-			for (File file : profFiles) {
-				file.delete();	
 			}
-			Files.deleteIfExists(Paths.get(questionPath));
+			if (questionPath != null)
+				Files.deleteIfExists(Paths.get(questionPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

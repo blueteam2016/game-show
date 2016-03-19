@@ -106,7 +106,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 		File[] ansFiles = folder.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return name.matches(".profile_*");
+				return name.contains(".profile_");
 			}
 		});
 		for (File file : ansFiles) {
