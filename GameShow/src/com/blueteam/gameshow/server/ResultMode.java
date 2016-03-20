@@ -82,7 +82,6 @@ public class ResultMode extends JPanel{
 		int height = getHeight();
 		int rowSize = (int) ((double)height/model.getRowCount());
 
-
 		Font font = table.getFont();
 		double widthRatio = ((double)table.getWidth()/2) / ((double)getStringWidth(font));
 		int newFontSize = (int)(font.getSize() * widthRatio);

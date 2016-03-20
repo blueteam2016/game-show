@@ -41,8 +41,9 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	public void newQuestion(){
 		removeAll();
 
-		setLayout(new GridLayout(0,1));
+		//setLayout(new GridLayout(0,1));
 		//setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setLayout(new BorderLayout());
 		
 		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		
@@ -64,25 +65,33 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		//adds question
 		question.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		add(question);
+		question.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+		add(question, BorderLayout.NORTH);
 		
 		//adds correct answer(s)
+		JPanel answerPanel = new JPanel();
+		answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.PAGE_AXIS));
 		JLabel ans;
 		for(int y = 0; y< answerLabel.size(); y++){
 			ans = answerLabel.get(y);
-			add(ans);
+			answerPanel.add(ans);
 			ans.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+			answerPanel.add(Box.createRigidArea(new Dimension(10,10)));
 		}
 		
 		//add explanation
 		if(explanationString != null){
-			add(explanation);
+			answerPanel.add(explanation);
 			explanation.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		}
 		
+		add(answerPanel, BorderLayout.CENTER);
+		
 		//add button
-		add(moveOn);
-		moveOn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(moveOn);
+		add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		
 		resizeFonts();
 	}
@@ -107,9 +116,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		double widthRatio = (double)getWidth() / ((double)longWidth+20);
 		int newFontSize = (int)(labelFont.getSize() * widthRatio);
-		int componentHeight = allLabels.get(0).getHeight();
-		int fontSize = Math.min(newFontSize, componentHeight);
-		Font newFont = new Font(labelFont.getName(), Font.PLAIN, fontSize);
+		Font newFont = new Font(labelFont.getName(), Font.PLAIN, newFontSize);
 		if (newFont.getSize()<12){
 			newFont=new Font(labelFont.getName(), Font.PLAIN, 12);
 		}
@@ -121,12 +128,11 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		moveOn.setFont(newFont);
 		explanation.setFont(newFont);
 		
-		/*int height = moveOn.getFontMetrics(newFont).getHeight();
-		int width = moveOn.getFontMetrics(newFont).stringWidth(moveOn.getText());
-		Dimension buttonSize = new Dimension(width + 25, height + 10);
+		int height = moveOn.getFontMetrics(newFont).getHeight();
+		int width = moveOn.getFontMetrics(newFont).stringWidth(moveOn.getText()) * 2;
+		Dimension buttonSize = new Dimension(width, height + 10);
 		moveOn.setPreferredSize(buttonSize);
-		System.out.println(buttonSize);
-		*/
+		//System.out.println(buttonSize);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {

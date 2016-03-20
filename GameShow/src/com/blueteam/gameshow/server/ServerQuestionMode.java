@@ -183,7 +183,7 @@ public class ServerQuestionMode extends JPanel {
 		
 		//sets font size to something that will fit the longest element(as determined earlier)
 		double widthRatio = (double)getWidth()/((double)longWidth+10);
-		int fontSize = (int) Math.min(answers.get(0).getHeight(), ansFont.getSize()*widthRatio);
+		int fontSize = (int) (ansFont.getSize()*widthRatio);
 		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
 		if (newFont.getSize()<12)
 			newFont=new Font(ansFont.getName(), Font.PLAIN, 12);
@@ -195,6 +195,7 @@ public class ServerQuestionMode extends JPanel {
 		for(int i=0; i<textBits.length; i++){
 			textBits[i].setFont(newFont);
 		}
+		
 	}
 
 	public void startTimer() {
