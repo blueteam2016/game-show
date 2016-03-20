@@ -24,7 +24,7 @@ public class ServerQuestionMode extends JPanel {
 
 		qScreen = s;
 		game = g;
-
+		
 		// make timer
 		timeRemaining = new JLabel("Time Remaining: ");
 		timer = new Timer(1000, new ActionListener() {
@@ -134,8 +134,7 @@ public class ServerQuestionMode extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		JPanel questionInfo = new JPanel();
-		questionInfo
-				.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
+		questionInfo.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
 		questionInfo.add(question);
 		questionInfo.add(Box.createRigidArea(new Dimension(0, 15)));
 		for (int i = 0; i < answers.size(); i++) {
