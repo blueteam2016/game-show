@@ -38,6 +38,7 @@ public class Roster implements ActionListener{
 	
 	public void addPlayer(String teamName, Player p){
 		boolean found = false;
+		checkRepeat(p);
 		for(int t=0; t<teams.size() && !found; t++){
 			if(teams.get(t).getName().equals(teamName)){
 				found = true;
@@ -50,22 +51,28 @@ public class Roster implements ActionListener{
 		}
 	}
 	
-	private void addTeam(String teamName){
-		//adds team to correct alphabetical location
-		
+	private void checkRepeat(Player p){
+		//checks if player has already registers(overrides if necessary)
 		boolean found = false;
-
+		for(int t=0; t<teams.size() && !found; t++){
+			if(teams.get(t).checkRepeat(p)){
+				found = true;
+			}
+		}
+	}
+	
+	private void addTeam(String teamName){
+		//adds team to correct alphabetical location	
+		boolean found = false;
 		for(int i=0; i<teams.size() && !found;i++){
 			if(teamName.compareTo(teams.get(i).getName())<0){
 				found = true;
 				teams.add(i, new Team(teamName));
 			}
 		}
-
 		if(!found){
 			teams.add(new Team(teamName));
 		}
-
 	}
 
 	public void startQuestion(){

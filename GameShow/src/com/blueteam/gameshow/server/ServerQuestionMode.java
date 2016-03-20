@@ -1,20 +1,13 @@
 package com.blueteam.gameshow.server;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
+public class ServerQuestionMode extends JPanel {
 
-public class ServerQuestionMode extends JPanel{
-	
 	private JLabel question;
 	private ArrayList<JLabel> answers;
 	private JLabel timeRemaining;
@@ -26,49 +19,49 @@ public class ServerQuestionMode extends JPanel{
 	private Timer timer;
 	private ServerGameScreen qScreen;
 	private Game game;
-	
-	
-	public ServerQuestionMode(Game g, ServerGameScreen s){
-		
+
+	public ServerQuestionMode(Game g, ServerGameScreen s) {
+
 		qScreen = s;
 		game = g;
-		
-		//make timer
+
+		// make timer
 		timeRemaining = new JLabel("Time Remaining: ");
-		timer = new Timer(1000, new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		timer = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				seconds -= 1;
-				countdown.setText(numberText(seconds/60) + ":" + numberText(seconds%60));
-				if (seconds <= 0){
+				countdown.setText(numberText(seconds / 60) + ":"
+						+ numberText(seconds % 60));
+				if (seconds <= 0) {
 					timer.stop();
 					qScreen.goToAnswerMode();
 				}
 			}
 		});
-		
-		//set bottom 3 buttons
+
+		// set bottom 3 buttons
 		back = new JButton("Back");
-		back.setActionCommand("back");
-		back.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		back.setMinimumSize(new Dimension(80, 40));
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				stopTimer();
-				new BackPopUp();	
+				new BackPopUp();
 			}
 		});
-		if(game.getQuiz().isFirstQuestion()){
+		if (game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(false);
 		}
-			
+
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
-		pause.setPreferredSize(new Dimension(80,40));
-		pause.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				if(e.getActionCommand().equals("pause")){
+		pause.setMinimumSize(new Dimension(80, 40));
+		pause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("pause")) {
 					pause.setText("Run");
 					pause.setActionCommand("run");
 					stopTimer();
-				}else if(e.getActionCommand().equals("run")){
+				} else if (e.getActionCommand().equals("run")) {
 					pause.setText("Pause");
 					pause.setActionCommand("pause");
 					startTimer();
@@ -76,21 +69,27 @@ public class ServerQuestionMode extends JPanel{
 			}
 		});
 		skip = new JButton("Skip");
-		skip.setActionCommand("skip");
-		skip.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		skip.setMinimumSize(new Dimension(80, 40));
+		skip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				stopTimer();
 				new SkipPopUp();
 			}
 		});
-		
-		//sets Question info
+
+		// sets Question info
 		newQuestion();
 		setUpGUI();
+
+		// add resizing stuff
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				resizeText();
+			}
+		});
 	}
-	
-	private static String numberText(int timeNum)
-	{
+
+	private static String numberText(int timeNum) {
 		String numberText = "";
 		if (timeNum >= 10)
 			numberText = "" + timeNum;
@@ -100,77 +99,125 @@ public class ServerQuestionMode extends JPanel{
 			numberText = "00";
 		return numberText;
 	}
-	
-	public void newQuestion(){
-		//set time remaining
-		if(!game.getQuiz().isFirstQuestion()){
+
+	public void newQuestion() {
+		// set time remaining
+		if (!game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(true);
 		}
-	
+
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
-		countdown = new JLabel(numberText(seconds/60) + ":" + numberText(seconds%60));
-		
-		
-		//set questions and answers
+		countdown = new JLabel(numberText(seconds / 60) + ":"
+				+ numberText(seconds % 60));
+
+		// set questions and answers (adds letter at beginning of answers:
+		// A,B,C...)
 
 		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		answers = new ArrayList<JLabel>();
-		for(int i=0; i<game.getQuiz().getCurrentQuestion().getAnswers().length; i++){
-			answers.add(new JLabel((char)(65+i) + ") " + game.getQuiz().getCurrentQuestion().getAnswers()[i].getText()));
+		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
+			answers.add(new JLabel((char) (65 + i)
+					+ ") "
+					+ game.getQuiz().getCurrentQuestion().getAnswers()[i]
+							.getText()));
 			answers.get(i).setAlignmentX(LEFT_ALIGNMENT);
 		}
-		
+
 		setUpGUI();
 	}
-	
-	private void setUpGUI(){
-		//organizes components in visually appealing manner
-		
+
+	private void setUpGUI() {
+		// organizes components in visually appealing manner
+
 		removeAll();
-		//Sets layout
+		// Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
 		JPanel questionInfo = new JPanel();
-		questionInfo.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
+		questionInfo
+				.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
 		questionInfo.add(question);
-		questionInfo.add(Box.createRigidArea(new Dimension(0,15)));
-		for(int i=0; i<answers.size(); i++){
+		questionInfo.add(Box.createRigidArea(new Dimension(0, 15)));
+		for (int i = 0; i < answers.size(); i++) {
 			questionInfo.add(answers.get(i));
-			questionInfo.add(Box.createRigidArea(new Dimension(0,5)));
+			questionInfo.add(Box.createRigidArea(new Dimension(0, 5)));
 		}
 		questionInfo.setAlignmentX(CENTER_ALIGNMENT);
 		add(questionInfo);
+
 		JPanel timePanel = new JPanel();
 		timePanel.add(timeRemaining);
 		timePanel.add(countdown);
 		add(timePanel);
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(back);
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
-	}
-	
-	public void startTimer(){	
-		timer.start();	
-	}
-	
-	public void stopTimer(){		
-		timer.stop();
-	}
-	
-	private class SkipPopUp extends PopUp{
 		
-		public SkipPopUp(){		
-			super();
+		resizeText();
+	}
+
+	private void resizeText(){
+		JComponent[] textBits = { question, timeRemaining,
+				countdown, back, pause, skip}; //components with text to be resized
+		
+		//finds longest answer
+		int longWidth=0;
+		Font ansFont = answers.get(0).getFont();
+		String ansText;
+		int ansWidth;
+		for(int i=0; i<answers.size(); i++){
+			ansText = answers.get(i).getText();
+			ansWidth = answers.get(i).getFontMetrics(ansFont).stringWidth(ansText);
+			if(ansWidth>longWidth){
+				longWidth = ansWidth;
+			}
 		}
 		
-		public void no(){
-			popUp.dispose();
-			startTimer();	
-		}	
+		//decides if question is longer than longest answer
+		int questionLength = question.getFontMetrics(ansFont).stringWidth(question.getText());
+		if(questionLength >longWidth){
+			longWidth = questionLength;
+		}
+		
+		//sets font size to something that will fit the longest element(as determined earlier)
+		double widthRatio = (double)getWidth()/((double)longWidth+10);
+		int fontSize = (int) Math.min(answers.get(0).getHeight(), ansFont.getSize()*widthRatio);
+		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
+		if (newFont.getSize()<12)
+			newFont=new Font(ansFont.getName(), Font.PLAIN, 12);
+		
+		//set elements to font size
+		for(int i=0; i<answers.size(); i++){
+			answers.get(i).setFont(newFont);
+		}
+		for(int i=0; i<textBits.length; i++){
+			textBits[i].setFont(newFont);
+		}
+	}
 
-		public void yes(){
+	public void startTimer() {
+		timer.start();
+	}
+
+	public void stopTimer() {
+		timer.stop();
+	}
+
+	private class SkipPopUp extends PopUp {
+
+		public SkipPopUp() {
+			super();
+		}
+
+		public void no() {
+			popUp.dispose();
+			startTimer();
+		}
+
+		public void yes() {
 			pause.setText("Pause");
 			pause.setActionCommand("pause");
 			qScreen.goToAnswerMode();
@@ -178,21 +225,21 @@ public class ServerQuestionMode extends JPanel{
 		}
 	}
 
-	private class BackPopUp extends PopUp{
+	private class BackPopUp extends PopUp {
 
-		public BackPopUp(){				
-			super();		
+		public BackPopUp() {
+			super();
 		}
 
-		public void yes(){
+		public void yes() {
 			game.getQuiz().getLastQuestion();
 			qScreen.goToResultMode();
 			popUp.dispose();
 		}
 
-		public void no(){
+		public void no() {
 			popUp.dispose();
-			startTimer();		
+			startTimer();
 		}
 	}
 }

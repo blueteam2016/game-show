@@ -46,14 +46,27 @@ public class Team {
 	}
 	
 	public void addMember(Player newPlayer){
-		for(int i=0; i<members.size(); i++){
+		/*for(int i=0; i<members.size(); i++){
 			if(members.get(i).getIdentifier().equals(newPlayer.getIdentifier())){
 				members.remove(i);
 			}
-		}
+		}*/
+		
 		alphaAdd(newPlayer);
 		answerReceived = new boolean[members.size()];
 		answerCorrect = new boolean[members.size()];
+	}
+	
+	public boolean checkRepeat(Player p){
+		//checks if player has already registers(overrides if necessary)
+		boolean repeat = false;	
+		for(int i=0; i<members.size()&& !repeat; i++){
+			if(members.get(i).getIdentifier().equals(p.getIdentifier())){
+				members.remove(i);
+				repeat = true;
+			}
+		}
+		return repeat;
 	}
 	
 	private void alphaAdd(Player p){
