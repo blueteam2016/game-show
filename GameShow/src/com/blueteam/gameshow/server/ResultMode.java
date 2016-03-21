@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
@@ -33,6 +34,11 @@ public class ResultMode extends JPanel{
 				return d;
 			}
 		});
+		for(int r=0; r<model.getRowCount(); r++){
+			for(int c=0; c<model.getColumnCount(); c++){
+				((DefaultTableCellRenderer) table.getCellRenderer(r, c)).setHorizontalAlignment(JLabel.CENTER);
+			}
+		}
 		
 		back = new JButton("Back");
 		back.addActionListener(new ActionListener(){

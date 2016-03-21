@@ -189,6 +189,8 @@ public class ServerQuestionMode extends JPanel {
 		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
 		if (newFont.getSize()<12)
 			newFont=new Font(ansFont.getName(), Font.PLAIN, 12);
+		if(newFont.getSize()>65)
+			newFont=new Font(ansFont.getName(), Font.PLAIN, 65);
 		
 		//set elements to font size
 		for(int i=0; i<answers.size(); i++){
