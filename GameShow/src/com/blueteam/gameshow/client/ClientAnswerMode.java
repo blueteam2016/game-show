@@ -1,5 +1,8 @@
 package com.blueteam.gameshow.client;
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import javax.swing.*;
 
 import com.blueteam.gameshow.data.Answer;
@@ -14,30 +17,38 @@ public class ClientAnswerMode extends JPanel
 	private JLabel questionText;
 	private Answer[] answerChoices;
 	private JPanel displayAnswers;
-	
+	private JLabel[] answers;
+
 	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
 		this.qs = qs;
 	}
-	
+
 	public void update() {
+		removeAll();
+
 		question = qs.getQuestion();
 		questionText = new JLabel(question.getText());
+
 		answerChoices = question.getAnswers();
-		
+		answers = new JLabel[answerChoices.length];
+
 		displayAnswers = new JPanel();
-		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
-	
-		for(int i = 0; i < answerChoices.length; i++)
-		{
+		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.PAGE_AXIS));
+
+		for(int i = 0; i < answerChoices.length; i++){
 			JLabel answerText = new JLabel(answerChoices[i].getText());
-			if (i == ClientQuestionMode.getChoice())
-				answerText.setBackground(new Color(85, 140, 255));
+			if (i == ClientQuestionMode.getChoice()){
+				answerText.setForeground(Color.RED);
+			}
+			answers[i] = answerText;
 			displayAnswers.add(answerText);
+			answerText.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		}
 
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(questionText);
-		this.add(displayAnswers);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		add(questionText);
+		add(Box.createRigidArea(new Dimension(25,25)));
+		add(displayAnswers);
 	}
 }

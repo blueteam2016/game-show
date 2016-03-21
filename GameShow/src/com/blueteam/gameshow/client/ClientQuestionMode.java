@@ -4,6 +4,8 @@ import javax.swing.*;
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private Answer[] answerChoices;
 	private ArrayList<AnswerButton> answerButtons;
 	private JPanel displayAnswers;
+	private JPanel displayButtons;
 	private static int choice;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
@@ -38,30 +41,45 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			while (question == null)
 				question = clientIO.getQuestion();
 			questScreen.setQuestion(question);
-			this.removeAll();
-			questionText = new JLabel(question.getText());
-			answerChoices = question.getAnswers();
-		
-			answerButtons = new ArrayList<AnswerButton>();
-			displayAnswers = new JPanel();
-			displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
-		
-			for(int i = 0; i < answerChoices.length; i++) {
-				AnswerButton answerSelect = new AnswerButton();
-				answerButtons.add(answerSelect);
-				JLabel answerText = new JLabel(answerChoices[i].getText());
 			
-				JPanel answer = new JPanel();
-				answer.setLayout(new BoxLayout(answer, BoxLayout.X_AXIS));
-				answer.add(answerSelect);
-				answer.add(answerText);
-				displayAnswers.add(answer);
-			}
-			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			this.add(questionText);
-			this.add(displayAnswers);
+			setUpGUI();
 			questScreen.goToQuestionMode();
 		}
+	}
+	
+	private void setUpGUI(){
+		this.removeAll();
+		questionText = new JLabel(question.getText());
+		answerChoices = question.getAnswers();
+	
+		answerButtons = new ArrayList<AnswerButton>();
+		displayAnswers = new JPanel();
+		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
+		displayButtons = new JPanel();
+		displayButtons.setLayout(new BoxLayout(displayButtons, BoxLayout.PAGE_AXIS));
+	
+		for(int i = 0; i < answerChoices.length; i++) {
+			displayAnswers.add(Box.createRigidArea(new Dimension(5,5)));
+			JLabel answerText = new JLabel(answerChoices[i].getText());
+			answerText.setFont(new Font(answerText.getFont().getName(), Font.PLAIN, 16));
+			displayAnswers.add(answerText);
+			answerText.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+			
+			AnswerButton answerSelect = new AnswerButton((char) (65 + i) + "");
+			answerSelect.setSize(new Dimension(answerText.getHeight(), answerText.getHeight()));
+			answerButtons.add(answerSelect);
+			displayButtons.add(answerSelect);
+			answerSelect.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		}
+		
+		JPanel answerStuff = new JPanel();
+		answerStuff.add(displayButtons);
+		answerStuff.add(displayAnswers);
+		
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(questionText);
+		questionText.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
+		this.add(answerStuff);
 	}
 
 	public static int getChoice() {
@@ -71,8 +89,9 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	class AnswerButton extends JButton implements ActionListener {
 		private static final long serialVersionUID = 688447363351164099L;
 		
-		public AnswerButton()
+		public AnswerButton(String text)
 		{
+			super(text);
 			addActionListener(this);
 		}
 		

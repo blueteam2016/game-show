@@ -29,7 +29,7 @@ public class ClientQuestionScreen extends JPanel{
 		
 		cQuestion = new ClientQuestionMode(this);
 		cAnswer = new ClientAnswerMode(this);
-		cAnswer.add(new JLabel("Answer"));
+		//cAnswer.add(new JLabel("Answer"));
 		noQuestionAvailable = new JPanel();
 		noQuestionAvailable.add(new JLabel("No Question"));
 		notRegistered = new JPanel();

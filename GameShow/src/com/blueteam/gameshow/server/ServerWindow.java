@@ -132,7 +132,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 				sgScreen.getServerQuestionMode().startTimer();
 			}
 			if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
-				rosterScreen.getTableModel().closeRegistration();
+				rosterScreen.closeRegistration();
 			}
 			if(p.getSelectedIndex() == tabs.indexOfTab("Scoreboard")){
 				sbScreen.update();
