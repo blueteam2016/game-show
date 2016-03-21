@@ -262,13 +262,13 @@ public class RegistrationScreen extends JPanel{
 			correct += w + " ";
 		}
 		
-		return correct;	
+		return correct.substring(0, correct.length() - 1);	
 	}
 
 	class Register implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
-			clientName = correctCaps(name.getText());
+			clientName = name.getText();
 			clientTeamName = correctCaps(teamName.getText());
 			try {
 				clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));

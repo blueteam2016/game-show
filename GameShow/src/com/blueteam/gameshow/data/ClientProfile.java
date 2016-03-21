@@ -17,7 +17,7 @@ public class ClientProfile implements Serializable{
 		this.identifier = null;
 		
 		try {
-			this.identifier = InetAddress.getLocalHost().getHostName() + "_" + playerName; //apparently the only way to get the machine hostname in Java
+			this.identifier = InetAddress.getLocalHost().getHostName() + "_" + playerName.replace(" ", "_"); //apparently the only way to get the machine hostname in Java
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}

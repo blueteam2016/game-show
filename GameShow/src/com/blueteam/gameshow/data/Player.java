@@ -18,6 +18,7 @@ public class Player {
 		name = cProfile.getPlayerName();
 		identifier = cProfile.getIdentifier();
 		answerPath = pathToFolder + ".answer_" + identifier;
+		System.out.println(identifier);
 		try {
 			if (Files.exists(Paths.get(answerPath)))
 				answerModTime = Files.getLastModifiedTime(Paths.get(answerPath)).toMillis();
