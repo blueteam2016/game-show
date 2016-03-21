@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 public class ScoreboardScreen extends JPanel{
+
+	private static final long serialVersionUID = -1295052599543379410L;
 	private ScoreboardTableModel model;
 	private JTable table;
 	

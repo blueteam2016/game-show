@@ -85,11 +85,11 @@ public class ProfileScreen extends JPanel{
 		add(confirmButton);
 
 		if(prof.isComplete()){
-			spinnerDefVal.getModel().setValue((Integer)prof.getDefaultValue());
-			spinnerDefTime.getModel().setValue((Integer)prof.getDefaultTime());
+			spinnerDefVal.getModel().setValue((Integer)Profile.getDefaultValue());
+			spinnerDefTime.getModel().setValue((Integer)Profile.getDefaultTime());
 			servFoldText.setText(prof.getServerFolderLoc());
 			clientFoldText.setText(prof.getClientFolderLoc());
-			qFileText.setText(prof.getQuestionFileLoc());
+			qFileText.setText(Profile.getQuestionFileLoc());
 		}
 	}
 	

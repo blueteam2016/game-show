@@ -9,6 +9,8 @@ import com.blueteam.gameshow.data.Team;
 
 
 public class ScoreboardTableModel extends AbstractTableModel{
+
+	private static final long serialVersionUID = 8720799175739592306L;
 	Roster rost;
 	ArrayList<Team> teams;
 	

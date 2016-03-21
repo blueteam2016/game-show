@@ -35,6 +35,8 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	public void run() {
 		while (true) {
 			question = clientIO.getQuestion();
+			while (question == null)
+				question = clientIO.getQuestion();
 			questScreen.setQuestion(question);
 			this.removeAll();
 			questionText = new JLabel(question.getText());

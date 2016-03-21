@@ -105,13 +105,13 @@ public class RegistrationScreen extends JPanel{
 		//Font Resizer
 		this.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
-				ArrayList<JLabel> garn=new ArrayList();
+				ArrayList<JLabel> garn = new ArrayList();
 				garn.add(nameLabel);
 				garn.add(teamNameLabel);
 				garn.add(serverOutputLabel);
 				garn.add(clientOutputLabel);
 
-				ArrayList<JButton> garn3=new ArrayList();
+				ArrayList<JButton> garn3 = new ArrayList();
 				garn3.add(servFoldBrowser);
 				garn3.add(clientFoldBrowser);
 				garn3.add(registerButton);
@@ -158,7 +158,7 @@ public class RegistrationScreen extends JPanel{
 	} 
 
 	private void resizeTextFields(){
-		ArrayList<JTextComponent> garn2=new ArrayList();
+		ArrayList<JTextComponent> garn2 = new ArrayList();
 		garn2.add(name);
 		garn2.add(teamName);
 		garn2.add(servFoldText);

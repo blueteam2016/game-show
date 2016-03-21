@@ -25,10 +25,13 @@ public class ClientIO {
 		questionPath = pathServerFold + ".question";
 		answerPath = pathClientFold + ".answer_" + identifier;
 		profilePath = pathClientFold + ".profile_" + identifier;
-		questionModTime = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+		questionModTime = 0;
 		
-		ObjectOutputStream profOut = new ObjectOutputStream(new FileOutputStream(profilePath));
+		FileOutputStream fOut = new FileOutputStream(profilePath);
+		FileLock fLock = fOut.getChannel().lock();
+		ObjectOutputStream profOut = new ObjectOutputStream(fOut);
 		profOut.writeObject(profile);
+		fLock.close();
 		profOut.close();
 	}
 	
@@ -40,17 +43,18 @@ public class ClientIO {
 	public Question getQuestion() {
 		try {
 			long lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
-			while(questionModTime == lastModified) {
-				lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+			if (questionModTime == lastModified) {
+				return null;
+			} else {
+				questionModTime = lastModified;
+				FileInputStream fIn = new FileInputStream(questionPath);
+				FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
+				ObjectInputStream questIn = new ObjectInputStream(fIn);
+				Question qIn = (Question)questIn.readObject();
+				fLock.close();
+				questIn.close();
+				return qIn;
 			}
-			questionModTime = lastModified;
-			FileInputStream fIn = new FileInputStream(questionPath);
-			FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
-			ObjectInputStream questIn = new ObjectInputStream(fIn);
-			Question qIn = (Question)questIn.readObject();
-			fLock.close();
-			questIn.close();
-			return qIn;
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class ServerQuestionMode extends JPanel {
 
+	private static final long serialVersionUID = -6719297104248411239L;
 	private JLabel question;
 	private ArrayList<JLabel> answers;
 	private JLabel timeRemaining;
@@ -101,6 +102,7 @@ public class ServerQuestionMode extends JPanel {
 	}
 
 	public void newQuestion() {
+		game.sendQuestion(game.getQuiz().getCurrentQuestion());
 		// set time remaining
 		if (!game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(true);

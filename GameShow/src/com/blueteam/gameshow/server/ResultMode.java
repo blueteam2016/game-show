@@ -3,15 +3,12 @@ package com.blueteam.gameshow.server;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.*;
-import java.util.ArrayList;
-
 import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.text.JTextComponent;
-
 import com.blueteam.gameshow.data.Roster;
 
 public class ResultMode extends JPanel{
+
+	private static final long serialVersionUID = -4163825317901145581L;
 	private ResultTableModel model;
 	private JTable table;
 	private Roster rost;
