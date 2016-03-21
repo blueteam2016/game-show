@@ -114,8 +114,9 @@ public class ServerQuestionMode extends JPanel {
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-
-		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
+		
+		question = new JLabel(QuestionWrap(game.getQuiz().getCurrentQuestion().getText()));
+		//question = new JLabel("<html>First line<br>Second line</html>");
 		answers = new ArrayList<JLabel>();
 		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
 			answers.add(new JLabel((char) (65 + i)
@@ -128,6 +129,11 @@ public class ServerQuestionMode extends JPanel {
 		setUpGUI();
 	}
 
+	
+	private String QuestionWrap(String question){
+		return "";
+	}
+	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner
 
