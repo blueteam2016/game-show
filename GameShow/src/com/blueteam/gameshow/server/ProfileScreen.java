@@ -44,7 +44,7 @@ public class ProfileScreen extends JPanel{
 		add(servFoldBrowser);
 		servFoldText = new JTextArea();
 		servFoldText.setLineWrap(true);
-		servFoldText.setWrapStyleWord(true);
+		servFoldText.setWrapStyleWord(false);
 		servFoldText.setEditable(false);
 		add(servFoldText);
 
@@ -55,7 +55,7 @@ public class ProfileScreen extends JPanel{
 		add(clientFoldBrowser);
 		clientFoldText = new JTextArea();
 		clientFoldText.setLineWrap(true);
-		clientFoldText.setWrapStyleWord(true);
+		clientFoldText.setWrapStyleWord(false);
 		clientFoldText.setEditable(false);
 		add(clientFoldText);
 
@@ -74,7 +74,7 @@ public class ProfileScreen extends JPanel{
 		add(qFileBrowser);
 		qFileText = new JTextArea();
 		qFileText.setLineWrap(true);
-		qFileText.setWrapStyleWord(true);
+		qFileText.setWrapStyleWord(false);
 		qFileText.setEditable(false);
 		add(qFileText);
 
