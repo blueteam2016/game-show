@@ -172,7 +172,7 @@ public class RegistrationScreen extends JPanel{
 			double widthRatio = (double)componentWidth / ((double)stringWidth);
 			int newFontSize = (int)(labelFont.getSize() * widthRatio);
 			int componentHeight = field.getHeight();
-			int fontSizeToUse = Math.min(newFontSize, componentHeight);
+			int fontSizeToUse = Math.min(newFontSize, componentHeight-10);
 			newFont=new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse);
 			if (newFont.getSize()<12)
 				newFont=new Font(labelFont.getName(), Font.PLAIN, 12);
