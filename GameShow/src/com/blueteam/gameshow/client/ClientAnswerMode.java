@@ -38,11 +38,17 @@ public class ClientAnswerMode extends JPanel
 
 		for(int i = 0; i < answerChoices.length; i++){
 			JLabel answerText = new JLabel(answerChoices[i].getText());
+			JPanel answerContainer = new JPanel();
+			
+			answerContainer.add(answerText);
+			
 			if (i == ClientQuestionMode.getChoice()){
-				answerText.setForeground(Color.RED);
+				answerContainer.setBackground(new Color(0, 0, 0));
+				answerText.setForeground(new Color(255, 255, 255));
 			}
+			
 			answers[i] = answerText;
-			displayAnswers.add(answerText);
+			displayAnswers.add(answerContainer);
 			answerText.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		}
 
