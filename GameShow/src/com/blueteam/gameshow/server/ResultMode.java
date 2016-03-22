@@ -100,7 +100,6 @@ public class ResultMode extends JPanel{
 	}
 	
 	private void resizeText(){
-		System.out.println("TEXT RESIZED");
 		int rowCount = model.getRowCount();
 		if(rowCount< 1){
 			rowCount = 1;
