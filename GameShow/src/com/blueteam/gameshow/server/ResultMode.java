@@ -28,6 +28,7 @@ public class ResultMode extends JPanel{
 		table = new JTable(model);
 		table.setSize(new Dimension(200,200));
 		table.setTableHeader(new JTableHeader(table.getColumnModel()) {
+			private static final long serialVersionUID = 1L;
 			@Override public Dimension getPreferredSize() {
 				Dimension d = super.getPreferredSize();
 				d.height = rowSize/3;

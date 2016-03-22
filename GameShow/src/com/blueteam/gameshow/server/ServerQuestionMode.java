@@ -77,11 +77,7 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-
-		// sets Question info
-		newQuestion();
-		setUpGUI();
-
+		
 		// add resizing stuff
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {

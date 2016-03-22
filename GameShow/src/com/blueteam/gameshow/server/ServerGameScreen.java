@@ -27,13 +27,12 @@ public class ServerGameScreen {
 		game.getRoster().endQuestionScan();
 		currentMode = answer;
 		servWin.update();
+		
+		game.getQuiz().nextQuestion();
 	}
 	
 	public void goToQuestionMode() {
-		//maybe call start/end Question in Roster
 		currentMode = question;
-		game.getQuiz().nextQuestion();
-		
 		question.newQuestion();
 		question.startTimer();
 		game.getRoster().startQuestion();
