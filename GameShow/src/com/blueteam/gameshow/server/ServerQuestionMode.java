@@ -9,7 +9,7 @@ import javax.swing.*;
 public class ServerQuestionMode extends JPanel {
 
 	private static final long serialVersionUID = -6719297104248411239L;
-	private JLabel question;
+	private JTextArea question;
 	private ArrayList<JLabel> answers;
 	private JLabel timeRemaining;
 	private JLabel countdown;
@@ -115,8 +115,10 @@ public class ServerQuestionMode extends JPanel {
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
 		
-		question = new JLabel(QuestionWrap(game.getQuiz().getCurrentQuestion().getText()));
-		//question = new JLabel("<html>First line<br>Second line</html>");
+		question = new JTextArea(game.getQuiz().getCurrentQuestion().getText());
+		question.setLineWrap(true);
+		question.setWrapStyleWord(false);
+		question.setEditable(false);		//question = new JLabel("<html>First line<br>Second line</html>");
 		answers = new ArrayList<JLabel>();
 		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
 			answers.add(new JLabel((char) (65 + i)
@@ -127,11 +129,6 @@ public class ServerQuestionMode extends JPanel {
 		}
 
 		setUpGUI();
-	}
-
-	
-	private String QuestionWrap(String question){
-		return "";
 	}
 	
 	private void setUpGUI() {
@@ -193,8 +190,8 @@ public class ServerQuestionMode extends JPanel {
 		double widthRatio = (double)getWidth()/((double)longWidth+10);
 		int fontSize = (int) (ansFont.getSize()*widthRatio);
 		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
-		if (newFont.getSize()<12)
-			newFont=new Font(ansFont.getName(), Font.PLAIN, 12);
+		if (newFont.getSize()<25)
+			newFont=new Font(ansFont.getName(), Font.PLAIN, 25);
 		if(newFont.getSize()>65)
 			newFont=new Font(ansFont.getName(), Font.PLAIN, 65);
 		
