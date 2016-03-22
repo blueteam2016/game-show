@@ -33,6 +33,7 @@ public class ProfileScreen extends JPanel{
 		add(defTimeLabel);
 		spinnerDefTime = new JSpinner(new SpinnerNumberModel(30, 1, 999, 1));
 		spinnerDefTime.addChangeListener(new setDefaultTime());
+		((JSpinner.NumberEditor) spinnerDefTime.getEditor()).getTextField().setFont(((JSpinner.NumberEditor) spinnerDefTime.getEditor()).getTextField().getFont().deriveFont(64f));
 		add(spinnerDefTime);
 		sec = new JLabel("seconds");
 		add(sec);	
