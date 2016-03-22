@@ -59,6 +59,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	class Unreg implements ActionListener{
 		public void actionPerformed(ActionEvent event){
 			game.getRoster().getTeam(model.getValueAt(selectedRow,1)).unregisterStudent(model.getStudentAt(selectedRow));
+			model.dataChanged();
 			
 		}
 	}

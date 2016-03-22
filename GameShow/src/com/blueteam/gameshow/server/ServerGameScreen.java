@@ -18,12 +18,13 @@ public class ServerGameScreen {
 		game = g;
 		servWin = sw;
 		
-		currentMode = question;
+		result.update();
+		currentMode = result;
 	}
 
 	public void goToAnswerMode() {
 		answer.newQuestion();
-		
+		game.getRoster().endQuestionScan();
 		currentMode = answer;
 		servWin.update();
 	}
@@ -35,6 +36,7 @@ public class ServerGameScreen {
 		
 		question.newQuestion();
 		question.startTimer();
+		game.getRoster().startQuestion();
 		
 		servWin.update();
 		
@@ -43,10 +45,16 @@ public class ServerGameScreen {
 		if(game.getQuiz().isLastQuestion()) {
 			result.lastQuestion();
 		}
+		game.getRoster().endQuestionScan();
+		game.getRoster().calculateScores();
 		currentMode = result;
 		result.update();
 		
 		servWin.update();
+	}
+	
+	public void resizeResult(){
+		result.update();
 	}
 	
 	public JPanel getCurrentMode() {

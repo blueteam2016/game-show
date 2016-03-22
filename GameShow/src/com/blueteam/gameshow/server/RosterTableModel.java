@@ -99,6 +99,10 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 		roster.addPlayer(teamName, p);
 		fireTableDataChanged();
 	}
+	
+	public void dataChanged(){
+		fireTableDataChanged();
+	}
 
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -122,8 +126,6 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 					profIn.close();
 					Player newPlayer = new Player(pIn, pathToFolder);
 					addMember(newPlayer, pIn.getTeamName());
-					
-					System.out.println(newPlayer.getName());
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}

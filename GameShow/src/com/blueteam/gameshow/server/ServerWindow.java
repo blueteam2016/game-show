@@ -72,10 +72,10 @@ public class ServerWindow implements WindowListener, ChangeListener{
 
 		if(!tabsEnabled && !error){
 			tabsEnabled = true;
+			sgScreen = new ServerGameScreen(game, this);
+			game.createRoster(sgScreen);
 			rosterScreen = new RosterScreen(game);
 			sbScreen = new ScoreboardScreen(game);
-			sgScreen = new ServerGameScreen(game, this);
-
 
 			tabs.addTab("Roster",rosterScreen);
 			tabs.addTab("Scoreboard", sbScreen);
@@ -128,8 +128,11 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			JTabbedPane p = (JTabbedPane) e.getSource();
 			if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
 				sgScreen.getServerQuestionMode().stopTimer();
+				game.getRoster().endQuestionScan();
 			}else if(sgScreen.onQuestionMode()){
 				sgScreen.getServerQuestionMode().startTimer();
+			}else{
+				sgScreen.resizeResult();
 			}
 			if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
 				rosterScreen.closeRegistration();
