@@ -16,8 +16,8 @@ public class SortingTester {
 	public SortingTester(){
 		time = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println(teamNames[teamNum]);
-				System.out.println("!!!!!!!");
+				//System.out.println(teamNames[teamNum]);
+				//System.out.println("!!!!!!!");
 				addTeam(teamNames[teamNum]);
 				printTeams();
 				teamNum++;
@@ -29,7 +29,7 @@ public class SortingTester {
 	}
 	
 	public void startTimer(){
-		System.out.println("!!!!!!!");
+		//System.out.println("!!!!!!!");
 		time.start();
 	}
 	
@@ -50,9 +50,9 @@ public class SortingTester {
 	
 	public void printTeams(){
 		for(int i=0; i<teams.size(); i++){
-			System.out.println(teams.get(i));
+			//System.out.println(teams.get(i));
 		}
-		System.out.println();
+		//System.out.println();
 	}
 	
 	public static void main(String[] args){
