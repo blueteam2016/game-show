@@ -21,6 +21,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private int selectedRow;
 	private Game game;
 	private RosterTableModel model;
+	boolean open = false;
 	
 	RosterScreen(Game g){
 		game = g;
@@ -30,8 +31,12 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent arg0) {
-				selectedRow = table.getSelectedRow();
-				unregButt.setEnabled(true);
+				if(!open){
+					table.clearSelection();
+				}else{
+					selectedRow = table.getSelectedRow();
+					unregButt.setEnabled(true);
+				}
 			}
 		});
 		scroll = new JScrollPane(table);
@@ -48,6 +53,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		openClose.setActionCommand("Open Registration");
 		openClose.addActionListener(new OpenClose());
 		panel.add(openClose);
+	
 		this.add(panel);
 		
 	}
@@ -68,12 +74,18 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	class OpenClose implements ActionListener{
 		public void actionPerformed(ActionEvent event){
 			if(event.getActionCommand().equals("Open Registration")){
+				open = true;
 				model.openRegistration();
 				openClose.setText("Close Registration");
 				openClose.setActionCommand("Close Registration");
+				
 			}
 			else if(event.getActionCommand().equals("Close Registration")){
+				open = false;
 				closeRegistration();
+				unregButt.setEnabled(false);
+				table.clearSelection();
+				
 			}
 		}
 	}
