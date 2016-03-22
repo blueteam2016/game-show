@@ -20,12 +20,16 @@ public class Game {
 	private String questionPath;
 	
 	public Game(){
-		roster = new Roster();
 		profile = new Profile();
+		roster = new Roster();
 	}
 	
 	public void createQuiz() throws Exception{
 		quiz = new Quiz(Profile.getQuestionFileLoc());
+	}
+	
+	public void createRoster(ServerGameScreen sgs){
+		roster.addServGame(sgs);
 	}
 	
 	public Roster getRoster(){

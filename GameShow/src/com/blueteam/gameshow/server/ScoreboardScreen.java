@@ -3,8 +3,13 @@ package com.blueteam.gameshow.server;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
@@ -15,13 +20,12 @@ public class ScoreboardScreen extends JPanel{
 	private ScoreboardTableModel model;
 	private JTable table;
 	private Roster rost;
-	private int rowSize = 30;
+
+	int rowSize = 30;
 	
 	public ScoreboardScreen(Game g){
 		rost = g.getRoster();
-		
-		setLayout(new BorderLayout());
-		model = new ScoreboardTableModel(g.getRoster());
+		model = new ScoreboardTableModel(rost);
 		table = new JTable(model);
 		table.setSize(new Dimension(200,200));
 		table.setTableHeader(new JTableHeader(table.getColumnModel()) {
@@ -32,13 +36,22 @@ public class ScoreboardScreen extends JPanel{
 			}
 		});
 		
-		table.getColumnModel().getColumn(0).setWidth(getWidth()/2);
-		table.getColumnModel().getColumn(1).setWidth(getWidth()/2);
-		
-		table.setFillsViewportHeight(true);
-		
-		add(table.getTableHeader(), BorderLayout.NORTH);
+		setLayout(new BorderLayout());
 		add(table, BorderLayout.CENTER);
+		add(table.getTableHeader(), BorderLayout.NORTH);
+		
+		addComponentListener(new ComponentAdapter(){
+			public void componentResized(ComponentEvent e){
+				resizeText();
+			}
+		});
+	}
+	
+	public void update(){
+		model.sort();
+		table.revalidate();
+		resizeText();
+		repaint();
 	}
 	
 	private int getStringWidth(Font f){
@@ -47,6 +60,11 @@ public class ScoreboardScreen extends JPanel{
 		for(int i=0; i<rost.numTeams(); i++){
 			String text = rost.getTeam(i).getName();      		
 			int stringWidth = table.getFontMetrics(f).stringWidth(text);
+			if(stringWidth>width){
+				width = stringWidth;
+			}
+			text = (String) (model.getValueAt(i, 1) + "");      		
+			stringWidth = table.getFontMetrics(f).stringWidth(text);
 			if(stringWidth>width){
 				width = stringWidth;
 			}
@@ -83,12 +101,5 @@ public class ScoreboardScreen extends JPanel{
 		font=new Font(font.getName(), Font.PLAIN, newFontSize);
 		table.getTableHeader().setFont(font);
 
-	}
-	
-	
-	public void update(){
-		model.sort();
-		table.revalidate();
-		repaint();
 	}
 }

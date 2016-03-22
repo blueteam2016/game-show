@@ -34,11 +34,6 @@ public class ResultMode extends JPanel{
 				return d;
 			}
 		});
-		for(int r=0; r<model.getRowCount(); r++){
-			for(int c=0; c<model.getColumnCount(); c++){
-				((DefaultTableCellRenderer) table.getCellRenderer(r, c)).setHorizontalAlignment(JLabel.CENTER);
-			}
-		}
 		
 		back = new JButton("Back");
 		back.addActionListener(new ActionListener(){
@@ -76,8 +71,8 @@ public class ResultMode extends JPanel{
 	
 	public void update(){
 		model.sort();
-		resizeText();
 		table.revalidate();
+		resizeText();
 		repaint();
 	}
 	
@@ -87,6 +82,11 @@ public class ResultMode extends JPanel{
 		for(int i=0; i<rost.numTeams(); i++){
 			String text = rost.getTeam(i).getName();      		
 			int stringWidth = table.getFontMetrics(f).stringWidth(text);
+			if(stringWidth>width){
+				width = stringWidth;
+			}
+			text = (String) model.getValueAt(i, 1);      		
+			stringWidth = table.getFontMetrics(f).stringWidth(text);
 			if(stringWidth>width){
 				width = stringWidth;
 			}
@@ -100,6 +100,7 @@ public class ResultMode extends JPanel{
 	}
 	
 	private void resizeText(){
+		System.out.println("TEXT RESIZED");
 		int rowCount = model.getRowCount();
 		if(rowCount< 1){
 			rowCount = 1;

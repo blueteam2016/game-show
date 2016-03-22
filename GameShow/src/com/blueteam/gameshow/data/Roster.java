@@ -5,14 +5,20 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import com.blueteam.gameshow.server.ServerGameScreen;
+
 public class Roster implements ActionListener{
 	private ArrayList<Team> teams;
-
 	private Timer scanTime;
+	private ServerGameScreen servGame;
 	
 	public Roster(){
 		teams = new ArrayList<Team>();
-		scanTime = new Timer(10, this);
+		scanTime = new Timer(20, this);
+	}
+	
+	public void addServGame(ServerGameScreen sgs){
+		servGame = sgs;
 	}
 	
 	public Team getTeam(int t){
@@ -82,18 +88,25 @@ public class Roster implements ActionListener{
 		scanTime.start();
 	}
 	
-	public void endQuestion(){
+	private void endQuestion(){
+		endQuestionScan();
+		servGame.goToAnswerMode();
+	}
+	
+	public void endQuestionScan(){
 		scanTime.stop();
+	}
+	
+	public void calculateScores(){
+		//adds to score so only call this once per question
 		for(int i = 0; i < teams.size(); i++){
 			teams.get(i).calculateScore();
 		}
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		boolean allResponded;
+		boolean allResponded = true;
 		
-		allResponded = true;
 		for(int i=0; i<teams.size(); i++){
 			teams.get(i).update();
 			if(!teams.get(i).hasEveryoneResponded()){

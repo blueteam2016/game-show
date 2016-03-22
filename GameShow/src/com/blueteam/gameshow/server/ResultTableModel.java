@@ -13,11 +13,11 @@ public class ResultTableModel extends AbstractTableModel{
 
 	private static final long serialVersionUID = -5708497032334136324L;
 	private Roster rost;
-	private ArrayList<Team> teams;
+	private Team[] teams;
 
 	public ResultTableModel(Roster r){
 		rost = r;
-		teams = new ArrayList<Team>();
+		teams = new Team[rost.numTeams()];
 	}
 
 	public String getColumnName(int col){
@@ -37,25 +37,29 @@ public class ResultTableModel extends AbstractTableModel{
 	}
 
 	public void sort(){
-		teams.clear();
-		
-		for(int k=0; k<rost.numTeams(); k++){
-			int maxPerc = 0;
-			for(int i=1; i<rost.numTeams(); i++){
-				if(rost.getTeam(i).getPercentage()>rost.getTeam(maxPerc).getPercentage() && 
-						rost.getTeam(i).getPercentage()<teams.get(teams.size()-1).getPercentage()){
-					maxPerc = i;
-				}
-			}
-			teams.add(rost.getTeam(maxPerc));
+		teams = new Team[rost.numTeams()];
+		for(int i=0; i<teams.length; i++){
+			teams[i] = rost.getTeam(i);
 		}
+		
+		for (int i = 0; i < teams.length - 1; i++) {
+            int index = i;
+            for (int j = i + 1; j < teams.length; j++){
+                if (teams[j].getPercentage()>teams[index].getPercentage())
+                    index = j;
+            }
+            Team smallerNumber = teams[index]; 
+            teams[index] = teams[i];
+            teams[i] = smallerNumber;
+        }
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		sort();
 		if(columnIndex == 0){
-			return teams.get(rowIndex).getName();
+			return teams[rowIndex].getName();
 		}else{
-			return teams.get(rowIndex).getPercentage();
+			return teams[rowIndex].getPercentage()*100 + "%";
 		}
 	}
 }
