@@ -64,6 +64,7 @@ public class ProfileScreen extends JPanel{
 		add(defQValLabel);
 		spinnerDefVal = new JSpinner(new SpinnerNumberModel(10, 1, 999, 1));
 		spinnerDefVal.addChangeListener(new setDefaultValue());
+		((JSpinner.NumberEditor) spinnerDefVal.getEditor()).getTextField().setFont(((JSpinner.NumberEditor) spinnerDefVal.getEditor()).getTextField().getFont().deriveFont(64f));
 		add(spinnerDefVal);
 		point = new JLabel("points");
 		add(point);
