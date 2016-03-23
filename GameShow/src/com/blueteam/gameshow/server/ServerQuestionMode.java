@@ -9,7 +9,7 @@ import javax.swing.*;
 public class ServerQuestionMode extends JPanel {
 
 	private static final long serialVersionUID = -6719297104248411239L;
-	private JTextArea question;
+	private JLabel question;
 	private ArrayList<JLabel> answers;
 	private JLabel timeRemaining;
 	private JLabel countdown;
@@ -49,6 +49,9 @@ public class ServerQuestionMode extends JPanel {
 				new BackPopUp();
 			}
 		});
+		if (game.getQuiz().isFirstQuestion()) {
+			back.setEnabled(false);
+		}
 
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
@@ -74,7 +77,11 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-		
+
+		// sets Question info
+		newQuestion();
+		setUpGUI();
+
 		// add resizing stuff
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -97,6 +104,9 @@ public class ServerQuestionMode extends JPanel {
 	public void newQuestion() {
 		game.sendQuestion(game.getQuiz().getCurrentQuestion());
 		// set time remaining
+		if (!game.getQuiz().isFirstQuestion()) {
+			back.setEnabled(true);
+		}
 
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
 		countdown = new JLabel(numberText(seconds / 60) + ":"
@@ -105,10 +115,9 @@ public class ServerQuestionMode extends JPanel {
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
 		
-		question = new JTextArea(game.getQuiz().getCurrentQuestion().getText());
-		question.setLineWrap(true);
-		question.setWrapStyleWord(false);
-		question.setEditable(false);		//question = new JLabel("<html>First line<br>Second line</html>");
+		//question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
+		//question = new JLabel(questionWrapping("<html>First line<br>Second line</html>"));
+		question = new JLabel(questionWrapping("Trees are volatile plants, cake is made out of batter and flour, and computers come inested with miniature garns. These virus can onl be removed when x and x are added to mollify the garns."));
 		answers = new ArrayList<JLabel>();
 		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
 			answers.add(new JLabel((char) (65 + i)
@@ -119,6 +128,33 @@ public class ServerQuestionMode extends JPanel {
 		}
 
 		setUpGUI();
+	}
+	
+	private String questionWrapping(String question){
+		String remaining=question;
+		String htmltaggedstring="<html>";
+		ArrayList<Integer> linecut=new ArrayList();
+		//ArrayList<String> cutstrings=new ArrayList();
+		while (remaining.length()>0){
+			String line=remaining.substring(0,80);
+			boolean stop=false;
+			for (int i=line.length(); i>0&&stop==true; i++){
+				if (line.substring(i-1,i).equals(" ")){
+					linecut.add(i);
+					remaining=remaining.substring(i);
+				}
+			}
+		}
+		for (int i=0;i<linecut.size()-1;i++){
+			//cutstrings.add(question.substring(i, i+1));
+			htmltaggedstring+=question.substring(i, i+1);
+			if (i!=linecut.size()-2){
+				htmltaggedstring+="<br>";
+			}
+		}
+		htmltaggedstring+="</html>";
+		System.out.println(htmltaggedstring);
+		return htmltaggedstring;
 	}
 	
 	private void setUpGUI() {
@@ -217,7 +253,6 @@ public class ServerQuestionMode extends JPanel {
 		public void yes() {
 			pause.setText("Pause");
 			pause.setActionCommand("pause");
-			qScreen.forwardToAnswerMode();
 			qScreen.goToAnswerMode();
 			popUp.dispose();
 		}
