@@ -1,6 +1,7 @@
 package com.blueteam.gameshow.server;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.table.*;
@@ -59,7 +60,8 @@ public class ResultTableModel extends AbstractTableModel{
 		if(columnIndex == 0){
 			return teams[rowIndex].getName();
 		}else{
-			return teams[rowIndex].getPercentage()*100 + "%";
+
+			return Math.round(teams[rowIndex].getPercentage()*100) + "%";
 		}
 	}
 }
