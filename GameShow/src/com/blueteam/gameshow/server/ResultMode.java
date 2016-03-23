@@ -113,7 +113,11 @@ public class ResultMode extends JPanel{
 			rowCount = 1;
 		}
 		rowSize = (int) ((double)table.getHeight()/(double)rowCount);
-		table.setRowHeight(rowSize);
+		if(rost.numTeams()<2){
+			table.setRowHeight(rowSize/3);
+		}else{
+			table.setRowHeight(rowSize);
+		}
 		
 		Font font = table.getFont();	
 		double widthRatio = ((double)table.getWidth()/2) / ((double)getStringWidth(font));

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ClientQuestionMode extends JPanel implements Runnable {
@@ -36,11 +37,26 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while (!Thread.currentThread().isInterrupted()) {
-			question = clientIO.getQuestion();
-			while (question == null && !Thread.currentThread().isInterrupted())
+			try {
 				question = clientIO.getQuestion();
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Lost connection to server!");
+				clientWindow.reset();
+				return;
+			}
+			while (question == null) {
+				if (Thread.currentThread().isInterrupted())
+					return;
+				try {
+					question = clientIO.getQuestion();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Lost connection to server!");
+					clientWindow.reset();
+					return;
+				}
+			}
 			questScreen.setQuestion(question);
-			
+				
 			setUpGUI();
 			questScreen.goToQuestionMode();
 		}
