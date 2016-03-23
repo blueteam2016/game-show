@@ -79,17 +79,18 @@ public class Quiz {
 			return null;
 	}
 	
-	public boolean isLastQuestion()
-	{
-		if(questionNum == questions.length - 1)
-			return true;
-		return false;
-	}
-	
 	public boolean isFirstQuestion(){
 		if(questionNum == 0){
 			return true;
 		}
+		return false;
+	}
+	
+	
+	public boolean isLastQuestion()
+	{
+		if(questionNum == questions.length - 1)
+			return true;
 		return false;
 	}
 	

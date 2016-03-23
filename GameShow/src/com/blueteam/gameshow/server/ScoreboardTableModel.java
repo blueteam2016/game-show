@@ -1,5 +1,6 @@
 package com.blueteam.gameshow.server;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.table.*;
@@ -58,7 +59,7 @@ public class ScoreboardTableModel extends AbstractTableModel{
 		if(columnIndex == 0){
 			return teams[rowIndex].getName();
 		}else{
-			return teams[rowIndex].getScore();
+			return Math.round(teams[rowIndex].getScore());
 		}
 	}
 }
