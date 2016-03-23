@@ -137,6 +137,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent arg0) {
 		SGS.goToResultMode();
+	
 	}
 	
 }

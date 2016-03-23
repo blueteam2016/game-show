@@ -101,9 +101,9 @@ public class Team {
 		latestPercentage = ((double)numCorrect)/(members.size());
 	}
 	
-	public void calculateScore(){
+	public void calculateScore(int pointVal){
 		calculatePercentage();
-		score += latestPercentage*members.size();
+		score += latestPercentage*pointVal;
 	}
 	
 	public boolean isFound(String identifier) {
