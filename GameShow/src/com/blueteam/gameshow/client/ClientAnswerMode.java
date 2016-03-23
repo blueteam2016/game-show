@@ -54,6 +54,7 @@ public class ClientAnswerMode extends JPanel
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(questionText);
+		questionText.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		add(Box.createRigidArea(new Dimension(25,25)));
 		add(displayAnswers);
 	}

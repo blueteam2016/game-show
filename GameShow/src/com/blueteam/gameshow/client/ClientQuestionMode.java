@@ -31,14 +31,13 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	
 	public void register() {
 		clientIO = clientWindow.getClientIO();
-		
 	}
 	
 	@Override
 	public void run() {
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			question = clientIO.getQuestion();
-			while (question == null)
+			while (question == null && !Thread.currentThread().isInterrupted())
 				question = clientIO.getQuestion();
 			questScreen.setQuestion(question);
 			

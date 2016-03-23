@@ -25,7 +25,7 @@ public class ClientIO {
 		questionPath = pathServerFold + ".question";
 		answerPath = pathClientFold + ".answer_" + identifier;
 		profilePath = pathClientFold + ".profile_" + identifier;
-		questionModTime = 0;
+		questionModTime = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
 		
 		FileOutputStream fOut = new FileOutputStream(profilePath);
 		FileLock fLock = fOut.getChannel().lock();

@@ -20,6 +20,7 @@ public class ScoreboardScreen extends JPanel{
 	private ScoreboardTableModel model;
 	private JTable table;
 	private Roster rost;
+	
 
 	int rowSize = 30;
 	

@@ -16,6 +16,7 @@ public class ClientQuestionScreen extends JPanel{
 	public final static String NOTREGISTEREDMODE = "Not registered";
 	private ClientWindow clientWindow;
 	private ClientQuestionMode cQuestion;
+	private Thread clientQMThread;
 	private ClientAnswerMode cAnswer;
 	private JPanel noQuestionAvailable;
 	private JPanel notRegistered;
@@ -86,9 +87,19 @@ public class ClientQuestionScreen extends JPanel{
 	}
 
 	public void register() {
-		cQuestion.register();
 		goToNoQuestion();
-		new Thread(cQuestion, "ClientQuestionThread").start(); // required for continuous updating to receive question from server
+		if (clientQMThread != null) {
+			clientQMThread.interrupt();
+			try {
+				clientQMThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		cQuestion.register();
+		
+		clientQMThread = new Thread(cQuestion, "ClientQuestionThread"); // required for continuous updating to receive question from server
+		clientQMThread.start();
 	}
 
 }

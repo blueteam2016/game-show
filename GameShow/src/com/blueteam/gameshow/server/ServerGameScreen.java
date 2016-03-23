@@ -9,6 +9,7 @@ public class ServerGameScreen {
 	private JPanel currentMode;
 	private ServerWindow servWin;
 	private Game game;
+	private boolean firstQuestion = true;
 	
 	ServerGameScreen(Game g, ServerWindow sw) {
 		result = new ResultMode(g, this);
@@ -22,31 +23,38 @@ public class ServerGameScreen {
 		currentMode = result;
 	}
 
+	public void forwardToAnswerMode() {
+		game.getRoster().calculateScores(game.getQuiz().getCurrentQuestion().getPointValue());
+	}
+	
 	public void goToAnswerMode() {
 		answer.newQuestion();
 		game.getRoster().endQuestionScan();
 		currentMode = answer;
 		servWin.update();
 	}
-	
+
 	public void goToQuestionMode() {
-		//maybe call start/end Question in Roster
+		if(firstQuestion){
+			firstQuestion = false;
+		}else{
+			game.getQuiz().nextQuestion();
+		}
+			
 		currentMode = question;
-		game.getQuiz().nextQuestion();
-		
 		question.newQuestion();
 		question.startTimer();
 		game.getRoster().startQuestion();
 		
 		servWin.update();
-		
 	}
+	
 	public void goToResultMode() {
+		result.enableBack();
 		if(game.getQuiz().isLastQuestion()) {
 			result.lastQuestion();
 		}
 		game.getRoster().endQuestionScan();
-		game.getRoster().calculateScores();
 		currentMode = result;
 		result.update();
 		

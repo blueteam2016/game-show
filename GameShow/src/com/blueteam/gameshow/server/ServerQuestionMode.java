@@ -49,9 +49,6 @@ public class ServerQuestionMode extends JPanel {
 				new BackPopUp();
 			}
 		});
-		if (game.getQuiz().isFirstQuestion()) {
-			back.setEnabled(false);
-		}
 
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
@@ -77,11 +74,7 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-
-		// sets Question info
-		newQuestion();
-		setUpGUI();
-
+		
 		// add resizing stuff
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -104,9 +97,6 @@ public class ServerQuestionMode extends JPanel {
 	public void newQuestion() {
 		game.sendQuestion(game.getQuiz().getCurrentQuestion());
 		// set time remaining
-		if (!game.getQuiz().isFirstQuestion()) {
-			back.setEnabled(true);
-		}
 
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
 		countdown = new JLabel(numberText(seconds / 60) + ":"
@@ -227,6 +217,7 @@ public class ServerQuestionMode extends JPanel {
 		public void yes() {
 			pause.setText("Pause");
 			pause.setActionCommand("pause");
+			qScreen.forwardToAnswerMode();
 			qScreen.goToAnswerMode();
 			popUp.dispose();
 		}

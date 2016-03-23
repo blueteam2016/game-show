@@ -91,16 +91,17 @@ public class Roster implements ActionListener{
 	private void endQuestion(){
 		endQuestionScan();
 		servGame.goToAnswerMode();
+		servGame.forwardToAnswerMode();
 	}
 	
 	public void endQuestionScan(){
 		scanTime.stop();
 	}
 	
-	public void calculateScores(){
+	public void calculateScores(int pointVal){
 		//adds to score so only call this once per question
 		for(int i = 0; i < teams.size(); i++){
-			teams.get(i).calculateScore();
+			teams.get(i).calculateScore(pointVal);
 		}
 	}
 
