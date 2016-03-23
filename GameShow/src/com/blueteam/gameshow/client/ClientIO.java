@@ -41,7 +41,7 @@ public class ClientIO {
 		outChan.truncate(0);
 	}
 
-	public Question getQuestion() {
+	public Question getQuestion() throws IOException{
 		try {
 			long lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
 			if (questionModTime == lastModified) {
@@ -58,7 +58,7 @@ public class ClientIO {
 			}
 		} catch (EOFException e) {
 			return null;
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
