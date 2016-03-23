@@ -1,5 +1,6 @@
 package com.blueteam.gameshow.client;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ClientIO {
 		questionPath = pathServerFold + ".question";
 		answerPath = pathClientFold + ".answer_" + identifier;
 		profilePath = pathClientFold + ".profile_" + identifier;
-		questionModTime = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
+		questionModTime = 0;
 		
 		FileOutputStream fOut = new FileOutputStream(profilePath);
 		FileLock fLock = fOut.getChannel().lock();
@@ -55,6 +56,8 @@ public class ClientIO {
 				questIn.close();
 				return qIn;
 			}
+		} catch (EOFException e) {
+			return null;
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
