@@ -54,4 +54,10 @@ public class ClientWindow {
 	public static void main(String args[]) {
 		new ClientWindow();
 	}
+
+	public void reset() {
+		clientIO = null;
+		tabs.setSelectedIndex(tabs.indexOfTab("Registration"));
+		tabs.setEnabled(false);
+	}
 }

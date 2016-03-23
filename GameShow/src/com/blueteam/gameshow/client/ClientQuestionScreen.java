@@ -101,5 +101,18 @@ public class ClientQuestionScreen extends JPanel{
 		clientQMThread = new Thread(cQuestion, "ClientQuestionThread"); // required for continuous updating to receive question from server
 		clientQMThread.start();
 	}
+	
+	public void reset() {
+		goToNoQuestion();
+		if (clientQMThread != null) {
+			clientQMThread.interrupt();
+			try {
+				clientQMThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		clientQMThread = null;
+	}
 
 }
