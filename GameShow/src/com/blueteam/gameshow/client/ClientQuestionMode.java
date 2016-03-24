@@ -45,9 +45,12 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			} catch (EmptyFileException e) {
 				if (receivedQuestions) {
 					questScreen.goToAnswerMode();
+				} else {
+					questScreen.goToNoQuestion();
 				}
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Lost connection to server!");
+				receivedQuestions = false;
 				clientWindow.reset();
 				return;
 			}
@@ -59,9 +62,12 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				} catch (EmptyFileException e) {
 					if (receivedQuestions) {
 						questScreen.goToAnswerMode();
+					} else {
+						questScreen.goToNoQuestion();
 					}
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Lost connection to server!");
+					receivedQuestions = false;
 					clientWindow.reset();
 					return;
 				}
