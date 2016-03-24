@@ -44,7 +44,6 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				question = clientIO.getQuestion();
 			} catch (EmptyFileException e) {
 				if (receivedQuestions) {
-					System.out.println("Empty File!");
 					questScreen.goToAnswerMode();
 				}
 			} catch (IOException e) {
@@ -59,7 +58,6 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					question = clientIO.getQuestion();
 				} catch (EmptyFileException e) {
 					if (receivedQuestions) {
-						System.out.println("Empty File!");
 						questScreen.goToAnswerMode();
 					}
 				} catch (IOException e) {
