@@ -2,6 +2,7 @@ package com.blueteam.gameshow.client;
 import javax.swing.*;
 
 import com.blueteam.gameshow.data.Answer;
+import com.blueteam.gameshow.data.EmptyFileException;
 import com.blueteam.gameshow.data.Question;
 
 import java.awt.Dimension;
@@ -24,10 +25,12 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private JPanel displayAnswers;
 	private JPanel displayButtons;
 	private static int choice;
+	private boolean receivedQuestions;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
+		receivedQuestions = false;
 	}
 	
 	public void register() {
@@ -39,6 +42,11 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		while (!Thread.currentThread().isInterrupted()) {
 			try {
 				question = clientIO.getQuestion();
+			} catch (EmptyFileException e) {
+				if (receivedQuestions) {
+					System.out.println("Empty File!");
+					questScreen.goToAnswerMode();
+				}
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Lost connection to server!");
 				clientWindow.reset();
@@ -49,12 +57,19 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					return;
 				try {
 					question = clientIO.getQuestion();
+				} catch (EmptyFileException e) {
+					if (receivedQuestions) {
+						System.out.println("Empty File!");
+						questScreen.goToAnswerMode();
+					}
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Lost connection to server!");
 					clientWindow.reset();
 					return;
 				}
 			}
+			if (!receivedQuestions)
+				receivedQuestions = true;
 			questScreen.setQuestion(question);
 				
 			setUpGUI();
@@ -95,6 +110,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		this.add(questionText);
 		questionText.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
 		this.add(answerStuff);
+		choice = -1;
 	}
 
 	public static int getChoice() {

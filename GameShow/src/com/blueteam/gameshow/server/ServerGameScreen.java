@@ -25,10 +25,10 @@ public class ServerGameScreen {
 
 	public void forwardToAnswerMode() {
 		game.getRoster().calculateScores(game.getQuiz().getCurrentQuestion().getPointValue());
-		//game.clearQuestion();
 	}
 	
 	public void goToAnswerMode() {
+		game.clearQuestion();
 		answer.newQuestion();
 		game.getRoster().endQuestionScan();
 		currentMode = answer;
