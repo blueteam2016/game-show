@@ -11,7 +11,7 @@ public class ServerGameScreen {
 	private Game game;
 	private boolean firstQuestion = true;
 	
-	ServerGameScreen(Game g, ServerWindow sw) {
+	public ServerGameScreen(Game g, ServerWindow sw) {
 		result = new ResultMode(g, this);
 		question = new ServerQuestionMode(g, this);
 		answer = new ServerAnswerMode(g, this);
@@ -25,6 +25,7 @@ public class ServerGameScreen {
 
 	public void forwardToAnswerMode() {
 		game.getRoster().calculateScores(game.getQuiz().getCurrentQuestion().getPointValue());
+		//game.clearQuestion();
 	}
 	
 	public void goToAnswerMode() {

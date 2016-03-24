@@ -52,7 +52,7 @@ public class ServerQuestionMode extends JPanel {
 		if (game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(false);
 		}
-
+		
 		pause = new JButton("Pause");
 		pause.setActionCommand("pause");
 		pause.setMinimumSize(new Dimension(80, 40));
@@ -77,10 +77,10 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-
+		
 		// sets Question info
-		newQuestion();
-		setUpGUI();
+		//newQuestion();
+		//setUpGUI();
 
 		// add resizing stuff
 		addComponentListener(new ComponentAdapter() {
@@ -114,10 +114,9 @@ public class ServerQuestionMode extends JPanel {
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		
-		//question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
+		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
 		//question = new JLabel(questionWrapping("<html>First line<br>Second line</html>"));
-		question = new JLabel(questionWrapping("Trees are volatile plants, cake is made out of batter and flour, and computers come inested with miniature garns. These virus can onl be removed when x and x are added to mollify the garns."));
+		//question = new JLabel(questionWrapping("Trees are volatile plants, cake is made out of batter and flour, and computers come inested with miniature garns. These virus can onl be removed when x and x are added to mollify the garns."));
 		answers = new ArrayList<JLabel>();
 		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
 			answers.add(new JLabel((char) (65 + i)
@@ -126,33 +125,32 @@ public class ServerQuestionMode extends JPanel {
 							.getText()));
 			answers.get(i).setAlignmentX(LEFT_ALIGNMENT);
 		}
-
 		setUpGUI();
 	}
 	
 	private String questionWrapping(String question){
-		String remaining=question;
-		String htmltaggedstring="<html>";
-		ArrayList<Integer> linecut=new ArrayList<Integer>();
-		//ArrayList<String> cutstrings=new ArrayList();
-		while (remaining.length()>0){
-			String line=remaining.substring(0,80);
-			boolean stop=false;
-			for (int i=line.length(); i>0&&stop==true; i++){
-				if (line.substring(i-1,i).equals(" ")){
+		String remaining = question;
+		String htmltaggedstring = "<html>";
+		ArrayList<Integer> linecut = new ArrayList<Integer>();
+		//ArrayList<String> cutstrings = new ArrayList();
+		while (remaining.length()> 0){
+			String line = remaining.substring(0,80);
+			boolean stop = false;
+			for (int i  = line.length(); i > 0 && stop == true; i++){
+				if (line.substring(i - 1, i).equals(" ")){
 					linecut.add(i);
-					remaining=remaining.substring(i);
+					remaining = remaining.substring(i);
 				}
 			}
 		}
-		for (int i=0;i<linecut.size()-1;i++){
-			//cutstrings.add(question.substring(i, i+1));
-			htmltaggedstring+=question.substring(i, i+1);
-			if (i!=linecut.size()-2){
-				htmltaggedstring+="<br>";
+		for (int i = 0; i < linecut.size() - 1 ; i++){
+			//cutstrings.add(question.substring(i, i + 1));
+			htmltaggedstring += question.substring(i, i + 1);
+			if (i != linecut.size() - 2){
+				htmltaggedstring += "<br>";
 			}
 		}
-		htmltaggedstring+="</html>";
+		htmltaggedstring += "</html>";
 		System.out.println(htmltaggedstring);
 		return htmltaggedstring;
 	}
@@ -256,6 +254,28 @@ public class ServerQuestionMode extends JPanel {
 			qScreen.goToAnswerMode();
 			popUp.dispose();
 		}
+		
+		public void windowActivated(WindowEvent arg0) {
+		}
+
+		public void windowClosed(WindowEvent arg0) {
+		}
+
+		public void windowClosing(WindowEvent arg0) {
+			startTimer();
+		}
+
+		public void windowDeactivated(WindowEvent arg0) {
+		}
+
+		public void windowDeiconified(WindowEvent arg0) {		
+		}
+
+		public void windowIconified(WindowEvent arg0) {	
+		}
+
+		public void windowOpened(WindowEvent arg0) {		
+		}
 	}
 
 	private class BackPopUp extends PopUp {
@@ -273,6 +293,28 @@ public class ServerQuestionMode extends JPanel {
 		public void no() {
 			popUp.dispose();
 			startTimer();
+		}
+		
+		public void windowActivated(WindowEvent arg0) {
+		}
+
+		public void windowClosed(WindowEvent arg0) {
+		}
+
+		public void windowClosing(WindowEvent arg0) {
+			startTimer();
+		}
+
+		public void windowDeactivated(WindowEvent arg0) {
+		}
+
+		public void windowDeiconified(WindowEvent arg0) {		
+		}
+
+		public void windowIconified(WindowEvent arg0) {	
+		}
+
+		public void windowOpened(WindowEvent arg0) {		
 		}
 	}
 }

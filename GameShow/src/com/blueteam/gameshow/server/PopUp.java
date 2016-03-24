@@ -3,6 +3,7 @@ package com.blueteam.gameshow.server;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public abstract class PopUp{
+public abstract class PopUp implements WindowListener {
 
 	protected JDialog popUp;
 	private JPanel panel;
@@ -23,6 +24,7 @@ public abstract class PopUp{
 	public PopUp() {
 		
 		popUp = new JDialog(ServerWindow.accessFrame());
+		popUp.addWindowListener(this);
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1,5,5));
 		

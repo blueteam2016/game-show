@@ -78,6 +78,17 @@ public class Game {
 		}
 	}
 	
+	public void clearQuestion() {
+		try {
+			FileOutputStream fOut = new FileOutputStream(questionPath, true);
+			FileLock fLock = fOut.getChannel().lock();
+			truncate(fOut);
+			fLock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void destroy() {
 		try {
 			String clientPath = profile.getClientFolderLoc();
@@ -89,8 +100,10 @@ public class Game {
 						return name.contains(".answer_");
 					}
 				});
-				for (File file : ansFiles) {
-					file.delete();	
+				if (ansFiles != null) {
+					for (File file : ansFiles) {
+						file.delete();	
+					}
 				}
 				File[] profFiles = folder.listFiles(new FilenameFilter() {
 					@Override
@@ -98,14 +111,15 @@ public class Game {
 						return name.contains(".profile_");
 					}
 				});
-				for (File file : profFiles) {
-					file.delete();	
+				if (profFiles != null) {
+					for (File file : profFiles) {
+						file.delete();	
+					}
 				}
 			}
 			if (questionPath != null)
 				Files.deleteIfExists(Paths.get(questionPath));
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
