@@ -214,8 +214,8 @@ public class ServerQuestionMode extends JPanel {
 		double widthRatio = (double)getWidth()/((double)longWidth+10);
 		int fontSize = (int) (ansFont.getSize()*widthRatio);
 		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
-		if (newFont.getSize()<25)
-			newFont=new Font(ansFont.getName(), Font.PLAIN, 25);
+		if (newFont.getSize()<4)
+			newFont=new Font(ansFont.getName(), Font.PLAIN, 4);
 		if(newFont.getSize()>65)
 			newFont=new Font(ansFont.getName(), Font.PLAIN, 65);
 		
