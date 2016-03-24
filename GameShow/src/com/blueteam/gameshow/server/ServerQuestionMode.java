@@ -133,7 +133,7 @@ public class ServerQuestionMode extends JPanel {
 	private String questionWrapping(String question){
 		String remaining=question;
 		String htmltaggedstring="<html>";
-		ArrayList<Integer> linecut=new ArrayList();
+		ArrayList<Integer> linecut=new ArrayList<Integer>();
 		//ArrayList<String> cutstrings=new ArrayList();
 		while (remaining.length()>0){
 			String line=remaining.substring(0,80);

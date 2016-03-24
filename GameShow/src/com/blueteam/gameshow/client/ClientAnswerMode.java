@@ -1,8 +1,5 @@
 package com.blueteam.gameshow.client;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 import javax.swing.*;
 
 import com.blueteam.gameshow.data.Answer;

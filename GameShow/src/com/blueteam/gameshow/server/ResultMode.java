@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
@@ -19,13 +18,13 @@ public class ResultMode extends JPanel{
 	private Roster rost;
 	private JButton back;
 	private JButton nextQ;
-	private Game game;
+	//private Game game;
 	
 	int rowSize = 30;
 	
 	public ResultMode(Game g, final ServerGameScreen s){
 		rost = g.getRoster();
-		game = g;
+		//game = g;
 		model = new ResultTableModel(rost);
 		table = new JTable(model);
 		table.setSize(new Dimension(200,200));

@@ -3,13 +3,10 @@ package com.blueteam.gameshow.server;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
@@ -30,6 +27,9 @@ public class ScoreboardScreen extends JPanel{
 		table = new JTable(model);
 		table.setSize(new Dimension(200,200));
 		table.setTableHeader(new JTableHeader(table.getColumnModel()) {
+
+			private static final long serialVersionUID = -2390893737995062836L;
+
 			@Override public Dimension getPreferredSize() {
 				Dimension d = super.getPreferredSize();
 				d.height = rowSize/3;

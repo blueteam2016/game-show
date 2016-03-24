@@ -17,7 +17,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private JTable table;
 	private JButton unregButt, openClose;
 	boolean regClosed;
-	private ListSelectionModel selectModel;
+	//private ListSelectionModel selectModel;
 	private int selectedRow;
 	private Game game;
 	private RosterTableModel model;

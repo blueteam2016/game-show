@@ -1,9 +1,6 @@
 package com.blueteam.gameshow.server;
 
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import javax.swing.table.*;
 
 import com.blueteam.gameshow.data.Roster;
