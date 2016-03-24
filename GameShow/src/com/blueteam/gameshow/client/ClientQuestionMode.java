@@ -2,13 +2,13 @@ package com.blueteam.gameshow.client;
 import javax.swing.*;
 
 import com.blueteam.gameshow.data.Answer;
-import com.blueteam.gameshow.data.EmptyFileException;
 import com.blueteam.gameshow.data.Question;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,13 +40,16 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while (!Thread.currentThread().isInterrupted()) {
+			
 			try {
 				question = clientIO.getQuestion();
-			} catch (EmptyFileException e) {
+			} catch (EOFException e) {
 				if (receivedQuestions) {
-					questScreen.goToAnswerMode();
+					if (questScreen.getCurrentMode() != ClientQuestionScreen.ANSWERMODE)
+						questScreen.goToAnswerMode();
 				} else {
-					questScreen.goToNoQuestion();
+					if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
+						questScreen.goToNoQuestion();
 				}
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Lost connection to server!");
@@ -54,16 +57,21 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				clientWindow.reset();
 				return;
 			}
+			
 			while (question == null) {
+				
 				if (Thread.currentThread().isInterrupted())
 					return;
+				
 				try {
 					question = clientIO.getQuestion();
-				} catch (EmptyFileException e) {
+				} catch (EOFException e) {
 					if (receivedQuestions) {
-						questScreen.goToAnswerMode();
+						if (questScreen.getCurrentMode() != ClientQuestionScreen.ANSWERMODE)
+							questScreen.goToAnswerMode();
 					} else {
-						questScreen.goToNoQuestion();
+						if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
+							questScreen.goToNoQuestion();
 					}
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Lost connection to server!");
@@ -72,6 +80,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					return;
 				}
 			}
+			
 			if (!receivedQuestions)
 				receivedQuestions = true;
 			questScreen.setQuestion(question);

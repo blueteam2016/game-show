@@ -1,6 +1,5 @@
 package com.blueteam.gameshow.client;
 
-import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.nio.file.Paths;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.ClientProfile;
-import com.blueteam.gameshow.data.EmptyFileException;
 import com.blueteam.gameshow.data.Question;
 
 public class ClientIO {
@@ -42,7 +40,7 @@ public class ClientIO {
 		outChan.truncate(0);
 	}
 
-	public Question getQuestion() throws IOException, EmptyFileException{
+	public Question getQuestion() throws IOException {
 		try {
 			long lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
 			if (questionModTime == lastModified) {
@@ -50,10 +48,6 @@ public class ClientIO {
 			} else {
 				questionModTime = lastModified;
 				FileInputStream fIn = new FileInputStream(questionPath);
-				if (!(fIn.getChannel().size() > 0)) {
-					fIn.close();
-					throw new EmptyFileException();
-				}
 				FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
 				ObjectInputStream questIn = new ObjectInputStream(fIn);
 				Question qIn = (Question)questIn.readObject();
@@ -61,8 +55,6 @@ public class ClientIO {
 				questIn.close();
 				return qIn;
 			}
-		} catch (EOFException e) {
-			return null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
