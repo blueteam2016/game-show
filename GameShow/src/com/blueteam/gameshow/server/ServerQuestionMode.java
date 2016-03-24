@@ -128,32 +128,32 @@ public class ServerQuestionMode extends JPanel {
 		setUpGUI();
 	}
 	
-	private String questionWrapping(String question){
-		String remaining = question;
-		String htmltaggedstring = "<html>";
-		ArrayList<Integer> linecut = new ArrayList<Integer>();
-		//ArrayList<String> cutstrings = new ArrayList();
-		while (remaining.length()> 0){
-			String line = remaining.substring(0,80);
-			boolean stop = false;
-			for (int i  = line.length(); i > 0 && stop == true; i++){
-				if (line.substring(i - 1, i).equals(" ")){
-					linecut.add(i);
-					remaining = remaining.substring(i);
-				}
-			}
-		}
-		for (int i = 0; i < linecut.size() - 1 ; i++){
-			//cutstrings.add(question.substring(i, i + 1));
-			htmltaggedstring += question.substring(i, i + 1);
-			if (i != linecut.size() - 2){
-				htmltaggedstring += "<br>";
-			}
-		}
-		htmltaggedstring += "</html>";
-		System.out.println(htmltaggedstring);
-		return htmltaggedstring;
-	}
+//	private String questionWrapping(String question){
+//		String remaining = question;
+//		String htmltaggedstring = "<html>";
+//		ArrayList<Integer> linecut = new ArrayList<Integer>();
+//		//ArrayList<String> cutstrings = new ArrayList();
+//		while (remaining.length()> 0){
+//			String line = remaining.substring(0,80);
+//			boolean stop = false;
+//			for (int i  = line.length(); i > 0 && stop == true; i++){
+//				if (line.substring(i - 1, i).equals(" ")){
+//					linecut.add(i);
+//					remaining = remaining.substring(i);
+//				}
+//			}
+//		}
+//		for (int i = 0; i < linecut.size() - 1 ; i++){
+//			//cutstrings.add(question.substring(i, i + 1));
+//			htmltaggedstring += question.substring(i, i + 1);
+//			if (i != linecut.size() - 2){
+//				htmltaggedstring += "<br>";
+//			}
+//		}
+//		htmltaggedstring += "</html>";
+//		System.out.println(htmltaggedstring);
+//		return htmltaggedstring;
+//	}
 	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner

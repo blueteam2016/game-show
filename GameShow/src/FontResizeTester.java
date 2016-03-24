@@ -14,7 +14,7 @@ public class FontResizeTester {
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel label;
-	private Font f;
+	//private Font f;
 	double ratioW;
 	double ratioL;
 	
