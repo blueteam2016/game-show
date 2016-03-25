@@ -14,7 +14,7 @@ public class Roster implements ActionListener{
 	
 	public Roster(){
 		teams = new ArrayList<Team>();
-		scanTime = new Timer(20, this);
+		scanTime = new Timer(100, this);
 	}
 	
 	public void addServGame(ServerGameScreen sgs){

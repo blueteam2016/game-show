@@ -128,7 +128,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			JTabbedPane p = (JTabbedPane) e.getSource();
 			if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
 				sgScreen.getServerQuestionMode().stopTimer();
-				game.getRoster().endQuestionScan();
 			}else if(sgScreen.onQuestionMode()){
 				sgScreen.getServerQuestionMode().startTimer();
 			}else{
