@@ -26,11 +26,13 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private JPanel displayButtons;
 	private static int choice;
 	private boolean receivedQuestions;
+	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
 		receivedQuestions = false;
+		inAnswerMode = false;
 	}
 	
 	public void register() {
@@ -45,8 +47,10 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				question = clientIO.getQuestion();
 			} catch (EOFException e) {
 				if (receivedQuestions) {
-					if (questScreen.getCurrentMode() != ClientQuestionScreen.ANSWERMODE)
+					if (!inAnswerMode) {
+						inAnswerMode = true;
 						questScreen.goToAnswerMode();
+					}
 				} else {
 					if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
 						questScreen.goToNoQuestion();
@@ -67,8 +71,10 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					question = clientIO.getQuestion();
 				} catch (EOFException e) {
 					if (receivedQuestions) {
-						if (questScreen.getCurrentMode() != ClientQuestionScreen.ANSWERMODE)
+						if (!inAnswerMode) {
+							inAnswerMode = true;
 							questScreen.goToAnswerMode();
+						}
 					} else {
 						if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
 							questScreen.goToNoQuestion();
@@ -141,6 +147,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		
 		public void actionPerformed(ActionEvent arg0)
 		{
+			inAnswerMode = true;
 			for (int i = 0; i < answerButtons.size(); i++)
 				if (answerButtons.get(i).equals(arg0.getSource()))
 				{
