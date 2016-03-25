@@ -27,7 +27,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	public RosterTableModel(Game game){
 		roster = game.getRoster();
 		pathToFolder = game.getProfile().getClientFolderLoc();
-		scanTime = new Timer(10, this);
+		scanTime = new Timer(100, this);
 	}
 	
 	public String getColumnName(int col){
