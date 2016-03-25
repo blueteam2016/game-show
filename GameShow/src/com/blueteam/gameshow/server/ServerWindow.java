@@ -123,14 +123,13 @@ public class ServerWindow implements WindowListener, ChangeListener{
 
 	public void stateChanged(ChangeEvent e) {
 		//System.out.println("CHANGED");
-		if(tabsEnabled)
-		{
+		if(tabsEnabled) {
 			JTabbedPane p = (JTabbedPane) e.getSource();
 			if(p.getSelectedIndex() != tabs.indexOfTab("Game")){
 				sgScreen.getServerQuestionMode().stopTimer();
-			}else if(sgScreen.onQuestionMode()){
+			} else if(sgScreen.onQuestionMode()){
 				sgScreen.getServerQuestionMode().startTimer();
-			}else{
+			} else{
 				sgScreen.resizeResult();
 			}
 			if(p.getSelectedIndex() != tabs.indexOfTab("Roster")){
@@ -142,8 +141,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		}
 	}
 	
-	public static JFrame accessFrame()
-	{
+	public static JFrame accessFrame() {
 		return frame;
 	}
 
