@@ -47,7 +47,8 @@ public class ClientWindow {
 		
 		tabs.addTab("Registration", rScreen);
 		tabs.addTab("Question", cqScreen);
-		tabs.setEnabled(false);
+		tabs.setEnabledAt(tabs.indexOfTab("Question"), false);
+		
 		
 		content.add(tabs);
 		frame.setContentPane(content);
@@ -68,7 +69,8 @@ public class ClientWindow {
 			}
 			if (clientIO != null) {
 				cqScreen.register();
-				tabs.setEnabled(true);
+				tabs.setEnabledAt(tabs.indexOfTab("Question"), true);
+				tabs.setSelectedIndex(tabs.indexOfTab("Question"));
 			}
 		}
 	}
@@ -84,6 +86,6 @@ public class ClientWindow {
 	public void reset() {
 		clientIO = null;
 		tabs.setSelectedIndex(tabs.indexOfTab("Registration"));
-		tabs.setEnabled(false);
+		tabs.setEnabledAt(tabs.indexOfTab("Question"), false);
 	}
 }
