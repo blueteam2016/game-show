@@ -50,6 +50,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		frame = new JFrame("GameShow Server");
 		frame.addWindowListener(this);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setContentPane(content);
 		
 		pScreen = new ProfileScreen(game, this);
 		tabs.add(pScreen, 0);

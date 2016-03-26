@@ -26,6 +26,8 @@ public class ServerQuestionMode extends JPanel {
 		qScreen = s;
 		game = g;
 		
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		
 		// make timer
 		timeRemaining = new JLabel("Time Remaining: ");
 		timer = new Timer(1000, new ActionListener() {
@@ -77,17 +79,7 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-		
-		// sets Question info
-		//newQuestion();
-		//setUpGUI();
 
-		// add resizing stuff
-		addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent e) {
-				resizeText();
-			}
-		});
 	}
 
 	private static String numberText(int timeNum) {
@@ -103,6 +95,7 @@ public class ServerQuestionMode extends JPanel {
 
 	public void newQuestion() {
 		game.sendQuestion(game.getQuiz().getCurrentQuestion());
+		
 		// set time remaining
 		if (!game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(true);
@@ -114,46 +107,16 @@ public class ServerQuestionMode extends JPanel {
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		question = new JLabel(game.getQuiz().getCurrentQuestion().getText());
-		//question = new JLabel(questionWrapping("<html>First line<br>Second line</html>"));
-		//question = new JLabel(questionWrapping("Trees are volatile plants, cake is made out of batter and flour, and computers come inested with miniature garns. These virus can onl be removed when x and x are added to mollify the garns."));
+		question = new JLabel("<html>" + game.getQuiz().getCurrentQuestion().getText() + "</html>");
 		answers = new ArrayList<JLabel>();
 		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
-			answers.add(new JLabel((char) (65 + i)
-					+ ") "
-					+ game.getQuiz().getCurrentQuestion().getAnswers()[i]
-							.getText()));
-			answers.get(i).setAlignmentX(LEFT_ALIGNMENT);
+			JLabel answer = new JLabel((char) (65 + i) + ") "
+					+ game.getQuiz().getCurrentQuestion().getAnswers()[i].getText());
+			answers.add(answer);
+			answer.setAlignmentX(LEFT_ALIGNMENT);
 		}
 		setUpGUI();
 	}
-	
-//	private String questionWrapping(String question){
-//		String remaining = question;
-//		String htmltaggedstring = "<html>";
-//		ArrayList<Integer> linecut = new ArrayList<Integer>();
-//		//ArrayList<String> cutstrings = new ArrayList();
-//		while (remaining.length()> 0){
-//			String line = remaining.substring(0,80);
-//			boolean stop = false;
-//			for (int i  = line.length(); i > 0 && stop == true; i++){
-//				if (line.substring(i - 1, i).equals(" ")){
-//					linecut.add(i);
-//					remaining = remaining.substring(i);
-//				}
-//			}
-//		}
-//		for (int i = 0; i < linecut.size() - 1 ; i++){
-//			//cutstrings.add(question.substring(i, i + 1));
-//			htmltaggedstring += question.substring(i, i + 1);
-//			if (i != linecut.size() - 2){
-//				htmltaggedstring += "<br>";
-//			}
-//		}
-//		htmltaggedstring += "</html>";
-//		System.out.println(htmltaggedstring);
-//		return htmltaggedstring;
-//	}
 	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner
@@ -183,50 +146,6 @@ public class ServerQuestionMode extends JPanel {
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
-		
-		resizeText();
-	}
-
-	private void resizeText(){
-		JComponent[] textBits = { question, timeRemaining,
-				countdown, back, pause, skip}; //components with text to be resized
-		
-		//finds longest answer
-		int longWidth=0;
-		Font ansFont = answers.get(0).getFont();
-		String ansText;
-		int ansWidth;
-		for(int i=0; i<answers.size(); i++){
-			ansText = answers.get(i).getText();
-			ansWidth = answers.get(i).getFontMetrics(ansFont).stringWidth(ansText);
-			if(ansWidth>longWidth){
-				longWidth = ansWidth;
-			}
-		}
-		
-		//decides if question is longer than longest answer
-		int questionLength = question.getFontMetrics(ansFont).stringWidth(question.getText());
-		if(questionLength >longWidth){
-			longWidth = questionLength;
-		}
-		
-		//sets font size to something that will fit the longest element(as determined earlier)
-		double widthRatio = (double)getWidth()/((double)longWidth+10);
-		int fontSize = (int) (ansFont.getSize()*widthRatio);
-		Font newFont = new Font(ansFont.getName(), Font.PLAIN, fontSize);
-		if (newFont.getSize()<4)
-			newFont=new Font(ansFont.getName(), Font.PLAIN, 4);
-		if(newFont.getSize()>65)
-			newFont=new Font(ansFont.getName(), Font.PLAIN, 65);
-		
-		//set elements to font size
-		for(int i=0; i<answers.size(); i++){
-			answers.get(i).setFont(newFont);
-		}
-		for(int i=0; i<textBits.length; i++){
-			textBits[i].setFont(newFont);
-		}
-		
 	}
 
 	public void startTimer() {
@@ -255,27 +174,15 @@ public class ServerQuestionMode extends JPanel {
 			popUp.dispose();
 		}
 		
-		public void windowActivated(WindowEvent arg0) {
-		}
-
-		public void windowClosed(WindowEvent arg0) {
-		}
-
+		public void windowActivated(WindowEvent arg0) {}
+		public void windowClosed(WindowEvent arg0) {}
 		public void windowClosing(WindowEvent arg0) {
 			startTimer();
 		}
-
-		public void windowDeactivated(WindowEvent arg0) {
-		}
-
-		public void windowDeiconified(WindowEvent arg0) {		
-		}
-
-		public void windowIconified(WindowEvent arg0) {	
-		}
-
-		public void windowOpened(WindowEvent arg0) {		
-		}
+		public void windowDeactivated(WindowEvent arg0) {}
+		public void windowDeiconified(WindowEvent arg0) {}
+		public void windowIconified(WindowEvent arg0) {}
+		public void windowOpened(WindowEvent arg0) {}
 	}
 
 	private class BackPopUp extends PopUp {
@@ -295,26 +202,14 @@ public class ServerQuestionMode extends JPanel {
 			startTimer();
 		}
 		
-		public void windowActivated(WindowEvent arg0) {
-		}
-
-		public void windowClosed(WindowEvent arg0) {
-		}
-
+		public void windowActivated(WindowEvent arg0) {}
+		public void windowClosed(WindowEvent arg0) {}
 		public void windowClosing(WindowEvent arg0) {
 			startTimer();
 		}
-
-		public void windowDeactivated(WindowEvent arg0) {
-		}
-
-		public void windowDeiconified(WindowEvent arg0) {		
-		}
-
-		public void windowIconified(WindowEvent arg0) {	
-		}
-
-		public void windowOpened(WindowEvent arg0) {		
-		}
+		public void windowDeactivated(WindowEvent arg0) {}
+		public void windowDeiconified(WindowEvent arg0) {}
+		public void windowIconified(WindowEvent arg0) {}
+		public void windowOpened(WindowEvent arg0) {}
 	}
 }
