@@ -12,7 +12,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	private JLabel question;
-	private ArrayList<JLabel> answerLabel;
+	private ArrayList<JLabel> answerLabels;
 	private JLabel explanation;
 	private JButton moveOn;
 	private ServerGameScreen SGS;
@@ -32,24 +32,27 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	
 	public void newQuestion(){		
 		//adds question
-		question = new JLabel("<html>" + game.getQuiz().getCurrentQuestion().getText() + "</html>");
+		question = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
 		
 		//adds correct answer(s)
-		answerLabel = new ArrayList<JLabel>();
+		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
-		for(int x = 0; x< answers.length; x++){
-			if(answers[x].isCorrect()) {
-				JLabel answer = new JLabel("<html>" + (char)(65+x) + ") " + answers[x].getText() + "</html>");
-				answerLabel.add(answer);
-				answer.setAlignmentX(Component.LEFT_ALIGNMENT);
+		for(int i = 0; i< answers.length; i++){
+			if(answers[i].isCorrect()) {
+				JLabel answer = new JLabel("<html><span style='font-size:16px'>" +
+										  (char)(65 + i) + ") " +
+										  answers[i].getText() +
+										  "</span></html>");
+				answerLabels.add(answer);
+				answer.setAlignmentX(LEFT_ALIGNMENT);
 			}
 		}
 		
 		//add explanation
 		String explanationString = game.getQuiz().getCurrentQuestion().getExplanationText();
 		if(explanationString != null){
-			explanation = new JLabel("<html>Explanation: " + explanationString + "</html>");
-			explanation.setAlignmentX(Component.LEFT_ALIGNMENT);
+			explanation = new JLabel("<html><span style='font-size:16px'>Explanation: " + explanationString + "</span></html>");
+			explanation.setAlignmentX(LEFT_ALIGNMENT);
 		}
 		
 		setUpGUI();
@@ -57,7 +60,6 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner
-		
 		removeAll();
 		
 		// Sets layout
@@ -67,8 +69,8 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		answerInfo.setLayout(new BoxLayout(answerInfo, BoxLayout.PAGE_AXIS));
 		answerInfo.add(question);
 		answerInfo.add(Box.createRigidArea(new Dimension(0, 15)));
-		for (int i = 0; i < answerLabel.size(); i++) {
-			answerInfo.add(answerLabel.get(i));
+		for (int i = 0; i < answerLabels.size(); i++) {
+			answerInfo.add(answerLabels.get(i));
 			answerInfo.add(Box.createRigidArea(new Dimension(0, 5)));
 		}
 		answerInfo.add(Box.createRigidArea(new Dimension(0, 10)));

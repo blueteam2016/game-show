@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import com.blueteam.gameshow.data.Answer;
+
 public class ServerQuestionMode extends JPanel {
 
 	private static final long serialVersionUID = -6719297104248411239L;
 	private JLabel question;
-	private ArrayList<JLabel> answers;
+	private ArrayList<JLabel> answerLabels;
 	private JLabel timeRemaining;
 	private JLabel countdown;
 	private int seconds;
@@ -29,12 +31,14 @@ public class ServerQuestionMode extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		// make timer
-		timeRemaining = new JLabel("Time Remaining: ");
+		timeRemaining = new JLabel("<html><span style='font-size:16px'>Time Remaining: </span></html>");
 		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seconds -= 1;
-				countdown.setText(numberText(seconds / 60) + ":"
-						+ numberText(seconds % 60));
+				countdown.setText("<html><span style='font-size:16px'>" +
+						numberText(seconds / 60) + ":" +
+						numberText(seconds % 60) +
+						"</span></html>");
 				if (seconds <= 0) {
 					timer.stop();
 					qScreen.goToAnswerMode();
@@ -102,17 +106,22 @@ public class ServerQuestionMode extends JPanel {
 		}
 
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
-		countdown = new JLabel(numberText(seconds / 60) + ":"
-				+ numberText(seconds % 60));
+		countdown = new JLabel("<html><span style='font-size:16px'>" +
+				numberText(seconds / 60) + ":" +
+				numberText(seconds % 60) +
+				"</span></html>");
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		question = new JLabel("<html>" + game.getQuiz().getCurrentQuestion().getText() + "</html>");
-		answers = new ArrayList<JLabel>();
-		for (int i = 0; i < game.getQuiz().getCurrentQuestion().getAnswers().length; i++) {
-			JLabel answer = new JLabel((char) (65 + i) + ") "
-					+ game.getQuiz().getCurrentQuestion().getAnswers()[i].getText());
-			answers.add(answer);
+		question = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
+		answerLabels = new ArrayList<JLabel>();
+		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
+		for (int i = 0; i < answers.length; i++) {
+			JLabel answer = new JLabel("<html><span style='font-size:16px'>" +
+									   (char) (65 + i) + ") " +
+									   answers[i].getText() +
+									   "</span></html>");
+			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
 		}
 		setUpGUI();
@@ -120,8 +129,8 @@ public class ServerQuestionMode extends JPanel {
 	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner
-
 		removeAll();
+		
 		// Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -129,12 +138,13 @@ public class ServerQuestionMode extends JPanel {
 		questionInfo.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
 		questionInfo.add(question);
 		questionInfo.add(Box.createRigidArea(new Dimension(0, 15)));
-		for (int i = 0; i < answers.size(); i++) {
-			questionInfo.add(answers.get(i));
+		for (int i = 0; i < answerLabels.size(); i++) {
+			questionInfo.add(answerLabels.get(i));
 			questionInfo.add(Box.createRigidArea(new Dimension(0, 5)));
 		}
 		questionInfo.setAlignmentX(CENTER_ALIGNMENT);
 		add(questionInfo);
+		add(Box.createRigidArea(new Dimension(0, 15)));
 
 		JPanel timePanel = new JPanel();
 		timePanel.add(timeRemaining);

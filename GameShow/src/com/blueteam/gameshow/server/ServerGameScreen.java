@@ -1,26 +1,39 @@
 package com.blueteam.gameshow.server;
+import java.awt.CardLayout;
+
 import javax.swing.JPanel;
 
 
-public class ServerGameScreen {
-	private ResultMode result;
+public class ServerGameScreen extends JPanel {
+	
+	private static final long serialVersionUID = -2603169182746777682L;
+	public static final String QUESTIONMODE = "Question Mode";
+	public static final String ANSWERMODE = "Answer Mode";
+	public static final String RESULTMODE = "Result Mode";
+	private ServerResultMode result;
 	private ServerQuestionMode question;
 	private ServerAnswerMode answer;
-	private JPanel currentMode;
 	private ServerWindow servWin;
 	private Game game;
 	private boolean firstQuestion = true;
+	private String currentMode;
 	
 	public ServerGameScreen(Game g, ServerWindow sw) {
-		result = new ResultMode(g, this);
-		question = new ServerQuestionMode(g, this);
-		answer = new ServerAnswerMode(g, this);
+		setLayout(new CardLayout());
 		
 		game = g;
 		servWin = sw;
-		
+	}
+	
+	public void startGame() {
+		result = new ServerResultMode(game, this);
+		question = new ServerQuestionMode(game, this);
+		answer = new ServerAnswerMode(game, this);
+		add(result, RESULTMODE);
+		add(question, QUESTIONMODE);
+		add(answer, ANSWERMODE);
 		result.update();
-		currentMode = result;
+		goToResultMode();
 	}
 
 	public void forwardToAnswerMode() {
@@ -28,10 +41,12 @@ public class ServerGameScreen {
 	}
 	
 	public void goToAnswerMode() {
+		game.getRoster().endQuestionScan();
 		game.clearQuestion();
 		answer.newQuestion();
-		game.getRoster().endQuestionScan();
-		currentMode = answer;
+		CardLayout cl = (CardLayout)getLayout();
+		currentMode = ANSWERMODE;
+		cl.show(this, currentMode);
 		servWin.update();
 	}
 
@@ -41,24 +56,25 @@ public class ServerGameScreen {
 		}else{
 			game.getQuiz().nextQuestion();
 		}
-			
-		currentMode = question;
 		question.newQuestion();
 		question.startTimer();
 		game.getRoster().startQuestion();
-		
+		CardLayout cl = (CardLayout)getLayout();
+		currentMode = QUESTIONMODE;
+		cl.show(this, currentMode);
 		servWin.update();
 	}
-	
+
 	public void goToResultMode() {
 		result.enableBack();
 		if(game.getQuiz().isLastQuestion()) {
 			result.lastQuestion();
 		}
 		game.getRoster().endQuestionScan();
-		currentMode = result;
+		CardLayout cl = (CardLayout)getLayout();
+		currentMode = RESULTMODE;
+		cl.show(this, currentMode);
 		result.update();
-		
 		servWin.update();
 	}
 	
@@ -66,7 +82,7 @@ public class ServerGameScreen {
 		result.update();
 	}
 	
-	public JPanel getCurrentMode() {
+	public String getCurrentMode() {
 		return currentMode;
 	}
 	

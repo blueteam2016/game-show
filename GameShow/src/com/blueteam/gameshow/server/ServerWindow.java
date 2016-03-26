@@ -39,11 +39,22 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			}
 		} catch (Exception ex) {}
 		
-		tabsEnabled = false;
-		game = new Game();
-		
 		tabs = new JTabbedPane();
 		tabs.addChangeListener(this);
+		
+		tabsEnabled = false;
+		game = new Game();
+		sgScreen = new ServerGameScreen(game, this);
+		game.createRoster(sgScreen);
+		rosterScreen = new RosterScreen(game);
+		sbScreen = new ScoreboardScreen(game);
+		
+		tabs.addTab("Roster", rosterScreen);
+		tabs.setEnabledAt(tabs.indexOfTab("Roster"), false);
+		tabs.addTab("Scoreboard", sbScreen);
+		tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), false);
+		tabs.addTab("Game", sgScreen);
+		tabs.setEnabledAt(tabs.indexOfTab("Game"), false);
 		
 		content = new JPanel(new BorderLayout());
 		frame = new JFrame("GameShow Server");
@@ -75,22 +86,18 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		}
 
 		if(!tabsEnabled && !error){
+			sgScreen.startGame();
+			tabs.setEnabledAt(tabs.indexOfTab("Roster"), true);
+			tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), true);
+			tabs.setEnabledAt(tabs.indexOfTab("Game"), true);
 			tabsEnabled = true;
-			sgScreen = new ServerGameScreen(game, this);
-			game.createRoster(sgScreen);
-			rosterScreen = new RosterScreen(game);
-			sbScreen = new ScoreboardScreen(game);
-
-			tabs.addTab("Roster",rosterScreen);
-			tabs.addTab("Scoreboard", sbScreen);
-			tabs.addTab("Game", sgScreen.getCurrentMode());
 		}
 	}
 	
 	public void update(){
 		int i = tabs.indexOfTab("Game");
 		
-		tabs.setComponentAt(i,sgScreen.getCurrentMode());
+		tabs.setComponentAt(i,sgScreen);
 		tabs.getComponentAt(i).repaint();
 	}
 	

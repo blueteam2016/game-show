@@ -10,7 +10,7 @@ import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
 
-public class ResultMode extends JPanel{
+public class ServerResultMode extends JPanel{
 
 	private static final long serialVersionUID = -4163825317901145581L;
 	private ResultTableModel model;
@@ -22,7 +22,7 @@ public class ResultMode extends JPanel{
 	
 	int rowSize = 30;
 	
-	public ResultMode(Game g, final ServerGameScreen s){
+	public ServerResultMode(Game g, final ServerGameScreen s){
 		rost = g.getRoster();
 		//game = g;
 		model = new ResultTableModel(rost);
