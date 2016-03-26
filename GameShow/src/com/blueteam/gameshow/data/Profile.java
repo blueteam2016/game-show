@@ -1,13 +1,16 @@
 package com.blueteam.gameshow.data;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 public class Profile {
 	private String servFoldLoc;
@@ -15,20 +18,35 @@ public class Profile {
 	private static int defVal;
 	private static int defTime;
 	private static String qFileLoc;
+	private static final int DEFAULTVALUE = 10;
+	private static final int DEFAULTTIME = 30;
 	
 	public Profile(){
-		try{
-			Document profileSave;
+	
+			Document profileSave = null;
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
-			profileSave = profileBuilder.parse("profileSave.xml");
-			Element root = profileSave.getDocumentElement();
-			servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
-			clientFoldLoc = ((Element)root.getElementsByTagName("clientLoc").item(0)).getTextContent();
-			qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
-			defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
-			defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
-		}catch(Exception e){e.printStackTrace();}
+			try {
+				DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
+				profileSave = profileBuilder.parse("profileSave.xml");
+			} catch(FileNotFoundException e) {
+			} catch(SAXException e) {
+				JOptionPane.showMessageDialog(null, "Corrupt profileSave!");
+			} catch(Exception e) {e.printStackTrace();}
+			if (profileSave != null) {
+				Element root = profileSave.getDocumentElement();
+				servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
+				clientFoldLoc = ((Element)root.getElementsByTagName("clientLoc").item(0)).getTextContent();
+				qFileLoc = ((Element)root.getElementsByTagName("questionLoc").item(0)).getTextContent();
+				defTime = Integer.parseInt(((Element)root.getElementsByTagName("timeDefault").item(0)).getTextContent());
+				defVal = Integer.parseInt(((Element)root.getElementsByTagName("pointDefault").item(0)).getTextContent());
+			} else {
+				servFoldLoc = "";
+				clientFoldLoc = "";
+				qFileLoc = "";
+				defTime = DEFAULTTIME;
+				defVal = DEFAULTVALUE;
+			}
+		
 	}
 
 	public void saveProfile(){
