@@ -11,7 +11,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel question;
+	private JLabel questionLabel;
 	private ArrayList<JLabel> answerLabels;
 	private JLabel explanation;
 	private JButton moveOn;
@@ -27,12 +27,12 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		moveOn = new JButton("Continue");
 		moveOn.addActionListener(this);
 
-		newQuestion();
+		newAnswer();
 	}
 	
-	public void newQuestion(){		
+	public void newAnswer(){		
 		//adds question
-		question = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
+		questionLabel = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
 		
 		//adds correct answer(s)
 		answerLabels = new ArrayList<JLabel>();
@@ -67,7 +67,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 
 		JPanel answerInfo = new JPanel();
 		answerInfo.setLayout(new BoxLayout(answerInfo, BoxLayout.PAGE_AXIS));
-		answerInfo.add(question);
+		answerInfo.add(questionLabel);
 		answerInfo.add(Box.createRigidArea(new Dimension(0, 15)));
 		for (int i = 0; i < answerLabels.size(); i++) {
 			answerInfo.add(answerLabels.get(i));

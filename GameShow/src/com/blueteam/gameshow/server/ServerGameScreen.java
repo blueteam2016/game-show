@@ -43,7 +43,7 @@ public class ServerGameScreen extends JPanel {
 	public void goToAnswerMode() {
 		game.getRoster().endQuestionScan();
 		game.clearQuestion();
-		answer.newQuestion();
+		answer.newAnswer();
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = ANSWERMODE;
 		cl.show(this, currentMode);

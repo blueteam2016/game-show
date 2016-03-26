@@ -26,7 +26,7 @@ public class Quiz {
 		if(questionList.getLength() == 0)
 			throw new Exception();
 		questions = new Question[questionList.getLength()];
-		for(int index=0; index < questionList.getLength();index++)
+		for(int index = 0; index < questionList.getLength(); index++)
 		{
 			Node currentQuestion = questionList.item(index);
 			if(currentQuestion.getNodeType() == Node.ELEMENT_NODE)
