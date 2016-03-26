@@ -195,7 +195,7 @@ public class RegistrationScreen extends JPanel{
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
 		}
-		return(folderLoc);
+		return folderLoc;
 
 	}
 
@@ -215,10 +215,7 @@ public class RegistrationScreen extends JPanel{
 	class ServerButton implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {
-			String eventName = event.getActionCommand();
-			if (eventName.equals("Browse")) {
-			}
-			String newlocation=folderChooser("Server");
+			String newlocation = folderChooser("Server");
 			if (!newlocation.equals("")){
 				servFoldLoc = newlocation;
 				servFoldText.setText(servFoldLoc);
@@ -230,10 +227,7 @@ public class RegistrationScreen extends JPanel{
 	class ClientButton implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {
-			String eventName = event.getActionCommand();
-			if (eventName.equals("Browse")) {
-			}
-			String newlocation=folderChooser("Client");
+			String newlocation = folderChooser("Client");
 			if (!newlocation.equals("")){
 				clientFoldLoc = newlocation;
 				clientFoldText.setText(clientFoldLoc);
