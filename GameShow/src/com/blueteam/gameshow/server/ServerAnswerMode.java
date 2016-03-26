@@ -18,8 +18,6 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private ServerGameScreen SGS;
 	private Game game;
 
-	private ArrayList<JLabel> allLabels;
-
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
 		SGS = s;
 		game = g;

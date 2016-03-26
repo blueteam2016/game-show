@@ -4,7 +4,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.event.DocumentEvent;
@@ -270,10 +271,13 @@ public class RegistrationScreen extends JPanel{
 		public void actionPerformed(ActionEvent event){
 			clientName = name.getText();
 			clientTeamName = correctCaps(teamName.getText());
-			try {
+			
+			if (!Files.exists(Paths.get(servFoldLoc))) {
+				JOptionPane.showMessageDialog(null, "Server path invalid!");
+			} else if (!Files.exists(Paths.get(clientFoldLoc))) {
+				JOptionPane.showMessageDialog(null, "Client path invalid!");
+			} else {
 				clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}

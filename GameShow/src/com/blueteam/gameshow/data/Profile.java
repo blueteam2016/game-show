@@ -131,12 +131,11 @@ public class Profile {
 	}
 	
 	public boolean isComplete(){
-		//System.out.println(servFoldLoc + "!!!!! " + clientFoldLoc);
-		if (servFoldLoc!=null && clientFoldLoc!=null && qFileLoc!=null && defVal!=0 && defTime!=0){
-			//System.out.println("COMPLETE");
+		if (servFoldLoc != null && clientFoldLoc != null && 
+			!servFoldLoc.equals("") && !clientFoldLoc.equals("") && 
+			qFileLoc != null && defVal > 0 && defTime > 0){
 			return true;
 		}
-		//System.out.println("INCOMPLETE");
 		return false;
 	}
 }

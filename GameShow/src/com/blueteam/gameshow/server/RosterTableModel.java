@@ -112,24 +112,26 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 				return name.contains(".profile_");
 			}
 		});
-		for (File file : ansFiles) {
-			String fileName = file.getName();
-			String identifier = fileName.replaceFirst(".profile_", "");
-			if (!roster.isFound(identifier)) {
-				try {
-					FileInputStream fIn = new FileInputStream(file);
-					FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
-					ObjectInputStream profIn = new ObjectInputStream(fIn);
-					ClientProfile pIn = (ClientProfile)profIn.readObject();
-					fLock.close();
-					profIn.close();
-					Player newPlayer = new Player(pIn, pathToFolder);
-					addMember(newPlayer, pIn.getTeamName());
-				} catch (IOException | ClassNotFoundException e) {
-					e.printStackTrace();
+		if (ansFiles != null) {
+			for (File file : ansFiles) {
+				String fileName = file.getName();
+				String identifier = fileName.replaceFirst(".profile_", "");
+				if (!roster.isFound(identifier)) {
+					try {
+						FileInputStream fIn = new FileInputStream(file);
+						FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
+						ObjectInputStream profIn = new ObjectInputStream(fIn);
+						ClientProfile pIn = (ClientProfile)profIn.readObject();
+						fLock.close();
+						profIn.close();
+						Player newPlayer = new Player(pIn, pathToFolder);
+						addMember(newPlayer, pIn.getTeamName());
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
+				file.delete();
 			}
-			file.delete();
 		}
 	}
 }

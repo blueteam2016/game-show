@@ -3,9 +3,8 @@ package com.blueteam.gameshow.server;
 import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -72,15 +71,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			game.createQuiz();
 		}catch(Exception e){
 			error = true;
-			JDialog popUp = new JDialog(frame);
-			JPanel content = new JPanel();
-			content.add(new JLabel("The Question File is invalid"));
-			popUp.setModal(true);
-			popUp.setTitle("!ERROR!");
-			popUp.add(content);
-			popUp.pack();
-			popUp.setLocationRelativeTo(frame);
-			popUp.setVisible(true);
+			JOptionPane.showMessageDialog(null, "The Question File is invalid!");
 		}
 
 		if(!tabsEnabled && !error){

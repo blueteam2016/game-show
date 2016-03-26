@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,9 +18,8 @@ public class ProfileScreen extends JPanel{
 	private static final long serialVersionUID = 85730199279428197L;
 	private JLabel defTimeLabel, servFoldLabel, clientFoldLabel, defQValLabel, qFileLabel, sec, point;
 	private JButton qFileBrowser, servFoldBrowser, clientFoldBrowser, confirmButton;
-	private JTextArea qFileText, servFoldText, clientFoldText;
+	private JTextArea qFileText, serverFoldText, clientFoldText;
 	private JSpinner spinnerDefTime, spinnerDefVal;
-	private JFileChooser folderChooser;
 	private ServerWindow serverWindowParameter;
 	private Profile prof;
 	private Game game;
@@ -43,11 +45,11 @@ public class ProfileScreen extends JPanel{
 		servFoldBrowser = new JButton("Browse");
 		servFoldBrowser.addActionListener(new ServerButton());
 		add(servFoldBrowser);
-		servFoldText = new JTextArea();
-		servFoldText.setLineWrap(true);
-		servFoldText.setWrapStyleWord(false);
-		servFoldText.setEditable(false);
-		add(servFoldText);
+		serverFoldText = new JTextArea();
+		serverFoldText.setLineWrap(true);
+		serverFoldText.setWrapStyleWord(false);
+		serverFoldText.setEditable(false);
+		add(serverFoldText);
 
 		clientFoldLabel = new JLabel("Client Output Folder");
 		add(clientFoldLabel);
@@ -89,7 +91,7 @@ public class ProfileScreen extends JPanel{
 		if(prof.isComplete()){
 			spinnerDefVal.getModel().setValue((Integer)Profile.getDefaultValue());
 			spinnerDefTime.getModel().setValue((Integer)Profile.getDefaultTime());
-			servFoldText.setText(prof.getServerFolderLoc());
+			serverFoldText.setText(prof.getServerFolderLoc());
 			clientFoldText.setText(prof.getClientFolderLoc());
 			qFileText.setText(Profile.getQuestionFileLoc());
 		}
@@ -101,24 +103,24 @@ public class ProfileScreen extends JPanel{
 	
 	public String fileChooser(String title) {
 
-		String folderLoc = "";
-		folderChooser = new JFileChooser();
+		String fileLoc = "";
+		JFileChooser fileChooser = new JFileChooser();
 		
-		folderChooser.setCurrentDirectory(new java.io.File("."));
-	    folderChooser.setDialogTitle(title);
-	    folderChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setCurrentDirectory(new java.io.File("."));
+	    fileChooser.setDialogTitle(title);
+	    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		int returnVal = folderChooser.showOpenDialog(folderChooser);
+		int returnVal = fileChooser.showOpenDialog(fileChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLoc = folderChooser.getSelectedFile().getAbsolutePath();
+			fileLoc = fileChooser.getSelectedFile().getAbsolutePath();
 		}
 
-		return(folderLoc);
+		return fileLoc;
 	}
 	
 	private String folderChooser(String title) {
 		String folderLoc = "";
-		folderChooser = new JFileChooser();
+		JFileChooser folderChooser = new JFileChooser();
 	
 		folderChooser.setCurrentDirectory(new java.io.File("."));
 	    folderChooser.setDialogTitle(title);
@@ -126,30 +128,39 @@ public class ProfileScreen extends JPanel{
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + File.separator;
 		}
-		return(folderLoc);
+		return folderLoc;
 
 	}
 
 	class ServerButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			servFoldText.setText(folderChooser("Server Directory"));
-			prof.setServerFolderLoc(servFoldText.getText());
+			String serverLoc = folderChooser("Server Directory");
+			if (!serverLoc.equals("")) {
+				serverFoldText.setText(serverLoc);
+				prof.setServerFolderLoc(serverFoldText.getText());
+			}
 		}
 	}
 
 	class ClientButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			clientFoldText.setText(folderChooser("Client Directory"));
-			prof.setClientFolderLoc(clientFoldText.getText());
+			String clientLoc = folderChooser("Client Directory");
+			if (!clientLoc.equals("")) {
+				clientFoldText.setText(clientLoc);
+				prof.setClientFolderLoc(clientFoldText.getText());
+			}
 		}
 	}
 	
 	class QuestionButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			qFileText.setText(fileChooser("Question File"));
-			prof.setQuestionFileLoc(qFileText.getText());
+			String questLoc = fileChooser("Question File");
+			if (!questLoc.equals("")) {
+				qFileText.setText(questLoc);
+				prof.setQuestionFileLoc(qFileText.getText());
+			}
 		}
 	}
 	
@@ -173,11 +184,17 @@ public class ProfileScreen extends JPanel{
 			prof.setDefaultValue((int)spinnerDefVal.getValue());
 			
 			if (!prof.isComplete()){
-				JOptionPane.showMessageDialog(null, "Enter all of the required information.");
-			}else if (!game.openIO()){
-				JOptionPane.showMessageDialog(null, "Server path invalid!");
-			}else{
-				serverWindowParameter.enableTabs();
+				JOptionPane.showMessageDialog(null, "Please enter all of the required information.");
+			}else {
+				if (!Files.exists(Paths.get(prof.getClientFolderLoc()))) {
+					JOptionPane.showMessageDialog(null, "Client path invalid!");
+				} else if(!Files.exists(Paths.get(prof.getServerFolderLoc()))) {
+					JOptionPane.showMessageDialog(null, "Server path invalid!");
+				} else if (!game.openIO()){
+					JOptionPane.showMessageDialog(null, "Server failed to initialize!");
+				}else{
+					serverWindowParameter.enableTabs();
+				}
 			}
 		}
 
