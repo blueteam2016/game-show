@@ -41,6 +41,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	
 	@Override
 	public void run() {
+		inAnswerMode = false;
 		while (!Thread.currentThread().isInterrupted()) {
 			
 			try {
@@ -54,6 +55,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				} else {
 					if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
 						questScreen.goToNoQuestion();
+					inAnswerMode = false;
 				}
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Lost connection to server!");
@@ -78,6 +80,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					} else {
 						if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
 							questScreen.goToNoQuestion();
+						inAnswerMode = false;
 					}
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Lost connection to server!");
@@ -93,6 +96,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				
 			setUpGUI();
 			questScreen.goToQuestionMode();
+			inAnswerMode = false;
 		}
 	}
 	
