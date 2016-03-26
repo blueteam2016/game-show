@@ -10,7 +10,9 @@ import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 public class Profile {
 	private String servFoldLoc;
@@ -27,11 +29,21 @@ public class Profile {
 			DocumentBuilderFactory profileFactory = DocumentBuilderFactory.newInstance();
 			try {
 				DocumentBuilder profileBuilder = profileFactory.newDocumentBuilder();
+				profileBuilder.setErrorHandler(new ErrorHandler() {
+					@Override
+					public void error(SAXParseException arg0) throws SAXException {}
+					@Override
+					public void fatalError(SAXParseException arg0) throws SAXException {}
+					@Override
+					public void warning(SAXParseException arg0) throws SAXException {}
+				});
 				profileSave = profileBuilder.parse("profileSave.xml");
 			} catch(FileNotFoundException e) {
 			} catch(SAXException e) {
 				JOptionPane.showMessageDialog(null, "Corrupt profileSave!");
-			} catch(Exception e) {e.printStackTrace();}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} catch (Throwable t) {}
 			if (profileSave != null) {
 				Element root = profileSave.getDocumentElement();
 				servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();
