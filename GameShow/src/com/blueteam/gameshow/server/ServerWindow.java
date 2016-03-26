@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -27,6 +28,20 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	private Game game;
 	
 	public ServerWindow(){
+
+		try {
+			//UIManager.setLookAndFeel("javax.swing.plaf.basic.BasicLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.synth.SynthLookAndFeel");
+			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			//UIManager.setLookAndFeel(
+		    //        UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(
+		            UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception ex) { }
 		
 		tabsEnabled = false;
 		game = new Game();
