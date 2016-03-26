@@ -41,9 +41,7 @@ public class Profile {
 			} catch(FileNotFoundException e) {
 			} catch(SAXException e) {
 				JOptionPane.showMessageDialog(null, "Corrupt profileSave!");
-			} catch(Exception e) {
-				e.printStackTrace();
-			} catch (Throwable t) {}
+			} catch(Exception e) {e.printStackTrace();}
 			if (profileSave != null) {
 				Element root = profileSave.getDocumentElement();
 				servFoldLoc = ((Element)root.getElementsByTagName("serverLoc").item(0)).getTextContent();

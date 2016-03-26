@@ -10,10 +10,10 @@ import com.blueteam.gameshow.data.Question;
 public class ClientQuestionScreen extends JPanel{
 
 	private static final long serialVersionUID = 335785158677578632L;
-	public final static String QUESTIONMODE = "Question Mode";
-	public final static String ANSWERMODE = "Answer Mode";
-	public final static String NOQUESTIONMODE = "No Questions Available";
-	public final static String NOTREGISTEREDMODE = "Not registered";
+	public static final String QUESTIONMODE = "Question Mode";
+	public static final String ANSWERMODE = "Answer Mode";
+	public static final String NOQUESTIONMODE = "No Questions Available";
+	public static final String NOTREGISTEREDMODE = "Not registered";
 	private ClientWindow clientWindow;
 	private ClientQuestionMode cQuestion;
 	private Thread clientQMThread;
