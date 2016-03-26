@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+
 import com.blueteam.gameshow.data.ClientProfile;
 
 public class ClientWindow {
@@ -18,7 +20,14 @@ public class ClientWindow {
 	private RegistrationScreen rScreen;
 	private ClientQuestionScreen cqScreen;
 
-	public ClientWindow() {	
+	public ClientWindow() {
+		
+		try {
+			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel(
+		            UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception ex) { }
 		
 		tabs = new JTabbedPane();
 		content = new JPanel();
