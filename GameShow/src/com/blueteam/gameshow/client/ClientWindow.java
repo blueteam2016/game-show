@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
 import com.blueteam.gameshow.data.ClientProfile;
+import com.blueteam.gameshow.data.OSIdentifier;
 
 public class ClientWindow {
 	
@@ -23,11 +24,13 @@ public class ClientWindow {
 	public ClientWindow() {
 		
 		try {
-			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			UIManager.setLookAndFeel(
-		            UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception ex) { }
+			if (!OSIdentifier.isUnix()) {
+				UIManager.setLookAndFeel(
+						UIManager.getSystemLookAndFeelClassName());
+			} else {
+				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			}
+		} catch (Exception ex) {}
 		
 		tabs = new JTabbedPane();
 		content = new JPanel();

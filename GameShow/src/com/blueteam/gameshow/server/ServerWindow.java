@@ -12,6 +12,8 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.blueteam.gameshow.data.OSIdentifier;
+
 public class ServerWindow implements WindowListener, ChangeListener{
 	
 	private JTabbedPane tabs;
@@ -28,13 +30,15 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	private Game game;
 	
 	public ServerWindow(){
-
+		
 		try {
-			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			UIManager.setLookAndFeel(
-		            UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception ex) { }
+			if (!OSIdentifier.isUnix()) {
+				UIManager.setLookAndFeel(
+						UIManager.getSystemLookAndFeelClassName());
+			} else {
+				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			}
+		} catch (Exception ex) {}
 		
 		tabsEnabled = false;
 		game = new Game();
