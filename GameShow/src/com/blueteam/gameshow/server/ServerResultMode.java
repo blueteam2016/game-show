@@ -112,8 +112,10 @@ public class ServerResultMode extends JPanel{
 			rowCount = 1;
 		}
 		rowSize = (int) ((double)table.getHeight()/(double)rowCount);
-		if(rost.numTeams()<2){
-			table.setRowHeight(rowSize/3);
+		if (rowSize < 1)
+			rowSize = 1;
+		if(rost.numTeams() < 2){
+			table.setRowHeight((rowSize + 2)/3);
 		}else{
 			table.setRowHeight(rowSize);
 		}
