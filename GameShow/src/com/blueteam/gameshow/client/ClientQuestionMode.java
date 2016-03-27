@@ -4,8 +4,16 @@ import javax.swing.*;
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridBagLayoutInfo;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.EOFException;
@@ -19,11 +27,9 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private ClientQuestionScreen questScreen;
 	private ClientIO clientIO;
 	private Question question;
-	private JLabel questionText;
-	private Answer[] answerChoices;
+	private JLabel questionLabel;
+	private ArrayList<JLabel> answerLabels;
 	private ArrayList<AnswerButton> answerButtons;
-	private JPanel displayAnswers;
-	private JPanel displayButtons;
 	private static int choice;
 	private boolean receivedQuestions;
 	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
@@ -31,6 +37,9 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		questScreen = qs;
+
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		
 		receivedQuestions = false;
 		inAnswerMode = false;
 	}
@@ -54,7 +63,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					}
 				} else {
 					if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
-						questScreen.goToNoQuestion();
+						questScreen.goToNoQuestionMode();
 					inAnswerMode = false;
 				}
 			} catch (IOException e) {
@@ -79,7 +88,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 						}
 					} else {
 						if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
-							questScreen.goToNoQuestion();
+							questScreen.goToNoQuestionMode();
 						inAnswerMode = false;
 					}
 				} catch (IOException e) {
@@ -93,46 +102,73 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			if (!receivedQuestions)
 				receivedQuestions = true;
 			questScreen.setQuestion(question);
-				
-			setUpGUI();
+			
+			newQuestion();
+			
 			questScreen.goToQuestionMode();
 			inAnswerMode = false;
 		}
 	}
 	
-	private void setUpGUI(){
-		this.removeAll();
-		questionText = new JLabel(question.getText());
-		answerChoices = question.getAnswers();
-	
+	public void newQuestion() {
+		//adds question
+		questionLabel = new JLabel("<html><span style='font-size:12px'>" + question.getText() + "</span></html>");
+		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
+		//adds answer(s)
+		answerLabels = new ArrayList<JLabel>();
 		answerButtons = new ArrayList<AnswerButton>();
-		displayAnswers = new JPanel();
-		displayAnswers.setLayout(new BoxLayout(displayAnswers, BoxLayout.Y_AXIS));
-		displayButtons = new JPanel();
-		displayButtons.setLayout(new BoxLayout(displayButtons, BoxLayout.PAGE_AXIS));
-	
-		for(int i = 0; i < answerChoices.length; i++) {
-			displayAnswers.add(Box.createRigidArea(new Dimension(5,5)));
-			JLabel answerText = new JLabel(answerChoices[i].getText());
-			answerText.setFont(new Font(answerText.getFont().getName(), Font.PLAIN, 16));
-			displayAnswers.add(answerText);
-			answerText.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		Answer[] answers = question.getAnswers();
+		for (int i = 0; i < answers.length; i++) {
+			JLabel answer = new JLabel("<html><span style='font-size:12px'>" +
+		 			        		   answers[i].getText() +
+									   "</span></html>");
+			answerLabels.add(answer);
+			answer.setAlignmentX(LEFT_ALIGNMENT);
 			
 			AnswerButton answerSelect = new AnswerButton((char) (65 + i) + "");
-			answerSelect.setSize(new Dimension(answerText.getHeight(), answerText.getHeight()));
+			answerSelect.setSize(new Dimension(answer.getHeight(), answer.getHeight()));
 			answerButtons.add(answerSelect);
-			displayButtons.add(answerSelect);
-			answerSelect.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			answerSelect.setAlignmentX(LEFT_ALIGNMENT);
 		}
 		
-		JPanel answerStuff = new JPanel();
-		answerStuff.add(displayButtons);
-		answerStuff.add(displayAnswers);
+		setUpGUI();
+	}
+	
+	private void setUpGUI(){
+		// organizes components in visually appealing manner
+		removeAll();
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(questionText);
-		questionText.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
-		this.add(answerStuff);
+		// Sets layout
+		setLayout(new BorderLayout());
+		JPanel gridBagPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints constr = new GridBagConstraints();
+
+		constr.gridx = 0;
+		constr.gridy = 0;
+		constr.gridwidth = 2;
+		constr.gridheight = 1;
+		constr.anchor = GridBagConstraints.WEST;
+		constr.insets = new Insets(0,0,10,0);
+		gridBagPanel.add(questionLabel, constr);
+		
+		for (int i = 0; i < answerLabels.size(); i++) {
+			constr.gridx = 0;
+			constr.gridy = i + 1;
+			constr.gridwidth = 1;
+			constr.gridheight = 1;
+			constr.anchor = GridBagConstraints.CENTER;
+			constr.insets = new Insets(0,0,10,10);
+			gridBagPanel.add(answerButtons.get(i), constr);
+			constr.gridx = 1;
+			constr.anchor = GridBagConstraints.WEST;
+			constr.insets = new Insets(0,0,10,0);
+			gridBagPanel.add(answerLabels.get(i), constr);
+		}
+		
+		setAlignmentX(TOP_ALIGNMENT);
+		
+		add(gridBagPanel, BorderLayout.NORTH);
+
 		choice = -1;
 	}
 
@@ -152,10 +188,11 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		public void actionPerformed(ActionEvent arg0)
 		{
 			inAnswerMode = true;
+			Answer[] answers = questScreen.getQuestion().getAnswers();
 			for (int i = 0; i < answerButtons.size(); i++)
 				if (answerButtons.get(i).equals(arg0.getSource()))
 				{
-					clientIO.sendAnswer(answerChoices[i]);
+					clientIO.sendAnswer(answers[i]);
 					choice = i;
 				}
 			questScreen.goToAnswerMode();

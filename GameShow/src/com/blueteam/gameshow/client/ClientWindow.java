@@ -75,6 +75,14 @@ public class ClientWindow {
 		}
 	}
 	
+	public void update(){
+		int i = tabs.indexOfTab("Question");
+		
+		tabs.setComponentAt(i, cqScreen);
+		tabs.getComponentAt(i).repaint();
+		frame.pack();
+	}
+	
 	public ClientIO getClientIO() {
 		return clientIO;
 	}
