@@ -92,6 +92,7 @@ public class Game {
 	public void destroy() {
 		try {
 			String clientPath = profile.getClientFolderLoc();
+			String serverPath = profile.getServerFolderLoc();
 			if (clientPath != null) {
 				File folder = new File(clientPath);
 				File[] ansFiles = folder.listFiles(new FilenameFilter() {
@@ -119,6 +120,8 @@ public class Game {
 			}
 			if (questionPath != null)
 				Files.deleteIfExists(Paths.get(questionPath));
+			if (serverPath != null)
+				Files.exists(Paths.get(serverPath + ".registration"));
 		} catch (IOException e) {
 		}
 	}
