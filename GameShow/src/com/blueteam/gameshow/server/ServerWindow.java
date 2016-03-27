@@ -69,8 +69,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			
 		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
-		frame.setSize(450, 400);
-		frame.setMinimumSize(new Dimension(450, 400));
+		frame.setSize(450, 430);
+		frame.setMinimumSize(new Dimension(450, 430));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		

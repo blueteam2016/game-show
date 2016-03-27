@@ -28,6 +28,8 @@ public class ProfileScreen extends JPanel{
 		game = g;
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		
+		Font font = new Font(this.getFont().getName(), Font.PLAIN, 16);
 
 		prof = g.getProfile();
 		serverWindowParameter = sw;
@@ -43,6 +45,7 @@ public class ProfileScreen extends JPanel{
         constr.fill = GridBagConstraints.HORIZONTAL;
 
 		defTimeLabel = new JLabel("Default Time");
+		defTimeLabel.setFont(font);
 		add(defTimeLabel, constr);
 		game.getProfile();
 		spinnerDefTime = new JSpinner(new SpinnerNumberModel(Profile.getDefaultTime(), 1, 999, 1));
@@ -51,15 +54,18 @@ public class ProfileScreen extends JPanel{
 		constr.gridx = 1;
 		add(spinnerDefTime, constr);
 		sec = new JLabel("seconds");
+		sec.setFont(font);
 		constr.gridx = 2;
 		add(sec, constr);	
 
 		
 		servFoldLabel = new JLabel("Server Output Folder");
+		servFoldLabel.setFont(font);
 		constr.gridx = 0;
 		constr.gridy = 1;
 		add(servFoldLabel, constr);
 		servFoldBrowser = new JButton("Browse");
+		servFoldBrowser.setFont(font);
 		servFoldBrowser.addActionListener(new ServerButton());
 		constr.gridx = 1;
 		add(servFoldBrowser, constr);
@@ -71,10 +77,12 @@ public class ProfileScreen extends JPanel{
 		add(serverFoldText, constr);
 
 		clientFoldLabel = new JLabel("Client Output Folder");
+		clientFoldLabel.setFont(font);
 		constr.gridx = 0;
 		constr.gridy = 2;
 		add(clientFoldLabel, constr);
 		clientFoldBrowser = new JButton("Browse");
+		clientFoldBrowser.setFont(font);
 		clientFoldBrowser.addActionListener(new ClientButton());
 		constr.gridx = 1;
 		add(clientFoldBrowser, constr);
@@ -86,6 +94,7 @@ public class ProfileScreen extends JPanel{
 		add(clientFoldText, constr);
 
 		defQValLabel = new JLabel("Default Question Value");
+		defQValLabel.setFont(font);
 		constr.gridx = 0;
 		constr.gridy = 3;
 		add(defQValLabel, constr);
@@ -96,14 +105,17 @@ public class ProfileScreen extends JPanel{
 		constr.gridx = 1;
 		add(spinnerDefVal, constr);
 		point = new JLabel("points");
+		point.setFont(font);
 		constr.gridx = 2;
 		add(point, constr);
 
 		qFileLabel = new JLabel("Question File");
+		qFileLabel.setFont(font);
 		constr.gridx = 0;
 		constr.gridy = 4;
 		add(qFileLabel, constr);
 		qFileBrowser = new JButton("Browse");
+		qFileBrowser.setFont(font);
 		qFileBrowser.addActionListener(new QuestionButton());
 		constr.gridx = 1;
 		add(qFileBrowser, constr);
@@ -115,6 +127,7 @@ public class ProfileScreen extends JPanel{
 		add(qFileText, constr);
 		
 		confirmButton = new JButton("Confirm");
+		confirmButton.setFont(font);
 		confirmButton.addActionListener(new confirmButtonPressed());
 		constr.gridx = 1;
 		constr.gridy = 5;

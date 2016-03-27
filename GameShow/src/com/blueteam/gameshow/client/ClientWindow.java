@@ -1,6 +1,7 @@
 package com.blueteam.gameshow.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -49,7 +50,8 @@ public class ClientWindow {
 		
 		content.add(tabs);
 		frame.setContentPane(content);
-		frame.pack();
+		frame.setSize(450, 250);
+		frame.setMinimumSize(new Dimension(450, 250));
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
