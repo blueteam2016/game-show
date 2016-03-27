@@ -144,20 +144,24 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		constr.gridheight = 1;
 		constr.anchor = GridBagConstraints.WEST;
 		constr.insets = new Insets(0,0,10,0);
+        constr.weightx = 1.0;
+        constr.fill = GridBagConstraints.HORIZONTAL;
 		gridBagPanel.add(questionLabel, constr);
 		
 		for (int i = 0; i < answerLabels.size(); i++) {
-			constr.gridx = 0;
+			constr.gridx = 1;
 			constr.gridy = i + 1;
 			constr.gridwidth = 1;
 			constr.gridheight = 1;
-			constr.anchor = GridBagConstraints.CENTER;
-			constr.insets = new Insets(0,0,10,10);
-			gridBagPanel.add(answerButtons.get(i), constr);
-			constr.gridx = 1;
 			constr.anchor = GridBagConstraints.WEST;
 			constr.insets = new Insets(0,0,10,0);
+			constr.fill = GridBagConstraints.HORIZONTAL;
 			gridBagPanel.add(answerLabels.get(i), constr);
+			constr.gridx = 0;
+			constr.anchor = GridBagConstraints.CENTER;
+			constr.insets = new Insets(0,0,10,10);
+			constr.fill = GridBagConstraints.NONE;
+			gridBagPanel.add(answerButtons.get(i), constr);
 		}
 		
 		setAlignmentX(TOP_ALIGNMENT);

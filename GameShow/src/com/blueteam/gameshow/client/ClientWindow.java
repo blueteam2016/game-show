@@ -73,7 +73,6 @@ public class ClientWindow {
 		
 		tabs.setComponentAt(i, cqScreen);
 		tabs.getComponentAt(i).repaint();
-		frame.pack();
 	}
 	
 	public ClientIO getClientIO() {

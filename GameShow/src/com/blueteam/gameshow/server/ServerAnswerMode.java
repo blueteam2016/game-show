@@ -21,7 +21,6 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
 		SGS = s;
 		game = g;
-		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		moveOn = new JButton("Continue");
