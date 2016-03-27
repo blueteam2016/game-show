@@ -1,6 +1,7 @@
 package com.blueteam.gameshow.server;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
@@ -68,7 +69,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			
 		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
-		frame.setSize(450,550);
+		frame.setSize(450, 400);
+		frame.setMinimumSize(new Dimension(450, 400));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
