@@ -91,7 +91,7 @@ public class ServerGameScreen extends JPanel {
 	}
 	
 	public boolean onQuestionMode() {
-		if(currentMode.equals(question)) {
+		if(currentMode.equals(QUESTIONMODE)) {
 			return true;
 		}return false;
 	}
