@@ -9,6 +9,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.channels.FileLock;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -27,6 +30,9 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	public RosterTableModel(Game game){
 		roster = game.getRoster();
 		pathToFolder = game.getProfile().getClientFolderLoc();
+		try {
+			Files.deleteIfExists(Paths.get(pathToFolder + ".registration"));
+		} catch (IOException e) {}
 		scanTime = new Timer(100, this);
 	}
 	
@@ -88,10 +94,16 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	
 	public void openRegistration(){
 		scanTime.start();
+		try {
+			Files.createFile(Paths.get(pathToFolder + ".registration"));
+		} catch (IOException e) {}
 	}
 	
 	public void closeRegistration(){
 		scanTime.stop();
+		try {
+			Files.deleteIfExists(Paths.get(pathToFolder + ".registration"));
+		} catch (IOException e) {}
 	}
 	
 	public void addMember(Player p, String teamName){

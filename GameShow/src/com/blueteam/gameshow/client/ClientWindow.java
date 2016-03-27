@@ -2,9 +2,6 @@ package com.blueteam.gameshow.client;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -58,20 +55,16 @@ public class ClientWindow {
 	}
 	
 	public void register(String pathServerFold, String  pathClientFold, ClientProfile profile){		
-		if (!Files.exists(Paths.get(pathServerFold + ".question"))) {
-			JOptionPane.showMessageDialog(null, "Server not found!");
-		} else {
-			try {
-				clientIO = new ClientIO(pathServerFold, pathClientFold, profile);
-			} catch (IOException e) {
-				clientIO = null;
-				JOptionPane.showMessageDialog(null, "Failed to write client profile! Please check your permissions!");
-			}
-			if (clientIO != null) {
-				cqScreen.register();
-				tabs.setEnabledAt(tabs.indexOfTab("Question"), true);
-				tabs.setSelectedIndex(tabs.indexOfTab("Question"));
-			}
+		try {
+			clientIO = new ClientIO(pathServerFold, pathClientFold, profile);
+		} catch (IOException e) {
+			clientIO = null;
+			JOptionPane.showMessageDialog(null, "Failed to write client profile! Please check your permissions!");
+		}
+		if (clientIO != null) {
+			cqScreen.register();
+			tabs.setEnabledAt(tabs.indexOfTab("Question"), true);
+			tabs.setSelectedIndex(tabs.indexOfTab("Question"));
 		}
 	}
 	

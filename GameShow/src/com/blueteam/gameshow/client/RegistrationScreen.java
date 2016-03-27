@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -193,7 +194,7 @@ public class RegistrationScreen extends JPanel{
 
 		int returnVal = folderChooser.showOpenDialog(folderChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + "/";
+			folderLoc = folderChooser.getSelectedFile().getAbsolutePath() + File.separator;
 		}
 		return folderLoc;
 
@@ -270,6 +271,10 @@ public class RegistrationScreen extends JPanel{
 				JOptionPane.showMessageDialog(null, "Server path invalid!");
 			} else if (!Files.exists(Paths.get(clientFoldLoc))) {
 				JOptionPane.showMessageDialog(null, "Client path invalid!");
+			} else if (!Files.exists(Paths.get(servFoldLoc + ".question"))) {
+				JOptionPane.showMessageDialog(null, "Server not found!");
+			} else if (!Files.exists(Paths.get(servFoldLoc + ".registration"))) {
+				JOptionPane.showMessageDialog(null, "Registration not open!");
 			} else {
 				clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
 			}
