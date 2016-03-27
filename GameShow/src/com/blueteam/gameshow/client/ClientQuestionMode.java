@@ -5,14 +5,9 @@ import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
 import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridBagLayoutInfo;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

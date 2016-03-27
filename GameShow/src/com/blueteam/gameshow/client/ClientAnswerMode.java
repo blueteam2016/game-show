@@ -15,7 +15,6 @@ public class ClientAnswerMode extends JPanel
 	private Question question;
 	private JLabel questionLabel;
 	private ArrayList<JLabel> answerLabels;
-	private Answer[] answerChoices;
 
 	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
