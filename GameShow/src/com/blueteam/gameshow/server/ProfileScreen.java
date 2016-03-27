@@ -33,7 +33,8 @@ public class ProfileScreen extends JPanel{
 
 		defTimeLabel = new JLabel("Default Time");
 		add(defTimeLabel);
-		spinnerDefTime = new JSpinner(new SpinnerNumberModel(30, 1, 999, 1));
+		game.getProfile();
+		spinnerDefTime = new JSpinner(new SpinnerNumberModel(Profile.getDefaultTime(), 1, 999, 1));
 		spinnerDefTime.addChangeListener(new setDefaultTime());
 		((JSpinner.NumberEditor) spinnerDefTime.getEditor()).getTextField().setFont(((JSpinner.NumberEditor) spinnerDefTime.getEditor()).getTextField().getFont().deriveFont(64f));
 		add(spinnerDefTime);
@@ -45,7 +46,7 @@ public class ProfileScreen extends JPanel{
 		servFoldBrowser = new JButton("Browse");
 		servFoldBrowser.addActionListener(new ServerButton());
 		add(servFoldBrowser);
-		serverFoldText = new JTextArea();
+		serverFoldText = new JTextArea(prof.getServerFolderLoc());
 		serverFoldText.setLineWrap(true);
 		serverFoldText.setWrapStyleWord(false);
 		serverFoldText.setEditable(false);
@@ -56,7 +57,7 @@ public class ProfileScreen extends JPanel{
 		clientFoldBrowser = new JButton("Browse");
 		clientFoldBrowser.addActionListener(new ClientButton());
 		add(clientFoldBrowser);
-		clientFoldText = new JTextArea();
+		clientFoldText = new JTextArea(prof.getClientFolderLoc());
 		clientFoldText.setLineWrap(true);
 		clientFoldText.setWrapStyleWord(false);
 		clientFoldText.setEditable(false);
@@ -64,7 +65,8 @@ public class ProfileScreen extends JPanel{
 
 		defQValLabel = new JLabel("Default Question Value");
 		add(defQValLabel);
-		spinnerDefVal = new JSpinner(new SpinnerNumberModel(10, 1, 999, 1));
+		game.getProfile();
+		spinnerDefVal = new JSpinner(new SpinnerNumberModel(Profile.getDefaultValue(), 1, 999, 1));
 		spinnerDefVal.addChangeListener(new setDefaultValue());
 		((JSpinner.NumberEditor) spinnerDefVal.getEditor()).getTextField().setFont(((JSpinner.NumberEditor) spinnerDefVal.getEditor()).getTextField().getFont().deriveFont(64f));
 		add(spinnerDefVal);
@@ -76,7 +78,7 @@ public class ProfileScreen extends JPanel{
 		qFileBrowser = new JButton("Browse");
 		qFileBrowser.addActionListener(new QuestionButton());
 		add(qFileBrowser);
-		qFileText = new JTextArea();
+		qFileText = new JTextArea(Profile.getQuestionFileLoc());
 		qFileText.setLineWrap(true);
 		qFileText.setWrapStyleWord(false);
 		qFileText.setEditable(false);
@@ -87,14 +89,6 @@ public class ProfileScreen extends JPanel{
 		confirmButton = new JButton("Confirm");
 		confirmButton.addActionListener(new confirmButtonPressed());
 		add(confirmButton);
-
-		if(prof.isComplete()){
-			spinnerDefVal.getModel().setValue((Integer)Profile.getDefaultValue());
-			spinnerDefTime.getModel().setValue((Integer)Profile.getDefaultTime());
-			serverFoldText.setText(prof.getServerFolderLoc());
-			clientFoldText.setText(prof.getClientFolderLoc());
-			qFileText.setText(Profile.getQuestionFileLoc());
-		}
 	}
 	
 	public String getName(){
