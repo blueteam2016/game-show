@@ -74,6 +74,12 @@ public class ClientIO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void clearAnswer() {
+		try {
+			Files.deleteIfExists(Paths.get(answerPath));
+		} catch (IOException e) {}
+	}
 
 
 }

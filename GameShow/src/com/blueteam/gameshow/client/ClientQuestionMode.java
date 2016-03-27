@@ -43,59 +43,55 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		clientIO = clientWindow.getClientIO();
 	}
 	
+	private void reset() {
+		JOptionPane.showMessageDialog(null, "Lost connection to server!");
+		receivedQuestions = false;
+		clientWindow.reset();
+	}
+	
+	private void timesUpHandler() {
+		if (receivedQuestions) {
+			clientIO.clearAnswer();
+			if (!inAnswerMode) {
+				inAnswerMode = true;
+				questScreen.goToAnswerMode();
+			}
+		} else {
+			if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
+				questScreen.goToNoQuestionMode();
+			inAnswerMode = false;
+		}
+	}
+	
 	@Override
 	public void run() {
 		inAnswerMode = false;
 		while (!Thread.currentThread().isInterrupted()) {
-			
 			try {
 				question = clientIO.getQuestion();
 			} catch (EOFException e) {
-				if (receivedQuestions) {
-					if (!inAnswerMode) {
-						inAnswerMode = true;
-						questScreen.goToAnswerMode();
-					}
-				} else {
-					if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
-						questScreen.goToNoQuestionMode();
-					inAnswerMode = false;
-				}
+				timesUpHandler();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "Lost connection to server!");
-				receivedQuestions = false;
-				clientWindow.reset();
+				reset();
 				return;
 			}
 			
 			while (question == null) {
-				
 				if (Thread.currentThread().isInterrupted())
 					return;
-				
 				try {
 					question = clientIO.getQuestion();
 				} catch (EOFException e) {
-					if (receivedQuestions) {
-						if (!inAnswerMode) {
-							inAnswerMode = true;
-							questScreen.goToAnswerMode();
-						}
-					} else {
-						if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
-							questScreen.goToNoQuestionMode();
-						inAnswerMode = false;
-					}
+					timesUpHandler();
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Lost connection to server!");
-					receivedQuestions = false;
-					clientWindow.reset();
+					reset();
 					return;
 				}
 			}
 			
 			if (!receivedQuestions)
 				receivedQuestions = true;
+			
 			questScreen.setQuestion(question);
 			
 			newQuestion();
@@ -186,15 +182,18 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		
 		public void actionPerformed(ActionEvent arg0)
 		{
-			inAnswerMode = true;
-			Answer[] answers = questScreen.getQuestion().getAnswers();
-			for (int i = 0; i < answerButtons.size(); i++)
-				if (answerButtons.get(i).equals(arg0.getSource()))
-				{
-					clientIO.sendAnswer(answers[i]);
-					choice = i;
-				}
-			questScreen.goToAnswerMode();
+			if (!inAnswerMode) {
+				inAnswerMode = true;
+				Answer[] answers = questScreen.getQuestion().getAnswers();
+				for (int i = 0; i < answerButtons.size(); i++)
+					if (answerButtons.get(i).equals(arg0.getSource()))
+					{
+						clientIO.sendAnswer(answers[i]);
+						choice = i;
+						break;
+					}
+				questScreen.goToAnswerMode();
+			}
 		}
 	}
 }

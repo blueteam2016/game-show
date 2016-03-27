@@ -89,9 +89,9 @@ public class Roster implements ActionListener{
 	}
 	
 	private void endQuestion(){
-		endQuestionScan();
 		servGame.goToAnswerMode();
 		servGame.forwardToAnswerMode();
+		endQuestionScan();
 	}
 	
 	public void endQuestionScan(){
