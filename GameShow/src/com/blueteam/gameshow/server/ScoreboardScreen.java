@@ -84,10 +84,12 @@ public class ScoreboardScreen extends JPanel{
 			rowCount = 1;
 		}
 		rowSize = (int) ((double)table.getHeight()/(double)rowCount);
+		int tableRowSize = rowSize;
 		if (rowSize < 1)
 			rowSize = 1;
 		if(rost.numTeams() < 2){
 			table.setRowHeight((rowSize + 2)/3);
+			tableRowSize = (rowSize + 2)/3;
 		}else{
 			table.setRowHeight(rowSize);
 		}
@@ -95,7 +97,7 @@ public class ScoreboardScreen extends JPanel{
 		Font font = table.getFont();	
 		double widthRatio = ((double)table.getWidth()/2) / ((double)getStringWidth(font));
 		int newFontSize = (int)(font.getSize() * widthRatio);
-		newFontSize = Math.min(newFontSize, rowSize);
+		newFontSize = Math.min(newFontSize, tableRowSize - 5);
 		font=new Font(font.getName(), Font.PLAIN, newFontSize);
 		if (font.getSize()<12)
 			font=new Font(font.getName(), Font.PLAIN, 12);
@@ -104,7 +106,7 @@ public class ScoreboardScreen extends JPanel{
 		int stringWidth = table.getFontMetrics(font).stringWidth("Team Name");
 		widthRatio = ((double)table.getWidth()/2) / ((double)stringWidth*1.25);
 		newFontSize = (int)(font.getSize() * widthRatio);
-		newFontSize = Math.min(newFontSize, rowSize/3);
+		newFontSize = Math.min(newFontSize, rowSize/3 - 5);
 		font=new Font(font.getName(), Font.PLAIN, newFontSize);
 		table.getTableHeader().setFont(font);
 
