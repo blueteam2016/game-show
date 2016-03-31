@@ -52,6 +52,8 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		if(explanationString != null){
 			explanation = new JLabel("<html><span style='font-size:16px'>Explanation: " + explanationString + "</span></html>");
 			explanation.setAlignmentX(LEFT_ALIGNMENT);
+		}else{
+			explanation = null;
 		}
 		
 		setUpGUI();
@@ -73,7 +75,9 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 			answerInfo.add(Box.createRigidArea(new Dimension(0, 5)));
 		}
 		answerInfo.add(Box.createRigidArea(new Dimension(0, 10)));
-		answerInfo.add(explanation);
+		if(explanation!= null){
+			answerInfo.add(explanation);
+		}
 		answerInfo.setAlignmentX(CENTER_ALIGNMENT);
 		add(answerInfo);
 		add(Box.createRigidArea(new Dimension(0, 15)));
