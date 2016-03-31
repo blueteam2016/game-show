@@ -71,10 +71,11 @@ public class ClientWindow {
 	}
 	
 	public void update(){
-		int i = tabs.indexOfTab("Question");
-		
-		tabs.setComponentAt(i, cqScreen);
-		tabs.getComponentAt(i).repaint();
+		Dimension currentSize = frame.getSize();
+		Dimension preferredSize = frame.getPreferredSize();
+		Dimension newSize = new Dimension();
+		newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
+		frame.setSize(newSize);
 	}
 	
 	public ClientIO getClientIO() {

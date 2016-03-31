@@ -69,11 +69,11 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			
 		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
-		frame.setSize(450, 430);
-		frame.setMinimumSize(new Dimension(450, 430));
+		frame.setSize(new Dimension(450, 450));
+		frame.setMinimumSize(new Dimension(450, 450));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		
+		update();
 	}
 
 	public void enableTabs(){
@@ -97,43 +97,30 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	}
 	
 	public void update(){
-		int i = tabs.indexOfTab("Game");
-		
-		tabs.setComponentAt(i,sgScreen);
-		tabs.getComponentAt(i).repaint();
+		Dimension currentSize = frame.getSize();
+		Dimension preferredSize = frame.getPreferredSize();
+		Dimension newSize = new Dimension();
+		newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
+		frame.setSize(newSize);
 	}
 	
 	public static void main(String args[]) {
 		new ServerWindow();
 	}
 
-	public void windowActivated(WindowEvent arg0) {
-	}
-
+	public void windowActivated(WindowEvent arg0) {}
 	public void windowClosed(WindowEvent arg0) {
-		//System.out.println("WINDOW CLOSED");
 		game.getProfile().saveProfile();
 		game.destroy();
 		System.exit(0);
 	}
-
-	public void windowClosing(WindowEvent arg0) {
-	}
-
-	public void windowDeactivated(WindowEvent arg0) {
-	}
-
-	public void windowDeiconified(WindowEvent arg0) {		
-	}
-
-	public void windowIconified(WindowEvent arg0) {	
-	}
-
-	public void windowOpened(WindowEvent arg0) {		
-	}
+	public void windowClosing(WindowEvent arg0) {}
+	public void windowDeactivated(WindowEvent arg0) {}
+	public void windowDeiconified(WindowEvent arg0) {}
+	public void windowIconified(WindowEvent arg0) {}
+	public void windowOpened(WindowEvent arg0) {}
 
 	public void stateChanged(ChangeEvent e) {
-		//System.out.println("CHANGED");
 		if(tabsEnabled) {
 			JTabbedPane p = (JTabbedPane) e.getSource();
 			if(p.getSelectedIndex() != tabs.indexOfTab("Game")){

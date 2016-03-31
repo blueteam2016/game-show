@@ -54,6 +54,7 @@ public class RegistrationScreen extends JPanel{
 		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
+				clientWindow.update();
 				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
@@ -75,6 +76,7 @@ public class RegistrationScreen extends JPanel{
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
+				clientWindow.update();
 				checkCompletion();
 			}
 			public void removeUpdate(DocumentEvent e) {}
@@ -162,6 +164,7 @@ public class RegistrationScreen extends JPanel{
 			if (!newlocation.equals("")){
 				servFoldLoc = newlocation;
 				servFoldText.setText(servFoldLoc);
+				clientWindow.update();
 			}
 			checkCompletion();
 		}
@@ -174,6 +177,7 @@ public class RegistrationScreen extends JPanel{
 			if (!newlocation.equals("")){
 				clientFoldLoc = newlocation;
 				clientFoldText.setText(clientFoldLoc);
+				clientWindow.update();
 			}
 			checkCompletion();
 		}

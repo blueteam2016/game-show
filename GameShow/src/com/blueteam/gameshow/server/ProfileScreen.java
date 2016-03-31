@@ -20,7 +20,7 @@ public class ProfileScreen extends JPanel{
 	private JButton qFileBrowser, servFoldBrowser, clientFoldBrowser, confirmButton;
 	private JTextArea qFileText, serverFoldText, clientFoldText;
 	private JSpinner spinnerDefTime, spinnerDefVal;
-	private ServerWindow serverWindowParameter;
+	private ServerWindow serverWindow;
 	private Profile prof;
 	private Game game;
 
@@ -32,7 +32,7 @@ public class ProfileScreen extends JPanel{
 		Font font = new Font(this.getFont().getName(), Font.PLAIN, 16);
 
 		prof = g.getProfile();
-		serverWindowParameter = sw;
+		serverWindow = sw;
 		
 		GridBagConstraints constr = new GridBagConstraints();
 		constr.gridx = 0;
@@ -177,6 +177,7 @@ public class ProfileScreen extends JPanel{
 			if (!serverLoc.equals("")) {
 				serverFoldText.setText(serverLoc);
 				prof.setServerFolderLoc(serverFoldText.getText());
+				serverWindow.update();
 			}
 		}
 	}
@@ -187,6 +188,7 @@ public class ProfileScreen extends JPanel{
 			if (!clientLoc.equals("")) {
 				clientFoldText.setText(clientLoc);
 				prof.setClientFolderLoc(clientFoldText.getText());
+				serverWindow.update();
 			}
 		}
 	}
@@ -197,6 +199,7 @@ public class ProfileScreen extends JPanel{
 			if (!questLoc.equals("")) {
 				qFileText.setText(questLoc);
 				prof.setQuestionFileLoc(qFileText.getText());
+				serverWindow.update();
 			}
 		}
 	}
@@ -230,7 +233,7 @@ public class ProfileScreen extends JPanel{
 				} else if (!game.openIO()){
 					JOptionPane.showMessageDialog(null, "Server failed to initialize!");
 				}else{
-					serverWindowParameter.enableTabs();
+					serverWindow.enableTabs();
 				}
 			}
 		}
