@@ -132,8 +132,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	public void windowOpened(WindowEvent arg0) {		
 	}
 
-
-
 	public void stateChanged(ChangeEvent e) {
 		//System.out.println("CHANGED");
 		if(tabsEnabled) {

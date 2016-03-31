@@ -16,7 +16,6 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private JScrollPane scroll;
 	private JTable table;
 	private JButton unregButt, openClose;
-	boolean regClosed;
 	//private ListSelectionModel selectModel;
 	private int selectedRow;
 	private Game game;
@@ -31,7 +30,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent arg0) {
-				if(!open){
+				if(open){
 					table.clearSelection();
 				}else{
 					selectedRow = table.getSelectedRow();
@@ -47,7 +46,6 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		unregButt.setActionCommand("Unregister");
 		unregButt.addActionListener(new Unreg());
 		unregButt.setEnabled(false);
-		regClosed = true;
 		panel.add(unregButt);
 		openClose = new JButton("Open Registration");
 		openClose.setActionCommand("Open Registration");
@@ -67,10 +65,10 @@ public class RosterScreen extends JPanel implements TableModelListener{
 			game.getRoster().getTeam(model.getValueAt(selectedRow,1)).unregisterStudent(model.getStudentAt(selectedRow));
 			model.dataChanged();
 			unregButt.setEnabled(false);
-			table.clearSelection();
-			
+			table.clearSelection();		
 		}
 	}
+	
 	class OpenClose implements ActionListener{
 		public void actionPerformed(ActionEvent event){
 			if(event.getActionCommand().equals("Open Registration")){
@@ -78,13 +76,13 @@ public class RosterScreen extends JPanel implements TableModelListener{
 				model.openRegistration();
 				openClose.setText("Close Registration");
 				openClose.setActionCommand("Close Registration");
+				unregButt.setEnabled(false);
+				table.clearSelection();
 				
 			}
 			else if(event.getActionCommand().equals("Close Registration")){
 				open = false;
 				closeRegistration();
-				unregButt.setEnabled(false);
-				table.clearSelection();
 				
 			}
 		}
@@ -94,6 +92,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		model.closeRegistration();
 		openClose.setText("Open Registration");
 		openClose.setActionCommand("Open Registration");
+		unregButt.setEnabled(true);
 	}
 	
 	public void tableChanged(TableModelEvent e){

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<quiz>
+	<item>
+		<question>How do you tell the difference between a monarch and a viceroy butterfly?</question>
+		<answer correct="true">The monarch is larger</answer>
+		<answer correct="false">One vein in the hindwing has an extra lump on the viceroy</answer>
+		<answer correct="true">Viceroy has an extra black band on the hindwings</answer>
+		<answer correct="false">Viceroy's don't wear crowns</answer>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
+	<item>
+		<question>Butterflies belong in which insect order:</question>
+		<answer correct="false">Orthoptera</answer>
+		<answer correct="false">Diptera</answer>
+		<answer correct="false">Hemiptera</answer>
+		<answer correct="false">Hymenoptera</answer>
+		<answer correct="true">Lepidoptera</answer>
+		<explanation>Both butterflies and moths are in the order lepidoptera, which is latin for "scaly wings"</explanation>
+		<point_value>100</point_value>
+		<time>60</time>
+	</item>
+	<item>
+		<question>All spiders create webs.</question>
+		<answer correct="false">True</answer>
+		<answer correct="true">False</answer>
+		<explanation>All spiders make and use silk but many do not create webs.</explanation>
+		<point_value>100</point_value>
+		<time>20</time>
+	</item>
+	<item>
+		<question>Spiders move through hydraulics.</question>
+		<answer correct="true">True</answer>
+		<answer correct="false">False</answer>
+		<explanation>They move by pumping blood into their legs. Some jumping spiders can jump up to 50 times their own body length using this method.</explanation>
+		<point_value>100</point_value>
+		<time>20</time>
+	</item>
+	<item>
+		<question>Spiders are incredibly cute, especially fuzzy jumping spiders.</question>
+		<answer correct="true">True</answer>
+		<answer correct="false">False</answer>
+		<explanation>How is this not true?</explanation>
+		<point_value>500</point_value>
+		<time>20</time>
+	</item>
+</quiz>
