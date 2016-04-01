@@ -22,20 +22,23 @@ public class ServerQuestionMode extends JPanel {
 	private Timer timer;
 	private ServerGameScreen qScreen;
 	private Game game;
+	private int fontSize;
+	
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
 
 		qScreen = s;
 		game = g;
+		fontSize = 16;
 		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		// make timer
-		timeRemaining = new JLabel("<html><span style='font-size:16px'>Time Remaining: </span></html>");
+		timeRemaining = new JLabel("<html><span style='font-size:" + fontSize + "px'>Time Remaining: </span></html>");
 		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seconds -= 1;
-				countdown.setText("<html><span style='font-size:16px'>" +
+				countdown.setText("<html><span style='font-size:" + fontSize + "px'>" +
 						numberText(seconds / 60) + ":" +
 						numberText(seconds % 60) +
 						"</span></html>");
@@ -83,7 +86,12 @@ public class ServerQuestionMode extends JPanel {
 				new SkipPopUp();
 			}
 		});
-
+		
+//		addComponentListener(new ComponentAdapter() { 
+//			public void componentResized(ComponentEvent e) {
+//				fontSize = 
+//			} 
+//		});
 	}
 
 	private static String numberText(int timeNum) {
@@ -106,18 +114,18 @@ public class ServerQuestionMode extends JPanel {
 		}
 
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
-		countdown = new JLabel("<html><span style='font-size:16px'>" +
+		countdown = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 				numberText(seconds / 60) + ":" +
 				numberText(seconds % 60) +
 				"</span></html>");
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		question = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
+		question = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><span style='font-size:16px'>" +
+			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 									   (char) (65 + i) + ") " +
 									   answers[i].getText() +
 									   "</span></html>");
