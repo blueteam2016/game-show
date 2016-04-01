@@ -83,7 +83,7 @@ public class Roster implements ActionListener{
 
 	public void startQuestion(){
 		for(int i = 0; i < teams.size(); i++){
-			teams.get(i).resetScore();
+			teams.get(i).resetQuestionScore();
 		}
 		scanTime.start();
 	}
@@ -100,17 +100,17 @@ public class Roster implements ActionListener{
 	
 	public void calculateScores(int pointVal){
 		//adds to score so only call this once per question
-		for(int i = 0; i < teams.size(); i++){
-			teams.get(i).calculateScore(pointVal);
+		for(Team team : teams){
+			team.calculateScore(pointVal);
 		}
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
 		boolean allResponded = true;
 		
-		for(int i=0; i<teams.size(); i++){
-			teams.get(i).update();
-			if(!teams.get(i).hasEveryoneResponded()){
+		for(Team team : teams){
+			team.update();
+			if(!team.hasEveryoneResponded()){
 				allResponded = false;
 			}
 		}
@@ -124,6 +124,11 @@ public class Roster implements ActionListener{
 			if (team.isFound(identifier))
 				return true;
 		return false;
+	}
+
+	public void reset() {
+		for (Team team : teams)
+			team.reset();
 	}
 	
 }

@@ -18,14 +18,30 @@ public class Game {
 	private Quiz quiz;
 	private Profile profile;
 	private String questionPath;
+	private boolean IOOpened;
+	private boolean running;
 	
 	public Game(){
 		profile = new Profile();
 		roster = new Roster();
+		IOOpened = false;
+		running = false;
+	}
+	
+	private void reset() {
+		clearQuestion();
+		roster.reset();
 	}
 	
 	public void createQuiz() throws Exception{
-		quiz = new Quiz(Profile.getQuestionFileLoc());
+		reset();
+		running = true;
+		try {
+			quiz = new Quiz(Profile.getQuestionFileLoc());
+		} catch(Exception e) {
+			running = false;
+			throw e;
+		}
 	}
 	
 	public void createRoster(ServerGameScreen sgs){
@@ -48,6 +64,14 @@ public class Game {
 		}	
 	}
 	
+	public boolean isRunning() {
+		return running;
+	}
+	
+	public void endGame() {
+		running = false;
+	}
+	
 	public boolean openIO() {
 		questionPath = profile.getServerFolderLoc() + ".question";
 		try {
@@ -56,7 +80,12 @@ public class Game {
 		} catch (IOException e) {
 			return false;
 		}
+		IOOpened = true;
 		return true;
+	}
+	
+	public boolean isIOOpen() {
+		return IOOpened;
 	}
 	
 	private void truncate(FileOutputStream fOut) throws IOException {
@@ -122,8 +151,7 @@ public class Game {
 				Files.deleteIfExists(Paths.get(questionPath));
 			if (serverPath != null)
 				Files.exists(Paths.get(serverPath + ".registration"));
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 	}
 	
 }

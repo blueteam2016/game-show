@@ -85,14 +85,18 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			error = true;
 			JOptionPane.showMessageDialog(null, "The Question File is invalid!");
 		}
-
-		if(!tabsEnabled && !error){
+		
+		if(!error){
+			if (!tabsEnabled) {
+				tabs.setEnabledAt(tabs.indexOfTab("Roster"), true);
+				tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), true);
+				tabs.setEnabledAt(tabs.indexOfTab("Game"), true);
+				tabsEnabled = true;
+				tabs.setSelectedIndex(tabs.indexOfTab("Roster"));
+			} else {
+				tabs.setSelectedIndex(tabs.indexOfTab("Game"));
+			}
 			sgScreen.startGame();
-			tabs.setEnabledAt(tabs.indexOfTab("Roster"), true);
-			tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), true);
-			tabs.setEnabledAt(tabs.indexOfTab("Game"), true);
-			tabsEnabled = true;
-			tabs.setSelectedIndex(tabs.indexOfTab("Roster"));
 		}
 	}
 	

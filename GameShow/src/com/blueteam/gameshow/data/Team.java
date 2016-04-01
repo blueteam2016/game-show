@@ -125,9 +125,15 @@ public class Team {
 		}
 	}
 
-	public void resetScore() {
+	public void resetQuestionScore() {
 		answerReceived = new boolean[members.size()];
 		answerCorrect = new boolean[members.size()];
+	}
+
+	public void reset() {
+		resetQuestionScore();
+		score = 0;
+		latestPercentage = 0;
 	}
 		
 }

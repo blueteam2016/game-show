@@ -31,7 +31,7 @@ public abstract class PopUp implements WindowListener {
 		bp = new JPanel();
 		bp.setLayout(new GridLayout(1,2,5,5));
 		
-		label = new JLabel("Are you sure?", SwingConstants.CENTER);
+		label = new JLabel(messageText(), SwingConstants.CENTER);
 		
 		yes = new JButton("yes");
 		yes.addActionListener(new ActionListener(){
@@ -62,8 +62,13 @@ public abstract class PopUp implements WindowListener {
 		popUp.setVisible(true);
 	}
 	
-	public abstract void yes();
-	public abstract void no();
+	protected void dispose() {
+		popUp.dispose();
+	}
+	
+	protected abstract String messageText();
+	protected abstract void yes();
+	protected abstract void no();
 
 
 }

@@ -172,27 +172,42 @@ public class ServerQuestionMode extends JPanel {
 			super();
 		}
 
-		public void no() {
-			popUp.dispose();
+		@Override
+		protected String messageText() {
+			return "Are you sure?";
+		}
+		
+		@Override
+		protected void no() {
+			dispose();
 			startTimer();
 		}
 
-		public void yes() {
+		@Override
+		protected void yes() {
 			pause.setText("Pause");
 			pause.setActionCommand("pause");
 			qScreen.goToAnswerMode();
-			popUp.dispose();
+			dispose();
 		}
-		
+
+		@Override
 		public void windowActivated(WindowEvent arg0) {}
+		@Override
 		public void windowClosed(WindowEvent arg0) {}
+		@Override
 		public void windowClosing(WindowEvent arg0) {
 			startTimer();
 		}
+		@Override
 		public void windowDeactivated(WindowEvent arg0) {}
+		@Override
 		public void windowDeiconified(WindowEvent arg0) {}
+		@Override
 		public void windowIconified(WindowEvent arg0) {}
+		@Override
 		public void windowOpened(WindowEvent arg0) {}
+
 	}
 
 	private class BackPopUp extends PopUp {
@@ -201,25 +216,40 @@ public class ServerQuestionMode extends JPanel {
 			super();
 		}
 
-		public void yes() {
-			game.getQuiz().getLastQuestion();
-			qScreen.goToResultMode();
-			popUp.dispose();
-		}
-
-		public void no() {
-			popUp.dispose();
-			startTimer();
+		@Override
+		protected String messageText() {
+			return "Are you sure?";
 		}
 		
+		@Override
+		protected void yes() {
+			game.getQuiz().getLastQuestion();
+			qScreen.goToResultMode();
+			dispose();
+		}
+
+		@Override
+		protected void no() {
+			startTimer();
+			dispose();
+		}
+
+		@Override
 		public void windowActivated(WindowEvent arg0) {}
+		@Override
 		public void windowClosed(WindowEvent arg0) {}
+		@Override
 		public void windowClosing(WindowEvent arg0) {
 			startTimer();
 		}
+		@Override
 		public void windowDeactivated(WindowEvent arg0) {}
+		@Override
 		public void windowDeiconified(WindowEvent arg0) {}
+		@Override
 		public void windowIconified(WindowEvent arg0) {}
+		@Override
 		public void windowOpened(WindowEvent arg0) {}
+
 	}
 }

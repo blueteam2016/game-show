@@ -15,23 +15,29 @@ public class ServerGameScreen extends JPanel {
 	private ServerAnswerMode answer;
 	private ServerWindow servWin;
 	private Game game;
-	private boolean firstQuestion = true;
+	private boolean firstQuestion;
 	private String currentMode;
+	private boolean firstGame;
 	
 	public ServerGameScreen(Game g, ServerWindow sw) {
 		setLayout(new CardLayout());
-		
+		firstQuestion = true;
+		firstGame = true;
 		game = g;
 		servWin = sw;
 	}
 	
 	public void startGame() {
-		result = new ServerResultMode(game, this);
-		question = new ServerQuestionMode(game, this);
-		answer = new ServerAnswerMode(game, this);
-		add(result, RESULTMODE);
-		add(question, QUESTIONMODE);
-		add(answer, ANSWERMODE);
+		if (firstGame) {
+			result = new ServerResultMode(game, this);
+			question = new ServerQuestionMode(game, this);
+			answer = new ServerAnswerMode(game, this);
+			add(result, RESULTMODE);
+			add(question, QUESTIONMODE);
+			add(answer, ANSWERMODE);
+			firstGame = false;
+		}
+		firstQuestion = true;
 		result.update();
 		goToResultMode();
 	}
@@ -53,7 +59,7 @@ public class ServerGameScreen extends JPanel {
 	public void goToQuestionMode() {
 		if(firstQuestion){
 			firstQuestion = false;
-		}else{
+		} else{
 			game.getQuiz().nextQuestion();
 		}
 		question.newQuestion();
@@ -66,7 +72,10 @@ public class ServerGameScreen extends JPanel {
 	}
 
 	public void goToResultMode() {
-		result.enableBack();
+		if (firstQuestion)
+			result.disableBack();
+		else
+			result.enableBack();
 		if(game.getQuiz().isLastQuestion()) {
 			result.lastQuestion();
 		}

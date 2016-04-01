@@ -171,7 +171,7 @@ public class ProfileScreen extends JPanel{
 
 	}
 
-	class ServerButton implements ActionListener{
+	private class ServerButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
 			String serverLoc = folderChooser("Server Directory");
 			if (!serverLoc.equals("")) {
@@ -182,7 +182,7 @@ public class ProfileScreen extends JPanel{
 		}
 	}
 
-	class ClientButton implements ActionListener{
+	private class ClientButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
 			String clientLoc = folderChooser("Client Directory");
 			if (!clientLoc.equals("")) {
@@ -193,7 +193,7 @@ public class ProfileScreen extends JPanel{
 		}
 	}
 	
-	class QuestionButton implements ActionListener{
+	private class QuestionButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
 			String questLoc = fileChooser("Question File");
 			if (!questLoc.equals("")) {
@@ -204,39 +204,80 @@ public class ProfileScreen extends JPanel{
 		}
 	}
 	
-	class setDefaultTime implements ChangeListener {
+	private class setDefaultTime implements ChangeListener {
 		public void stateChanged(ChangeEvent arg0) {
 			prof.setDefaultTime((Integer) spinnerDefTime.getValue());
 		}
 	}
 	
-	class setDefaultValue implements ChangeListener {
+	private class setDefaultValue implements ChangeListener {
 		public void stateChanged(ChangeEvent arg0) {
 			prof.setDefaultValue((Integer) spinnerDefVal.getValue());
 		}
 	}
 	
-	class confirmButtonPressed implements ActionListener {
+	private class confirmButtonPressed implements ActionListener {
 		
 		
 		public void actionPerformed(ActionEvent event) {			
 			prof.setDefaultTime((int)spinnerDefTime.getValue());
 			prof.setDefaultValue((int)spinnerDefVal.getValue());
 			
-			if (!prof.isComplete()){
+			if (!prof.isComplete()) {
 				JOptionPane.showMessageDialog(null, "Please enter all of the required information.");
-			}else {
-				if (!Files.exists(Paths.get(prof.getClientFolderLoc()))) {
-					JOptionPane.showMessageDialog(null, "Client path invalid!");
-				} else if(!Files.exists(Paths.get(prof.getServerFolderLoc()))) {
-					JOptionPane.showMessageDialog(null, "Server path invalid!");
-				} else if (!game.openIO()){
-					JOptionPane.showMessageDialog(null, "Server failed to initialize!");
-				}else{
-					serverWindow.enableTabs();
-				}
+				return;
+			} else if (!Files.exists(Paths.get(prof.getClientFolderLoc()))) {
+				JOptionPane.showMessageDialog(null, "Client path invalid!");
+				return;
+			} else if(!Files.exists(Paths.get(prof.getServerFolderLoc()))) {
+				JOptionPane.showMessageDialog(null, "Server path invalid!");
+				return;
+			} else if (!game.isIOOpen() && !game.openIO()) {
+				JOptionPane.showMessageDialog(null, "Server failed to initialize!");
+				return;
+			} else if (game.isRunning()) {
+				new NewGamePopUp();
+				return;
+			} else {
+				serverWindow.enableTabs();
 			}
+			
+		}
+	}
+	
+	private class NewGamePopUp extends PopUp {
+		
+		@Override
+		protected String messageText() {
+			return "<html>There is already a game running. Are you sure you wish to start a new game?</html>";
 		}
 
-	} 
+		@Override
+		protected void yes() {
+			serverWindow.enableTabs();
+			dispose();
+		}
+
+		@Override
+		protected void no() {
+			dispose();
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {}
+		@Override
+		public void windowClosed(WindowEvent e) {}
+		@Override
+		public void windowClosing(WindowEvent e) {}
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+		@Override
+		public void windowIconified(WindowEvent e) {}
+		@Override
+		public void windowOpened(WindowEvent e) {}
+		
+	}
+	
 }

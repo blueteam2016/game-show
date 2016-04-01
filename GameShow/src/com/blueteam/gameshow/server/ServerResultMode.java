@@ -18,13 +18,13 @@ public class ServerResultMode extends JPanel{
 	private Roster rost;
 	private JButton back;
 	private JButton nextQ;
-	//private Game game;
+	private Game game;
 	
 	int rowSize = 30;
 	
 	public ServerResultMode(Game g, final ServerGameScreen s){
 		rost = g.getRoster();
-		//game = g;
+		game = g;
 		model = new ResultTableModel(rost);
 		table = new JTable(model);
 		table.setSize(new Dimension(200,200));
@@ -70,10 +70,15 @@ public class ServerResultMode extends JPanel{
 	
 	public void lastQuestion(){
 		nextQ.setEnabled(false);
+		game.endGame();
 	}
 	
 	public void enableBack(){
 		back.setEnabled(true);
+	}
+	
+	public void disableBack() {
+		back.setEnabled(false);
 	}
 	
 	public void update(){
@@ -139,6 +144,5 @@ public class ServerResultMode extends JPanel{
 		table.getTableHeader().setFont(font);
 
 	}
-	
 	
 }
