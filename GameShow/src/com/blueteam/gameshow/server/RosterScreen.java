@@ -92,7 +92,6 @@ public class RosterScreen extends JPanel implements TableModelListener{
 		model.closeRegistration();
 		openClose.setText("Open Registration");
 		openClose.setActionCommand("Open Registration");
-		unregButt.setEnabled(true);
 	}
 	
 	public void tableChanged(TableModelEvent e){
