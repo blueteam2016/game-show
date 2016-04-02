@@ -92,11 +92,12 @@ public class ServerWindow implements WindowListener, ChangeListener{
 				tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), true);
 				tabs.setEnabledAt(tabs.indexOfTab("Game"), true);
 				tabsEnabled = true;
+				sgScreen.startGame();
 				tabs.setSelectedIndex(tabs.indexOfTab("Roster"));
 			} else {
+				sgScreen.startGame();
 				tabs.setSelectedIndex(tabs.indexOfTab("Game"));
 			}
-			sgScreen.startGame();
 		}
 	}
 	
