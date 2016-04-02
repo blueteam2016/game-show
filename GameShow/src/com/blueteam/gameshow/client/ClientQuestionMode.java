@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = 1473664480186370825L;
 	private ClientWindow clientWindow;
-	private ClientQuestionScreen questScreen;
+	private ClientQuestionScreen qScreen;
 	private ClientIO clientIO;
 	private Question question;
 	private JLabel questionLabel;
@@ -28,15 +30,34 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private static int choice;
 	private boolean receivedQuestions;
 	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
+	private int fontSize;
+	private float oldWidth;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
-		questScreen = qs;
-
+		qScreen = qs;
+		fontSize = 12;
+		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		receivedQuestions = false;
 		inAnswerMode = false;
+		
+		oldWidth = qScreen.getWidth();
+		
+		addComponentListener(new ComponentAdapter() { 
+			public void componentResized(ComponentEvent e) {
+				float newWidth = qScreen.getWidth();
+				if (newWidth != oldWidth) {
+					if (qScreen.getQuestion() != null) {
+						fontSize = Math.min(64, (int)(12 + 8 * (newWidth - 450.0) / 450.0));
+						setLabels();
+						setUpGUI();
+					}
+				}
+			} 
+		});
+		
 	}
 	
 	public void register() {
@@ -54,11 +75,11 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			clientIO.clearAnswer();
 			if (!inAnswerMode) {
 				inAnswerMode = true;
-				questScreen.goToAnswerMode();
+				qScreen.goToAnswerMode();
 			}
 		} else {
-			if (questScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
-				questScreen.goToNoQuestionMode();
+			if (qScreen.getCurrentMode() != ClientQuestionScreen.NOQUESTIONMODE)
+				qScreen.goToNoQuestionMode();
 			inAnswerMode = false;
 		}
 	}
@@ -92,25 +113,32 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			if (!receivedQuestions)
 				receivedQuestions = true;
 			
-			questScreen.setQuestion(question);
+			qScreen.setQuestion(question);
 			
 			newQuestion();
 			
-			questScreen.goToQuestionMode();
+			qScreen.goToQuestionMode();
 			inAnswerMode = false;
 		}
 	}
 	
 	public void newQuestion() {
+		setLabels();		
+		setUpGUI();
+		choice = -1;
+	}
+	
+	private void setLabels() {
+		Question currentQuestion = qScreen.getQuestion();
 		//adds question
-		questionLabel = new JLabel("<html><span style='font-size:12px'>" + question.getText() + "</span></html>");
+		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + currentQuestion.getText() + "</span></html>");
 		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
 		//adds answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		answerButtons = new ArrayList<AnswerButton>();
-		Answer[] answers = question.getAnswers();
+		Answer[] answers = currentQuestion.getAnswers();
 		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><span style='font-size:12px'>" +
+			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 		 			        		   answers[i].getText() +
 									   "</span></html>");
 			answerLabels.add(answer);
@@ -121,8 +149,6 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			answerButtons.add(answerSelect);
 			answerSelect.setAlignmentX(LEFT_ALIGNMENT);
 		}
-		
-		setUpGUI();
 	}
 	
 	private void setUpGUI(){
@@ -164,7 +190,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		
 		add(gridBagPanel, BorderLayout.NORTH);
 
-		choice = -1;
+		qScreen.getClientWindow().update();
 	}
 
 	public static int getChoice() {
@@ -184,7 +210,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		{
 			if (!inAnswerMode) {
 				inAnswerMode = true;
-				Answer[] answers = questScreen.getQuestion().getAnswers();
+				Answer[] answers = qScreen.getQuestion().getAnswers();
 				for (int i = 0; i < answerButtons.size(); i++)
 					if (answerButtons.get(i).equals(arg0.getSource()))
 					{
@@ -192,7 +218,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 						choice = i;
 						break;
 					}
-				questScreen.goToAnswerMode();
+				qScreen.goToAnswerMode();
 			}
 		}
 	}

@@ -15,30 +15,52 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private ArrayList<JLabel> answerLabels;
 	private JLabel explanation;
 	private JButton moveOn;
-	private ServerGameScreen SGS;
+	private ServerGameScreen sgScreen;
 	private Game game;
+	private int fontSize;
+	private float oldWidth;
 
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
-		SGS = s;
+		sgScreen = s;
 		game = g;
+		fontSize = 16;
+		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		moveOn = new JButton("Continue");
 		moveOn.addActionListener(this);
 
+		oldWidth = sgScreen.getWidth();
+		
+		addComponentListener(new ComponentAdapter() { 
+			public void componentResized(ComponentEvent e) {
+				float newWidth = sgScreen.getWidth();
+				if (newWidth != oldWidth) {
+					fontSize = Math.min(64, (int)(16 + 8 * (newWidth - 450.0) / 450.0));
+					setLabels();
+					setUpGUI();
+				}
+			} 
+		});
+
 		newAnswer();
 	}
 	
 	public void newAnswer(){		
+		setLabels();
+		setUpGUI();
+	}
+	
+	private void setLabels() {
 		//adds question
-		questionLabel = new JLabel("<html><span style='font-size:16px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
+		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
 		
 		//adds correct answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for(int i = 0; i< answers.length; i++){
 			if(answers[i].isCorrect()) {
-				JLabel answer = new JLabel("<html><span style='font-size:16px'>" +
+				JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 										  (char)(65 + i) + ") " +
 										  answers[i].getText() +
 										  "</span></html>");
@@ -50,13 +72,12 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		//add explanation
 		String explanationString = game.getQuiz().getCurrentQuestion().getExplanationText();
 		if(explanationString != null){
-			explanation = new JLabel("<html><span style='font-size:16px'>Explanation: " + explanationString + "</span></html>");
+			explanation = new JLabel("<html><span style='font-size:" + fontSize + "px'>Explanation: " + explanationString + "</span></html>");
 			explanation.setAlignmentX(LEFT_ALIGNMENT);
 		}else{
 			explanation = null;
 		}
 		
-		setUpGUI();
 	}
 	
 	private void setUpGUI() {
@@ -87,10 +108,11 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		buttonPanel.add(moveOn);
 		buttonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		add(buttonPanel);
+		sgScreen.getServerWindow().update();
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		SGS.goToResultMode();
+		sgScreen.goToResultMode();
 	}
 	
 }

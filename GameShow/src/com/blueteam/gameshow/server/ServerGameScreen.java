@@ -53,7 +53,6 @@ public class ServerGameScreen extends JPanel {
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = ANSWERMODE;
 		cl.show(this, currentMode);
-		servWin.update();
 	}
 
 	public void goToQuestionMode() {
@@ -68,7 +67,6 @@ public class ServerGameScreen extends JPanel {
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = QUESTIONMODE;
 		cl.show(this, currentMode);
-		servWin.update();
 	}
 
 	public void goToResultMode() {
@@ -84,7 +82,6 @@ public class ServerGameScreen extends JPanel {
 		currentMode = RESULTMODE;
 		cl.show(this, currentMode);
 		result.update();
-		servWin.update();
 	}
 	
 	public void resizeResult(){
@@ -97,6 +94,10 @@ public class ServerGameScreen extends JPanel {
 	
 	public ServerQuestionMode getServerQuestionMode() {
 		return question;
+	}
+	
+	public ServerWindow getServerWindow() {
+		return servWin;
 	}
 	
 	public boolean onQuestionMode() {

@@ -20,14 +20,15 @@ public class ServerQuestionMode extends JPanel {
 	private JButton pause;
 	private JButton skip;
 	private Timer timer;
-	private ServerGameScreen qScreen;
+	private ServerGameScreen sgScreen;
 	private Game game;
 	private int fontSize;
+	private float oldWidth;
 	
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
 
-		qScreen = s;
+		sgScreen = s;
 		game = g;
 		fontSize = 16;
 		
@@ -44,7 +45,7 @@ public class ServerQuestionMode extends JPanel {
 						"</span></html>");
 				if (seconds <= 0) {
 					timer.stop();
-					qScreen.goToAnswerMode();
+					sgScreen.goToAnswerMode();
 				}
 			}
 		});
@@ -87,11 +88,18 @@ public class ServerQuestionMode extends JPanel {
 			}
 		});
 		
-//		addComponentListener(new ComponentAdapter() { 
-//			public void componentResized(ComponentEvent e) {
-//				fontSize = 
-//			} 
-//		});
+		oldWidth = sgScreen.getWidth();
+		
+		addComponentListener(new ComponentAdapter() { 
+			public void componentResized(ComponentEvent e) {
+				float newWidth = sgScreen.getWidth();
+				if (newWidth != oldWidth) {
+					fontSize = Math.min(64, (int)(16 + 8 * (newWidth - 450.0) / 450.0));
+					setLabels();
+					setUpGUI();
+				}
+			} 
+		});
 	}
 
 	private static String numberText(int timeNum) {
@@ -107,12 +115,17 @@ public class ServerQuestionMode extends JPanel {
 
 	public void newQuestion() {
 		game.sendQuestion(game.getQuiz().getCurrentQuestion());
-		
+		setLabels();
+		setUpGUI();
+	}
+	
+	private void setLabels() {		
 		// set time remaining
 		if (!game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(true);
 		}
 
+		timeRemaining = new JLabel("<html><span style='font-size:" + fontSize + "px'>Time Remaining: </span></html>");
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
 		countdown = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 				numberText(seconds / 60) + ":" +
@@ -121,18 +134,19 @@ public class ServerQuestionMode extends JPanel {
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		question = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
+		question = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+							   game.getQuiz().getCurrentQuestion().getText() +
+							   "</span></html>");
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for (int i = 0; i < answers.length; i++) {
 			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
-									   (char) (65 + i) + ") " +
-									   answers[i].getText() +
-									   "</span></html>");
+					(char) (65 + i) + ") " +
+					answers[i].getText() +
+					"</span></html>");
 			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
 		}
-		setUpGUI();
 	}
 	
 	private void setUpGUI() {
@@ -164,6 +178,7 @@ public class ServerQuestionMode extends JPanel {
 		buttonPanel.add(pause);
 		buttonPanel.add(skip);
 		add(buttonPanel);
+		sgScreen.getServerWindow().update();
 	}
 
 	public void startTimer() {
@@ -195,7 +210,7 @@ public class ServerQuestionMode extends JPanel {
 		protected void yes() {
 			pause.setText("Pause");
 			pause.setActionCommand("pause");
-			qScreen.goToAnswerMode();
+			sgScreen.goToAnswerMode();
 			dispose();
 		}
 
@@ -232,7 +247,7 @@ public class ServerQuestionMode extends JPanel {
 		@Override
 		protected void yes() {
 			game.getQuiz().getLastQuestion();
-			qScreen.goToResultMode();
+			sgScreen.goToResultMode();
 			dispose();
 		}
 

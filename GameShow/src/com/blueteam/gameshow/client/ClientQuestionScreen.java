@@ -49,14 +49,12 @@ public class ClientQuestionScreen extends JPanel {
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = ANSWERMODE;
 		cl.show(this, currentMode);
-		clientWindow.update();
 	}
 
 	public void goToQuestionMode() {
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = QUESTIONMODE;
 		cl.show(this, currentMode);
-		clientWindow.update();
 	}
 
 	public void goToNotRegisteredMode() {

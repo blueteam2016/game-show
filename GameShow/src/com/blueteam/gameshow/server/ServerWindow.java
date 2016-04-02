@@ -87,6 +87,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		}
 		
 		if(!error){
+			sgScreen.startGame();
 			if (!tabsEnabled) {
 				tabs.setEnabledAt(tabs.indexOfTab("Roster"), true);
 				tabs.setEnabledAt(tabs.indexOfTab("Scoreboard"), true);
@@ -96,7 +97,6 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			} else {
 				tabs.setSelectedIndex(tabs.indexOfTab("Game"));
 			}
-			sgScreen.startGame();
 		}
 	}
 	
