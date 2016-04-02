@@ -73,14 +73,18 @@ public class Roster implements ActionListener{
 		for(int i=0; i<teams.size() && !found;i++){
 			if(teamName.compareTo(teams.get(i).getName())<0){
 				found = true;
-				teams.add(i, new Team(teamName));
+				teams.add(i, new Team(teamName, this));
 			}
 		}
 		if(!found){
-			teams.add(new Team(teamName));
+			teams.add(new Team(teamName, this));
 		}
 	}
 
+	public void unregisterTeam(Team t){
+		teams.remove(t);
+	}
+	
 	public void startQuestion(){
 		for(int i = 0; i < teams.size(); i++){
 			teams.get(i).resetQuestionScore();

@@ -9,8 +9,10 @@ public class Team {
 	private String name;
 	private boolean[] answerReceived;
 	private boolean[] answerCorrect;
+	private Roster roster;
 	
-	public Team(String n){
+	public Team(String n, Roster rost){
+		roster= rost;
 		name = n;
 		members = new ArrayList<Player>();
 		score = 0;
@@ -90,6 +92,9 @@ public class Team {
 		members.remove(p);
 		answerReceived = new boolean[members.size()];
 		answerCorrect = new boolean[members.size()];
+		if(members.size() == 0){
+			roster.unregisterTeam(this);
+		}
 	}
 	
 	public void calculatePercentage(){
