@@ -51,7 +51,7 @@ public class RegistrationScreen extends JPanel{
 		name = new JTextArea("");
 		name.setLineWrap(true);
 		name.setWrapStyleWord(true);
-		name.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		name.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
@@ -74,7 +74,7 @@ public class RegistrationScreen extends JPanel{
 		teamName = new JTextArea("");
 		teamName.setLineWrap(true);
 		teamName.setWrapStyleWord(true);
-		teamName.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		teamName.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
@@ -102,7 +102,7 @@ public class RegistrationScreen extends JPanel{
 		servFoldText.setLineWrap(true);
 		servFoldText.setWrapStyleWord(false);
 		servFoldText.setEditable(false);
-		servFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		servFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		constr.gridx = 2;
 		this.add(servFoldText, constr);
 
@@ -121,7 +121,7 @@ public class RegistrationScreen extends JPanel{
 		clientFoldText.setLineWrap(true);
 		clientFoldText.setWrapStyleWord(false);
 		clientFoldText.setEditable(false);
-		clientFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		clientFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
 		constr.gridx = 2;
 		this.add(clientFoldText, constr);
 		
