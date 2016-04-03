@@ -216,13 +216,13 @@ public class RegistrationScreen extends JPanel{
 			clientTeamName = correctCaps(teamName.getText());
 			
 			if (!Files.exists(Paths.get(servFoldLoc))) {
-				JOptionPane.showMessageDialog(null, "Server path invalid!");
+				JOptionPane.showMessageDialog(null, "Server path invalid!", "Bad Input Error", JOptionPane.ERROR_MESSAGE);
 			} else if (!Files.exists(Paths.get(clientFoldLoc))) {
-				JOptionPane.showMessageDialog(null, "Client path invalid!");
+				JOptionPane.showMessageDialog(null, "Client path invalid!", "Bad Input Error", JOptionPane.ERROR_MESSAGE);
 			} else if (!Files.exists(Paths.get(servFoldLoc + ".question"))) {
-				JOptionPane.showMessageDialog(null, "Server not found!");
+				JOptionPane.showMessageDialog(null, "Server not found!", "Server Error", JOptionPane.ERROR_MESSAGE);
 			} else if (!Files.exists(Paths.get(servFoldLoc + ".registration"))) {
-				JOptionPane.showMessageDialog(null, "Registration not open!");
+				JOptionPane.showMessageDialog(null, "Registration not open!", "Registration Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				clientWindow.register(servFoldLoc, clientFoldLoc, new ClientProfile(clientName, clientTeamName));
 			}

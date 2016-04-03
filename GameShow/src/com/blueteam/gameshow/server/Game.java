@@ -120,17 +120,17 @@ public class Game {
 		try {
 			files = getExistingIOFiles(newServerPath, newClientPath);
 		} catch (AccessDeniedException e) {
-			JOptionPane.showMessageDialog(null, "You do not have access!");
+			JOptionPane.showMessageDialog(null, "You do not have access!", "Permissions Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (IOException e) {}
 		
 		if (files != null && files.length > 0) {
 			ExistingFilesPopUp popUp = new ExistingFilesPopUp(files, newServerPath, newClientPath);
 			if (!popUp.getChoice()) {
-				JOptionPane.showMessageDialog(null, "Please delete files or change directory before play.");
+				JOptionPane.showMessageDialog(null, "Please delete files or change directory before play.", "IO Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			} else if(!popUp.wasDeleteSuccessful()) {
-				JOptionPane.showMessageDialog(null, "Failed to delete files. Please check your permissions or change directories.");
+				JOptionPane.showMessageDialog(null, "Failed to delete files. Please check your permissions or change directories.", "File Deletion Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		}

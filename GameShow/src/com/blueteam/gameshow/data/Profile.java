@@ -40,7 +40,7 @@ public class Profile {
 				profileSave = profileBuilder.parse("profileSave.xml");
 			} catch(FileNotFoundException e) {
 			} catch(SAXException e) {
-				JOptionPane.showMessageDialog(null, "Corrupt profileSave!");
+				JOptionPane.showMessageDialog(null, "Corrupt profileSave!", "Profile Load Error", JOptionPane.ERROR_MESSAGE);
 			} catch(Exception e) {e.printStackTrace();}
 			if (profileSave != null) {
 				Element root = profileSave.getDocumentElement();

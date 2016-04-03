@@ -66,7 +66,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	}
 	
 	private void reset() {
-		JOptionPane.showMessageDialog(null, "Lost connection to server!");
+		JOptionPane.showMessageDialog(null, "Lost connection to server!", "Server Error", JOptionPane.ERROR_MESSAGE);
 		receivedQuestions = false;
 		clientWindow.reset();
 	}

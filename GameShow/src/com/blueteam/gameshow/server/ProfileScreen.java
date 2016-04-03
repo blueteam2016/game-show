@@ -246,18 +246,18 @@ public class ProfileScreen extends JPanel{
 			prof.setDefaultValue((int)spinnerDefVal.getValue());
 			
 			if (!prof.isComplete()) {
-				JOptionPane.showMessageDialog(null, "Please enter all of the required information.");
+				JOptionPane.showMessageDialog(null, "Please enter all of the required information.", "Bad Input Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			} else if (!Files.exists(Paths.get(prof.getClientFolderLoc()))) {
-				JOptionPane.showMessageDialog(null, "Client path invalid!");
+				JOptionPane.showMessageDialog(null, "Client path invalid!", "Bad Input Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			} else if(!Files.exists(Paths.get(prof.getServerFolderLoc()))) {
-				JOptionPane.showMessageDialog(null, "Server path invalid!");
+				JOptionPane.showMessageDialog(null, "Server path invalid!", "Bad Input Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			} else if (game.isRunning() && !new NewGamePopUp().getChoice()) {
 				return;
 			} else if ((!game.isIOOpen() || IOpathsChanged) && !game.openIO()) {
-				JOptionPane.showMessageDialog(null, "Server failed to initialize!");
+				JOptionPane.showMessageDialog(null, "Server failed to initialize!", "Initialization Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			} else {
 				IOpathsChanged = false;

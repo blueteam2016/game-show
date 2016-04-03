@@ -61,7 +61,7 @@ public class ClientWindow {
 			clientIO = new ClientIO(pathServerFold, pathClientFold, profile);
 		} catch (IOException e) {
 			clientIO = null;
-			JOptionPane.showMessageDialog(null, "Failed to write client profile! Please check your permissions!");
+			JOptionPane.showMessageDialog(null, "Failed to write client profile! Please check your permissions!", "Permissions Error", JOptionPane.ERROR_MESSAGE);
 		}
 		if (clientIO != null) {
 			cqScreen.register();

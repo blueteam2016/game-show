@@ -83,7 +83,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 			game.createQuiz();
 		}catch(Exception e){
 			error = true;
-			JOptionPane.showMessageDialog(null, "The Question File is invalid!");
+			JOptionPane.showMessageDialog(null, "The Question File is invalid!",  "Question File Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(!error){
