@@ -89,6 +89,10 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 		return roster.getTeam(t).getPlayer(roster.getTeam(t).numPlayers()-1);
 	}
 	
+	public void updatePath(String newPath) {
+		pathToFolder = newPath;
+	}
+	
 	public void openRegistration(){
 		scanTime.start();
 		try {
