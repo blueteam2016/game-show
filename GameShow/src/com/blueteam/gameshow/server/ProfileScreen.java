@@ -1,13 +1,25 @@
 package com.blueteam.gameshow.server;
 
-import javax.swing.*; 
-
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,6 +35,7 @@ public class ProfileScreen extends JPanel{
 	private ServerWindow serverWindow;
 	private Profile prof;
 	private Game game;
+	private boolean IOpathsChanged;
 
 	public ProfileScreen(Game g, ServerWindow sw) {
 		game = g;
@@ -132,6 +145,7 @@ public class ProfileScreen extends JPanel{
 		constr.gridx = 1;
 		constr.gridy = 5;
 		add(confirmButton, constr);
+		IOpathsChanged = false;
 	}
 	
 	public String getName(){
@@ -175,6 +189,7 @@ public class ProfileScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String serverLoc = folderChooser("Server Directory");
 			if (!serverLoc.equals("")) {
+				IOpathsChanged = true;
 				serverFoldText.setText(serverLoc);
 				prof.setServerFolderLoc(serverFoldText.getText());
 				serverWindow.update();
@@ -186,6 +201,7 @@ public class ProfileScreen extends JPanel{
 		public void actionPerformed(ActionEvent event) {
 			String clientLoc = folderChooser("Client Directory");
 			if (!clientLoc.equals("")) {
+				IOpathsChanged = true;
 				clientFoldText.setText(clientLoc);
 				prof.setClientFolderLoc(clientFoldText.getText());
 				serverWindow.update();
@@ -218,7 +234,6 @@ public class ProfileScreen extends JPanel{
 	
 	private class confirmButtonPressed implements ActionListener {
 		
-		
 		public void actionPerformed(ActionEvent event) {			
 			prof.setDefaultTime((int)spinnerDefTime.getValue());
 			prof.setDefaultValue((int)spinnerDefVal.getValue());
@@ -232,13 +247,13 @@ public class ProfileScreen extends JPanel{
 			} else if(!Files.exists(Paths.get(prof.getServerFolderLoc()))) {
 				JOptionPane.showMessageDialog(null, "Server path invalid!");
 				return;
-			} else if (!game.isIOOpen() && !game.openIO()) {
+			} else if (game.isRunning() && !new NewGamePopUp().getChoice()) {
+				return;
+			} else if ((!game.isIOOpen() || IOpathsChanged) && !game.openIO()) {
 				JOptionPane.showMessageDialog(null, "Server failed to initialize!");
 				return;
-			} else if (game.isRunning()) {
-				new NewGamePopUp();
-				return;
 			} else {
+				IOpathsChanged = false;
 				serverWindow.enableTabs();
 			}
 			
@@ -254,12 +269,13 @@ public class ProfileScreen extends JPanel{
 
 		@Override
 		protected void yes() {
-			serverWindow.enableTabs();
+			choice = true;
 			dispose();
 		}
 
 		@Override
 		protected void no() {
+			choice = false;
 			dispose();
 		}
 		

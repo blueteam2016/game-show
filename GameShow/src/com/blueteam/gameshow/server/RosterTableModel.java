@@ -30,9 +30,6 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	public RosterTableModel(Game game){
 		roster = game.getRoster();
 		pathToFolder = game.getProfile().getClientFolderLoc();
-		try {
-			Files.deleteIfExists(Paths.get(pathToFolder + ".registration"));
-		} catch (IOException e) {}
 		scanTime = new Timer(100, this);
 	}
 	

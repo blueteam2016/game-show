@@ -115,7 +115,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	public void windowActivated(WindowEvent arg0) {}
 	public void windowClosed(WindowEvent arg0) {
 		game.getProfile().saveProfile();
-		game.destroy();
+		game.closeIO();
 		System.exit(0);
 	}
 	public void windowClosing(WindowEvent arg0) {}

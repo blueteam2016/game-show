@@ -1,5 +1,6 @@
 package com.blueteam.gameshow.server;
 
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -7,8 +8,13 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.JOptionPane;
 
 import com.blueteam.gameshow.data.*;
 
@@ -17,6 +23,8 @@ public class Game {
 	private Roster roster;
 	private Quiz quiz;
 	private Profile profile;
+	private String activeServerPath;
+	private String activeClientPath;
 	private String questionPath;
 	private boolean IOOpened;
 	private boolean running;
@@ -24,6 +32,9 @@ public class Game {
 	public Game(){
 		profile = new Profile();
 		roster = new Roster();
+		activeServerPath = null;
+		activeClientPath = null;
+		questionPath = null;
 		IOOpened = false;
 		running = false;
 	}
@@ -72,14 +83,69 @@ public class Game {
 		running = false;
 	}
 	
+	private File[] getExistingIOFiles(String serverPath, String clientPath) throws IOException{
+		ArrayList<File> out = new ArrayList<File>();
+		File folder = new File(clientPath);
+		ArrayList<File> ansFiles = new ArrayList<File>(Arrays.asList(folder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return name.contains(".answer_");
+			}
+		})));
+		if (ansFiles != null) {
+			out.addAll(ansFiles);
+		}
+		ArrayList<File> profFiles = new ArrayList<File>(Arrays.asList(folder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return name.contains(".profile_");
+			}
+		})));
+		if (profFiles != null) {
+			out.addAll(profFiles);
+		}
+		if (Files.exists(Paths.get(serverPath + ".question")))
+			out.add(new File(serverPath + ".question"));
+		if (Files.exists(Paths.get(serverPath + ".registration")))
+			out.add(new File(serverPath + ".registration"));
+		return out.toArray(new File[0]);
+	}
+	
 	public boolean openIO() {
-		questionPath = profile.getServerFolderLoc() + ".question";
+		
+		String newServerPath = profile.getServerFolderLoc();
+		String newClientPath = profile.getClientFolderLoc();
+		
+		File[] files = null;
 		try {
-			Files.deleteIfExists(Paths.get(questionPath));
-			Files.createFile(Paths.get(questionPath));
+			files = getExistingIOFiles(newServerPath, newClientPath);
+		} catch (AccessDeniedException e) {
+			JOptionPane.showMessageDialog(null, "You do not have access!");
+			return false;
+		} catch (IOException e) {}
+		
+		if (files != null && files.length > 0) {
+			ExistingFilesPopUp popUp = new ExistingFilesPopUp(files, newServerPath, newClientPath);
+			if (!popUp.getChoice()) {
+				JOptionPane.showMessageDialog(null, "Please delete files or change directory before play.");
+				return false;
+			} else if(!popUp.wasDeleteSuccessful()) {
+				JOptionPane.showMessageDialog(null, "Failed to delete files. Please check your permissions or change directories.");
+				return false;
+			}
+		}
+
+		try {
+			Files.createFile(Paths.get(newServerPath + ".question"));
 		} catch (IOException e) {
 			return false;
 		}
+		if (IOOpened) {
+			closeIO();
+		}
+		activeServerPath = newServerPath;
+		activeClientPath = newClientPath;
+		questionPath = activeServerPath + ".question";
 		IOOpened = true;
 		return true;
 	}
@@ -118,40 +184,78 @@ public class Game {
 		}
 	}
 	
-	public void destroy() {
-		try {
-			String clientPath = profile.getClientFolderLoc();
-			String serverPath = profile.getServerFolderLoc();
-			if (clientPath != null) {
-				File folder = new File(clientPath);
-				File[] ansFiles = folder.listFiles(new FilenameFilter() {
-					@Override
-					public boolean accept(final File dir, final String name) {
-						return name.contains(".answer_");
-					}
-				});
-				if (ansFiles != null) {
-					for (File file : ansFiles) {
-						file.delete();	
-					}
+	public void closeIO() {
+		if (IOOpened) {
+			File[] files = null;
+			try {
+				files = getExistingIOFiles(activeServerPath, activeClientPath);
+			} catch (IOException e) {}
+			for (File file : files)
+				file.delete();
+		}
+		IOOpened = false;
+	}
+	
+	private class ExistingFilesPopUp { //doesn't extend PopUp because this constructor MUST be called before PopUp's constructor
+		private boolean deleteSuccessful;
+		private PopUp p;
+
+		public ExistingFilesPopUp(final File[] files, final String newServerPath, final String newClientPath) {
+			
+			deleteSuccessful = false;
+			p = new PopUp() {
+				@Override
+				protected String messageText() {
+					return "<html>Existing IO files have been found. They must be deleted before play. Would you like to delete these files now?</html>";
 				}
-				File[] profFiles = folder.listFiles(new FilenameFilter() {
-					@Override
-					public boolean accept(final File dir, final String name) {
-						return name.contains(".profile_");
-					}
-				});
-				if (profFiles != null) {
-					for (File file : profFiles) {
-						file.delete();	
-					}
+
+				@Override
+				protected void yes() {
+					choice = true;
+					File[] checkFiles = null;
+					for (File file : files)
+						file.delete();
+					try {
+						checkFiles = getExistingIOFiles(newServerPath, newClientPath);
+					} catch (IOException e) {}
+					if (checkFiles == null || checkFiles.length == 0)
+						deleteSuccessful = true;
+					dispose();
 				}
-			}
-			if (questionPath != null)
-				Files.deleteIfExists(Paths.get(questionPath));
-			if (serverPath != null)
-				Files.exists(Paths.get(serverPath + ".registration"));
-		} catch (IOException e) {}
+
+				@Override
+				protected void no() {
+					choice = false;
+					dispose();
+				}
+				
+				@Override
+				public void windowActivated(WindowEvent e) {}
+				@Override
+				public void windowClosed(WindowEvent e) {}
+				@Override
+				public void windowClosing(WindowEvent e) {
+					choice = false;
+				}
+				@Override
+				public void windowDeactivated(WindowEvent e) {}
+				@Override
+				public void windowDeiconified(WindowEvent e) {}
+				@Override
+				public void windowIconified(WindowEvent e) {}
+				@Override
+				public void windowOpened(WindowEvent e) {}
+			};
+		}
+		
+		public boolean wasDeleteSuccessful() {
+			return deleteSuccessful;
+		}
+		
+		public boolean getChoice() {
+			return p.getChoice();
+		}
+		
 	}
 	
 }

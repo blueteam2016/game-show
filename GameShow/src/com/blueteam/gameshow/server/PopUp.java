@@ -19,10 +19,10 @@ public abstract class PopUp implements WindowListener {
 	private JLabel label;
 	private JButton yes; 
 	private JButton no;
-	public boolean yn = true;
+	public boolean choice;
 	
 	public PopUp() {
-		
+		choice = false; // MUST come before frame becomes visible because modality is blocking.
 		popUp = new JDialog(ServerWindow.accessFrame());
 		popUp.addWindowListener(this);
 		panel = new JPanel();
@@ -54,7 +54,6 @@ public abstract class PopUp implements WindowListener {
 		bp.add(no);
 		
 		panel.add(bp);
-		
 		popUp.setContentPane(panel);
 		popUp.pack();
 		popUp.setModal(true);
@@ -64,6 +63,10 @@ public abstract class PopUp implements WindowListener {
 	
 	protected void dispose() {
 		popUp.dispose();
+	}
+	
+	public boolean getChoice() {
+		return choice;
 	}
 	
 	protected abstract String messageText();
