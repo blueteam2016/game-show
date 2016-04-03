@@ -30,9 +30,15 @@ public class ClientIO {
 		FileOutputStream fOut = new FileOutputStream(profilePath);
 		FileLock fLock = fOut.getChannel().lock();
 		ObjectOutputStream profOut = new ObjectOutputStream(fOut);
-		profOut.writeObject(profile);
-		fLock.close();
-		profOut.close();
+		try {
+			profOut.writeObject(profile);
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			System.out.println("hi");
+			fLock.close();
+			profOut.close();
+		}
 	}
 	
 	private void truncate(FileOutputStream fOut) throws IOException {
@@ -50,9 +56,15 @@ public class ClientIO {
 				FileInputStream fIn = new FileInputStream(questionPath);
 				FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
 				ObjectInputStream questIn = new ObjectInputStream(fIn);
-				Question qIn = (Question)questIn.readObject();
-				fLock.close();
-				questIn.close();
+				Question qIn = null;
+				try {
+					qIn = (Question)questIn.readObject();
+				} catch (IOException e) {
+					throw e;
+				} finally {
+					fLock.close();
+					questIn.close();
+				}
 				return qIn;
 			}
 		} catch (ClassNotFoundException e) {
