@@ -35,7 +35,6 @@ public class ClientIO {
 		} catch (IOException e) {
 			throw e;
 		} finally {
-			System.out.println("hi");
 			fLock.close();
 			profOut.close();
 		}
@@ -47,6 +46,8 @@ public class ClientIO {
 	}
 
 	public Question getQuestion() throws IOException {
+		FileLock fLock = null;
+		ObjectInputStream questIn = null;
 		try {
 			long lastModified = Files.getLastModifiedTime(Paths.get(questionPath)).toMillis();
 			if (questionModTime == lastModified) {
@@ -54,21 +55,18 @@ public class ClientIO {
 			} else {
 				questionModTime = lastModified;
 				FileInputStream fIn = new FileInputStream(questionPath);
-				FileLock fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
-				ObjectInputStream questIn = new ObjectInputStream(fIn);
-				Question qIn = null;
-				try {
-					qIn = (Question)questIn.readObject();
-				} catch (IOException e) {
-					throw e;
-				} finally {
-					fLock.close();
-					questIn.close();
-				}
+				fLock = fIn.getChannel().lock(0L, Long.MAX_VALUE, true);
+				questIn = new ObjectInputStream(fIn);
+				Question qIn = (Question)questIn.readObject();
 				return qIn;
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} finally {
+			if (fLock != null)
+				fLock.close();
+			if (questIn != null)
+				questIn.close();
 		}
 		return null;
 	}
