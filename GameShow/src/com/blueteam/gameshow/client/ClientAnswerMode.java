@@ -18,7 +18,7 @@ public class ClientAnswerMode extends JPanel
 	private JLabel questionLabel;
 	private ArrayList<JLabel> answerLabels;
 	private int fontSize;
-	private float oldWidth;
+	private float currentWidth;
 
 	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
@@ -26,14 +26,15 @@ public class ClientAnswerMode extends JPanel
 		fontSize = 12;
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-		oldWidth = qScreen.getWidth();
+		currentWidth = qScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
 				float newWidth = qScreen.getWidth();
-				if (newWidth != oldWidth) {
+				if (newWidth != currentWidth) {
 					if (qScreen.getQuestion() != null) {
 						fontSize = (int)(12 * (newWidth / 450.0));
+						currentWidth = newWidth;
 						setLabels();
 						setUpGUI();
 					}
@@ -49,22 +50,18 @@ public class ClientAnswerMode extends JPanel
 	
 	private void setLabels() {
 		//adds question
-		Dimension textMaxSize = new Dimension();
-		textMaxSize.setSize(qScreen.getWidth(), Double.POSITIVE_INFINITY);
 		question = qScreen.getQuestion();
-		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + question.getText() + "</span></html>");
+		questionLabel = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" + question.getText() + "</span></td></tr></table></html>");
 		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
-		questionLabel.setMaximumSize(textMaxSize);
 		//adds answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = question.getAnswers();
 		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+			JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
 		 			        		   answers[i].getText() +
-									   "</span></html>");
+									   "</span></td></tr></table></html>");
 			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
-			answer.setMaximumSize(textMaxSize);
 			answer.setOpaque(true);
 			if (i == ClientQuestionMode.getChoice()){
 				answer.setBackground(new Color(0, 0, 0));

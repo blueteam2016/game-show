@@ -18,7 +18,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private ServerGameScreen sgScreen;
 	private Game game;
 	private int fontSize;
-	private float oldWidth;
+	private float currentWidth;
 
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
 		sgScreen = s;
@@ -30,13 +30,14 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		moveOn = new JButton("Continue");
 		moveOn.addActionListener(this);
 
-		oldWidth = sgScreen.getWidth();
+		currentWidth = sgScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
 				float newWidth = sgScreen.getWidth();
-				if (newWidth != oldWidth) {
+				if (newWidth != currentWidth) {
 					fontSize = (int)(16 * (newWidth / 450.0));
+					currentWidth = newWidth;
 					setLabels();
 					setUpGUI();
 				}
@@ -52,30 +53,27 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	}
 	
 	private void setLabels() {
-		Dimension textMaxSize = new Dimension();
-		textMaxSize.setSize(sgScreen.getWidth(), Double.POSITIVE_INFINITY);
 		//adds question
-		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
-		questionLabel.setMaximumSize(textMaxSize);
+		questionLabel = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></td></tr></table></html>");
+		
 		//adds correct answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for(int i = 0; i< answers.length; i++){
 			if(answers[i].isCorrect()) {
-				JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+				JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
 										  (char)(65 + i) + ") " +
 										  answers[i].getText() +
-										  "</span></html>");
+										  "</span></td></tr></table></html>");
 				answerLabels.add(answer);
 				answer.setAlignmentX(LEFT_ALIGNMENT);
-				answer.setMaximumSize(textMaxSize);
 			}
 		}
 		
 		//add explanation
 		String explanationString = game.getQuiz().getCurrentQuestion().getExplanationText();
 		if(explanationString != null){
-			explanation = new JLabel("<html><span style='font-size:" + fontSize + "px'>Explanation: " + explanationString + "</span></html>");
+			explanation = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>Explanation: " + explanationString + "</span></td></tr></table></html>");
 			explanation.setAlignmentX(LEFT_ALIGNMENT);
 		}else{
 			explanation = null;

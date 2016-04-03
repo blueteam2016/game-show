@@ -23,7 +23,7 @@ public class ServerQuestionMode extends JPanel {
 	private ServerGameScreen sgScreen;
 	private Game game;
 	private int fontSize;
-	private float oldWidth;
+	private float currentWidth;
 	
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
@@ -88,13 +88,14 @@ public class ServerQuestionMode extends JPanel {
 			}
 		});
 		
-		oldWidth = sgScreen.getWidth();
+		currentWidth = sgScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
 				float newWidth = sgScreen.getWidth();
-				if (newWidth != oldWidth) {
+				if (newWidth != currentWidth) {
 					fontSize = (int)(16 * (newWidth / 450.0));
+					currentWidth = newWidth;
 					setLabels();
 					setUpGUI();
 				}
@@ -120,38 +121,32 @@ public class ServerQuestionMode extends JPanel {
 		setUpGUI();
 	}
 	
-	private void setLabels() {		
-		Dimension textMaxSize = new Dimension();
-		textMaxSize.setSize(sgScreen.getWidth(), Double.POSITIVE_INFINITY);
+	private void setLabels() {
 		// set time remaining
 		if (!game.getQuiz().isFirstQuestion()) {
 			back.setEnabled(true);
 		}
 
 		timeRemaining = new JLabel("<html><span style='font-size:" + fontSize + "px'>Time Remaining: </span></html>");
-		timeRemaining.setMaximumSize(textMaxSize);
 		countdown = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
 				numberText(seconds / 60) + ":" +
 				numberText(seconds % 60) +
 				"</span></html>");
-		countdown.setMaximumSize(textMaxSize);
 
 		// set questions and answers (adds letter at beginning of answers:
 		// A,B,C...)
-		question = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+		question = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
 							   game.getQuiz().getCurrentQuestion().getText() +
-							   "</span></html>");
-		question.setMaximumSize(textMaxSize);
+							   "</span></td></tr></table></html>");
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+			JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
 					(char) (65 + i) + ") " +
 					answers[i].getText() +
-					"</span></html>");
+					"</span></td></tr></table></html>");
 			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
-			answer.setMaximumSize(textMaxSize);
 		}
 	}
 	

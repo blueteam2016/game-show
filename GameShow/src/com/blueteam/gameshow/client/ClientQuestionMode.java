@@ -31,7 +31,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private boolean receivedQuestions;
 	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
 	private int fontSize;
-	private float oldWidth;
+	private float currentWidth;
 	
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
@@ -43,14 +43,15 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		receivedQuestions = false;
 		inAnswerMode = false;
 		
-		oldWidth = qScreen.getWidth();
+		currentWidth = qScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
 				float newWidth = qScreen.getWidth();
-				if (newWidth != oldWidth) {
+				if (newWidth != currentWidth) {
 					if (qScreen.getQuestion() != null) {
 						fontSize = (int)(12 * (newWidth / 450.0));
+						currentWidth = newWidth;
 						setLabels();
 						setUpGUI();
 					}
@@ -129,13 +130,10 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	}
 	
 	private void setLabels() {
-		Dimension textMaxSize = new Dimension();
-		textMaxSize.setSize(qScreen.getWidth(), Double.POSITIVE_INFINITY);
 		Question currentQuestion = qScreen.getQuestion();
 		//adds question
 		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + currentQuestion.getText() + "</span></html>");
 		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
-		questionLabel.setMaximumSize(textMaxSize);
 		//adds answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		answerButtons = new ArrayList<AnswerButton>();
@@ -146,7 +144,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 									   "</span></html>");
 			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
-			answer.setMaximumSize(textMaxSize);
+			
 			AnswerButton answerSelect = new AnswerButton((char) (65 + i) + "");
 			answerSelect.setSize(new Dimension(answer.getHeight(), answer.getHeight()));
 			answerButtons.add(answerSelect);
