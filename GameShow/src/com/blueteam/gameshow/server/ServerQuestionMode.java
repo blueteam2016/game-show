@@ -175,9 +175,11 @@ public class ServerQuestionMode extends JPanel {
 		add(timePanel);
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(back);
-		buttonPanel.add(pause);
-		buttonPanel.add(skip);
+		JButton[] buttons = {back, pause, skip};
+		for(int i=0; i<buttons.length; i++){
+			buttons[i].setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+			buttonPanel.add(buttons[i]);
+		}
 		add(buttonPanel);
 		sgScreen.getServerWindow().update();
 	}

@@ -53,6 +53,10 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	}
 	
 	private void setLabels() {
+		
+		//set font size of button
+		moveOn.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+		
 		//adds question
 		questionLabel = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></td></tr></table></html>");
 		
