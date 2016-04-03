@@ -87,6 +87,7 @@ public class ProfileScreen extends JPanel{
 		serverFoldText.setWrapStyleWord(false);
 		serverFoldText.setEditable(false);
 		serverFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		serverFoldText.setBackground(getBackground());
 		constr.gridx = 2;
 		add(serverFoldText, constr);
 
@@ -105,6 +106,7 @@ public class ProfileScreen extends JPanel{
 		clientFoldText.setWrapStyleWord(false);
 		clientFoldText.setEditable(false);
 		clientFoldText.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		clientFoldText.setBackground(getBackground());
 		constr.gridx = 2;
 		add(clientFoldText, constr);
 
@@ -139,6 +141,7 @@ public class ProfileScreen extends JPanel{
 		qFileText.setWrapStyleWord(false);
 		qFileText.setEditable(false);
 		qFileText.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
+		qFileText.setBackground(getBackground());
 		constr.gridx = 2;
 		add(qFileText, constr);
 		
