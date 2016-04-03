@@ -38,6 +38,7 @@ public class ServerGameScreen extends JPanel {
 			firstGame = false;
 		}
 		firstQuestion = true;
+		result.enableNext();
 		result.update();
 		goToResultMode();
 	}

@@ -73,6 +73,10 @@ public class ServerResultMode extends JPanel{
 		game.endGame();
 	}
 	
+	public void enableNext(){
+		nextQ.setEnabled(true);
+	}
+	
 	public void enableBack(){
 		back.setEnabled(true);
 	}
