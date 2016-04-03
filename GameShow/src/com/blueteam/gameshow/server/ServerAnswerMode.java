@@ -36,7 +36,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 			public void componentResized(ComponentEvent e) {
 				float newWidth = sgScreen.getWidth();
 				if (newWidth != oldWidth) {
-					fontSize = Math.min(64, (int)(16 + 8 * (newWidth - 450.0) / 450.0));
+					fontSize = (int)(16 * (newWidth / 450.0));
 					setLabels();
 					setUpGUI();
 				}
@@ -52,9 +52,11 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	}
 	
 	private void setLabels() {
+		Dimension textMaxSize = new Dimension();
+		textMaxSize.setSize(sgScreen.getWidth(), Double.POSITIVE_INFINITY);
 		//adds question
 		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></html>");
-		
+		questionLabel.setMaximumSize(textMaxSize);
 		//adds correct answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
@@ -66,6 +68,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 										  "</span></html>");
 				answerLabels.add(answer);
 				answer.setAlignmentX(LEFT_ALIGNMENT);
+				answer.setMaximumSize(textMaxSize);
 			}
 		}
 		

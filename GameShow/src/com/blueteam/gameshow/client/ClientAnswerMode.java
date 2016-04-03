@@ -33,7 +33,7 @@ public class ClientAnswerMode extends JPanel
 				float newWidth = qScreen.getWidth();
 				if (newWidth != oldWidth) {
 					if (qScreen.getQuestion() != null) {
-						fontSize = Math.min(64, (int)(12 + 8 * (newWidth - 450.0) / 450.0));
+						fontSize = (int)(12 * (newWidth / 450.0));
 						setLabels();
 						setUpGUI();
 					}
@@ -49,9 +49,12 @@ public class ClientAnswerMode extends JPanel
 	
 	private void setLabels() {
 		//adds question
+		Dimension textMaxSize = new Dimension();
+		textMaxSize.setSize(qScreen.getWidth(), Double.POSITIVE_INFINITY);
 		question = qScreen.getQuestion();
 		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + question.getText() + "</span></html>");
 		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
+		questionLabel.setMaximumSize(textMaxSize);
 		//adds answer(s)
 		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = question.getAnswers();
@@ -61,6 +64,7 @@ public class ClientAnswerMode extends JPanel
 									   "</span></html>");
 			answerLabels.add(answer);
 			answer.setAlignmentX(LEFT_ALIGNMENT);
+			answer.setMaximumSize(textMaxSize);
 			answer.setOpaque(true);
 			if (i == ClientQuestionMode.getChoice()){
 				answer.setBackground(new Color(0, 0, 0));
