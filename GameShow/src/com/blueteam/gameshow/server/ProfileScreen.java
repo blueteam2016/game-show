@@ -22,6 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.blueteam.gameshow.data.Profile;
 
@@ -158,15 +159,16 @@ public class ProfileScreen extends JPanel{
 		return "Profile";
 	}
 	
-	public String fileChooser(String title) {
+	public String fileChooser(String title, String description, String[] extensions) {
 
 		String fileLoc = "";
-		JFileChooser fileChooser = new JFileChooser();
-		
-		fileChooser.setCurrentDirectory(new java.io.File("."));
+		JFileChooser fileChooser = new JFileChooser(new java.io.File("."));
 	    fileChooser.setDialogTitle(title);
 	    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
+	    if (extensions != null) {
+	    	FileNameExtensionFilter extfilter = new FileNameExtensionFilter(description, extensions);
+	    	fileChooser.setFileFilter(extfilter);
+	    }
 		int returnVal = fileChooser.showOpenDialog(fileChooser);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			fileLoc = fileChooser.getSelectedFile().getAbsolutePath();
@@ -177,9 +179,8 @@ public class ProfileScreen extends JPanel{
 	
 	private String folderChooser(String title) {
 		String folderLoc = "";
-		JFileChooser folderChooser = new JFileChooser();
-	
-		folderChooser.setCurrentDirectory(new java.io.File("."));
+		JFileChooser folderChooser = new JFileChooser(new java.io.File("."));
+		
 	    folderChooser.setDialogTitle(title);
 	    folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -217,7 +218,7 @@ public class ProfileScreen extends JPanel{
 	
 	private class QuestionButton implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			String questLoc = fileChooser("Question File");
+			String questLoc = fileChooser("Question File", "XML files (*.xml)", new String[]{"xml"});
 			if (!questLoc.equals("")) {
 				qFileText.setText(questLoc);
 				prof.setQuestionFileLoc(qFileText.getText());

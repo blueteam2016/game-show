@@ -136,9 +136,7 @@ public class RegistrationScreen extends JPanel{
 	
 	private String folderChooser(String title) {
 		String folderLoc = "";
-		folderChooser = new JFileChooser();
-
-		folderChooser.setCurrentDirectory(new java.io.File("."));
+		folderChooser = new JFileChooser(new java.io.File("."));
 		folderChooser.setDialogTitle(title);
 		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
