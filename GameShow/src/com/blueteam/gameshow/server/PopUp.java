@@ -33,14 +33,14 @@ public abstract class PopUp implements WindowListener {
 		
 		label = new JLabel(messageText(), SwingConstants.CENTER);
 		
-		yes = new JButton("yes");
+		yes = new JButton("Yes");
 		yes.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				yes();
 			}
 		});
 		
-		no = new JButton("no");
+		no = new JButton("No");
 		no.setActionCommand("no");
 		no.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){

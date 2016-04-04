@@ -17,7 +17,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	private JTable table;
 	private JButton unregButt, openClose;
 	//private ListSelectionModel selectModel;
-	private int selectedRow;
+	private int[] selectedRows;
 	private Game game;
 	private RosterTableModel model;
 	boolean open = false;
@@ -33,7 +33,7 @@ public class RosterScreen extends JPanel implements TableModelListener{
 				if(open){
 					table.clearSelection();
 				}else{
-					selectedRow = table.getSelectedRow();
+					selectedRows = table.getSelectedRows();
 					unregButt.setEnabled(true);
 				}
 			}
@@ -62,7 +62,8 @@ public class RosterScreen extends JPanel implements TableModelListener{
 	
 	class Unreg implements ActionListener{
 		public void actionPerformed(ActionEvent event){
-			game.getRoster().getTeam(model.getValueAt(selectedRow,1)).unregisterStudent(model.getStudentAt(selectedRow));
+			for (int row : selectedRows)
+				game.getRoster().getTeam(model.getValueAt(row,1)).unregisterStudent(model.getStudentAt(row));
 			model.dataChanged();
 			unregButt.setEnabled(false);
 			table.clearSelection();		
