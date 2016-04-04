@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import com.blueteam.gameshow.data.ClientProfile;
 
 public class RegistrationScreen extends JPanel{
@@ -20,7 +21,7 @@ public class RegistrationScreen extends JPanel{
 	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton registerButton;
-	private JTextArea name, teamName;
+	private JTextField name, teamName;
 	private JTextArea servFoldText, clientFoldText;
 	private String clientName, clientTeamName, servFoldLoc, clientFoldLoc;
 	private JFileChooser folderChooser;
@@ -45,12 +46,21 @@ public class RegistrationScreen extends JPanel{
         constr.weightx = 1.0;
         constr.fill = GridBagConstraints.HORIZONTAL;
         
+        KeyAdapter filter = new KeyAdapter() {
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	            if(name.getText().length() == 128 ||
+	               !(Character.isLetterOrDigit(e.getKeyChar()) ||
+	            	 e.getKeyChar() == ' ')) {
+	            	e.consume();
+	            }
+	        }
+	    };
+        
 		nameLabel = new JLabel("Name");
 		nameLabel.setFont(font);
 		this.add(nameLabel, constr);
-		name = new JTextArea("");
-		name.setLineWrap(true);
-		name.setWrapStyleWord(true);
+		name = new JTextField("");
 		name.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		name.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
@@ -60,6 +70,7 @@ public class RegistrationScreen extends JPanel{
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
+		name.addKeyListener(filter);
 		constr.gridx = 1;
 		constr.gridwidth = 2;
 		this.add(name, constr);
@@ -71,9 +82,7 @@ public class RegistrationScreen extends JPanel{
 		constr.gridy = 1;
 		constr.gridwidth = 1;
 		this.add(teamNameLabel, constr);
-		teamName = new JTextArea("");
-		teamName.setLineWrap(true);
-		teamName.setWrapStyleWord(true);
+		teamName = new JTextField("");
 		teamName.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		teamName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
@@ -83,6 +92,7 @@ public class RegistrationScreen extends JPanel{
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
+		teamName.addKeyListener(filter);
 		constr.gridx = 1;
 		constr.gridwidth = 2;
 		this.add(teamName, constr);
