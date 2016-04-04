@@ -2,8 +2,11 @@ package com.blueteam.gameshow.server;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +31,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	
 	private boolean tabsEnabled;
 	private Game game;
+	private boolean maximized;
 	
 	public ServerWindow(){
 		
@@ -60,12 +64,23 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		content = new JPanel(new BorderLayout());
 		frame = new JFrame("GameShow Server");
 		frame.addWindowListener(this);
+		frame.addWindowStateListener(new WindowStateListener() {
+			   public void windowStateChanged(WindowEvent e) {
+				   if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH){
+				      maximized = true;
+				   } else {
+					   maximized = false;
+				   }
+			   }
+		});
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setContentPane(content);
 		
 		pScreen = new ProfileScreen(game, this);
 		tabs.add(pScreen, 0);
 		tabs.setSelectedIndex(0);
+		
+		maximized = false;
 			
 		content.add(tabs, BorderLayout.CENTER);
 		frame.setContentPane(content);
@@ -103,11 +118,13 @@ public class ServerWindow implements WindowListener, ChangeListener{
 	}
 	
 	public void update(){
-		Dimension currentSize = frame.getSize();
-		Dimension preferredSize = frame.getPreferredSize();
-		Dimension newSize = new Dimension();
-		newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
-		frame.setSize(newSize);
+		if (!maximized) {
+			Dimension currentSize = frame.getSize();
+			Dimension preferredSize = frame.getPreferredSize();
+			Dimension newSize = new Dimension();
+			newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
+			frame.setSize(newSize);
+		}
 	}
 	
 	public static void main(String args[]) {
