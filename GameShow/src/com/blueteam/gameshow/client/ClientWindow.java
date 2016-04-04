@@ -2,7 +2,11 @@ package com.blueteam.gameshow.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +25,7 @@ public class ClientWindow {
 	private ClientIO clientIO;
 	private RegistrationScreen rScreen;
 	private ClientQuestionScreen cqScreen;
+	private boolean maximized;
 
 	public ClientWindow() {
 		
@@ -33,12 +38,22 @@ public class ClientWindow {
 			}
 		} catch (Exception ex) {}
 		
+		maximized = false;
+		
 		tabs = new JTabbedPane();
 		content = new JPanel();
 		content.setLayout( new BorderLayout() );
 		frame = new JFrame("GameShow Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.addWindowStateListener(new WindowStateListener() {
+			   public void windowStateChanged(WindowEvent e) {
+				   if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH){
+				      maximized = true;
+				   } else {
+					   maximized = false;
+				   }
+			   }
+		});
 		
 		rScreen = new RegistrationScreen(this);
 		cqScreen = new ClientQuestionScreen(this);
@@ -46,7 +61,6 @@ public class ClientWindow {
 		tabs.addTab("Registration", rScreen);
 		tabs.addTab("Question", cqScreen);
 		tabs.setEnabledAt(tabs.indexOfTab("Question"), false);
-		
 		
 		content.add(tabs);
 		frame.setContentPane(content);
@@ -71,11 +85,13 @@ public class ClientWindow {
 	}
 	
 	public void update(){
-		Dimension currentSize = frame.getSize();
-		Dimension preferredSize = frame.getPreferredSize();
-		Dimension newSize = new Dimension();
-		newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
-		frame.setSize(newSize);
+		if (!maximized) {
+			Dimension currentSize = frame.getSize();
+			Dimension preferredSize = frame.getPreferredSize();
+			Dimension newSize = new Dimension();
+			newSize.setSize(currentSize.getWidth(), preferredSize.getHeight());
+			frame.setSize(newSize);
+		}
 	}
 	
 	public ClientIO getClientIO() {
