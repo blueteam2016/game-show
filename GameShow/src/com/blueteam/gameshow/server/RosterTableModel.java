@@ -24,12 +24,14 @@ import com.blueteam.gameshow.data.Roster;
 public class RosterTableModel extends AbstractTableModel implements ActionListener {
 	private static final long serialVersionUID = -1561458490688644986L;
 	private Roster roster;
-	private String pathToFolder;
+	private String serverFolderPath;
+	private String clientFolderPath;
 	private Timer scanTime;
 	
 	public RosterTableModel(Game game){
 		roster = game.getRoster();
-		pathToFolder = game.getProfile().getClientFolderLoc();
+		serverFolderPath = game.getProfile().getServerFolderLoc();
+		clientFolderPath = game.getProfile().getClientFolderLoc();
 		scanTime = new Timer(100, this);
 	}
 	
@@ -89,21 +91,22 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 		return roster.getTeam(t).getPlayer(roster.getTeam(t).numPlayers()-1);
 	}
 	
-	public void updatePath(String newPath) {
-		pathToFolder = newPath;
+	public void updatePaths(String newServerPath, String newClientPath) {
+		serverFolderPath = newServerPath;
+		clientFolderPath = newClientPath;
 	}
 	
 	public void openRegistration(){
 		scanTime.start();
 		try {
-			Files.createFile(Paths.get(pathToFolder + ".registration"));
+			Files.createFile(Paths.get(serverFolderPath + ".registration"));
 		} catch (IOException e) {}
 	}
 	
 	public void closeRegistration(){
 		scanTime.stop();
 		try {
-			Files.deleteIfExists(Paths.get(pathToFolder + ".registration"));
+			Files.deleteIfExists(Paths.get(serverFolderPath + ".registration"));
 		} catch (IOException e) {}
 	}
 	
@@ -118,7 +121,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 
 
 	public void actionPerformed(ActionEvent arg0) {
-		File folder = new File(pathToFolder);
+		File folder = new File(clientFolderPath);
 		File[] ansFiles = folder.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
@@ -137,7 +140,7 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 						ClientProfile pIn = (ClientProfile)profIn.readObject();
 						fLock.close();
 						profIn.close();
-						Player newPlayer = new Player(pIn, pathToFolder);
+						Player newPlayer = new Player(pIn, clientFolderPath);
 						addMember(newPlayer, pIn.getTeamName());
 					} catch (IOException | ClassNotFoundException e) {
 						e.printStackTrace();

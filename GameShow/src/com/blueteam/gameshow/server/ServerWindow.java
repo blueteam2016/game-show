@@ -87,7 +87,8 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		}
 		
 		if(!error){
-			rosterScreen.getTableModel().updatePath(game.getProfile().getServerFolderLoc());
+			rosterScreen.getTableModel().updatePaths(game.getProfile().getServerFolderLoc(),
+													 game.getProfile().getClientFolderLoc());
 			sgScreen.startGame();
 			if (!tabsEnabled) {
 				tabs.setEnabledAt(tabs.indexOfTab("Roster"), true);
