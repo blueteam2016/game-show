@@ -249,6 +249,8 @@ public class ServerQuestionMode extends JPanel {
 		
 		@Override
 		protected void yes() {
+			pause.setText("Pause");
+			pause.setActionCommand("pause");
 			game.getQuiz().getLastQuestion();
 			sgScreen.goToResultMode();
 			dispose();
