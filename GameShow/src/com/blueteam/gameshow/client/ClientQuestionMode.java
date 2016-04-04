@@ -109,6 +109,9 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 					reset();
 					return;
 				}
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
 			}
 			
 			if (!receivedQuestions)
