@@ -28,6 +28,7 @@ public class Game {
 	private String questionPath;
 	private boolean IOOpened;
 	private boolean running;
+	private boolean doResetScore;
 	
 	public Game(){
 		profile = new Profile();
@@ -37,11 +38,19 @@ public class Game {
 		questionPath = null;
 		IOOpened = false;
 		running = false;
+		doResetScore = false;
+	}
+	
+	public void scheduleScoreReset() {
+		doResetScore = true;
 	}
 	
 	private void reset() {
 		clearQuestion();
-		roster.reset();
+		if (doResetScore) {
+			roster.reset();
+			doResetScore = false;
+		}
 	}
 	
 	public void createQuiz() throws Exception{

@@ -277,6 +277,44 @@ public class ProfileScreen extends JPanel{
 		@Override
 		protected void yes() {
 			choice = true;
+			new ResetScorePopUp();
+			dispose();
+		}
+
+		@Override
+		protected void no() {
+			choice = false;
+			dispose();
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {}
+		@Override
+		public void windowClosed(WindowEvent e) {}
+		@Override
+		public void windowClosing(WindowEvent e) {}
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+		@Override
+		public void windowIconified(WindowEvent e) {}
+		@Override
+		public void windowOpened(WindowEvent e) {}
+		
+	}
+	
+	private class ResetScorePopUp extends PopUp {
+		
+		@Override
+		protected String messageText() {
+			return "<html>Do you want to reset the score?</html>";
+		}
+
+		@Override
+		protected void yes() {
+			choice = true;
+			game.scheduleScoreReset();
 			dispose();
 		}
 
