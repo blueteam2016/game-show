@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.JTableHeader;
 
 import com.blueteam.gameshow.data.Roster;
@@ -34,6 +36,12 @@ public class ServerResultMode extends JPanel{
 				Dimension d = super.getPreferredSize();
 				d.height = rowSize/3;
 				return d;
+			}
+		});
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent arg0) {
+				table.clearSelection();
 			}
 		});
 		
