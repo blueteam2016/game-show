@@ -14,7 +14,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private JButton moveOn;
 	private ServerGameScreen sgScreen;
 	private Game game;
-	private final static float DEFAULTFONTSIZE = 20;
+	private final static float DEFAULTFONTSIZE = 24;
 	private float fontSize;
 
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
@@ -31,9 +31,9 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
-				updateFonts();
 				if (scrollPane != null)
 					scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+				updateFonts();
 			} 
 		});
 
@@ -49,8 +49,10 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private void updateFonts() {
 		float newWidth = sgScreen.getWidth();
 		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
-		if (questionLabel != null)
+		if (questionLabel != null) {
 			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setSize(scrollPane.getViewport().getSize());
+		}
 		if (moveOn != null)
 			moveOn.setFont(moveOn.getFont().deriveFont(fontSize));
 		if (scrollPane != null)
@@ -61,6 +63,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
+		textArea.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		textArea.setBackground(getBackground());
 	}
 	
@@ -110,6 +113,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		buttonPanel.add(moveOn);
 		buttonPanel.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		add(buttonPanel);
+		add(Box.createRigidArea(new Dimension(0, 10)));
 		scrollPane.setPreferredSize(scrollPane.getParent().getSize());
 		validate();
 	}

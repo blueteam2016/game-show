@@ -4,7 +4,6 @@ import javax.swing.*;
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,39 +22,34 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private ClientWindow clientWindow;
 	private ClientQuestionScreen qScreen;
 	private ClientIO clientIO;
+	private JScrollPane scrollPane;
 	private Question question;
-	private JLabel questionLabel;
-	private ArrayList<JLabel> answerLabels;
+	private JTextArea questionLabel;
+	private ArrayList<JTextArea> answerLabels;
 	private ArrayList<AnswerButton> answerButtons;
 	private static int choice;
 	private boolean receivedQuestions;
 	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
-	private int fontSize;
-	private float currentWidth;
-	
+	private float fontSize;
+	private final static float DEFAULTFONTSIZE = 20;
+
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
 		qScreen = qs;
-		fontSize = 12;
+		fontSize = DEFAULTFONTSIZE;
 		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		receivedQuestions = false;
 		inAnswerMode = false;
 		
-		currentWidth = qScreen.getWidth();
+		qScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
-				float newWidth = qScreen.getWidth();
-				if (newWidth != currentWidth) {
-					if (qScreen.getQuestion() != null) {
-						fontSize = (int)(12 * (newWidth / 450.0));
-						currentWidth = newWidth;
-						setLabels();
-						setUpGUI();
-					}
-				}
+				if (scrollPane != null)
+					scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+				updateFonts();
 			} 
 		});
 		
@@ -127,29 +121,69 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	}
 	
 	public void newQuestion() {
-		setLabels();		
+		setLabels();
 		setUpGUI();
+		updateFonts();
 		choice = -1;
+	}
+	
+	private void updateFonts() {
+		float newWidth = qScreen.getWidth();
+		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		Dimension viewportSize = null;
+		if (scrollPane != null)
+			viewportSize = scrollPane.getViewport().getSize();
+		if (questionLabel != null) {
+			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			if (viewportSize != null) {
+				Dimension prefSize = questionLabel.getPreferredSize();
+				prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
+				questionLabel.setSize(prefSize);
+			}
+		}
+		if (answerLabels != null)
+			for (JTextArea answerLabel : answerLabels) {
+				answerLabel.setFont(answerLabel.getFont().deriveFont(fontSize));
+				if (viewportSize != null) {
+					Dimension prefSize = answerLabel.getPreferredSize();
+					prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
+					answerLabel.setSize(prefSize);
+					}
+			}
+		if (answerButtons != null)
+			for (AnswerButton answerButton: answerButtons) {
+				answerButton.setFont(answerButton.getFont().deriveFont(fontSize));
+			}
+		if (scrollPane != null)
+			scrollPane.validate();
+	}
+
+	private void formatTextArea(JTextArea textArea) {
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		textArea.setBackground(getBackground());
 	}
 	
 	private void setLabels() {
 		Question currentQuestion = qScreen.getQuestion();
 		//adds question
-		questionLabel = new JLabel("<html><span style='font-size:" + fontSize + "px'>" + currentQuestion.getText() + "</span></html>");
+		questionLabel = new JTextArea(currentQuestion.getText());
+		formatTextArea(questionLabel);
 		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
 		//adds answer(s)
-		answerLabels = new ArrayList<JLabel>();
+		answerLabels = new ArrayList<JTextArea>();
 		answerButtons = new ArrayList<AnswerButton>();
 		Answer[] answers = currentQuestion.getAnswers();
 		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
-		 			        		   answers[i].getText() +
-									   "</span></html>");
-			answerLabels.add(answer);
-			answer.setAlignmentX(LEFT_ALIGNMENT);
+			JTextArea answerLabel = new JTextArea(answers[i].getText());
+			formatTextArea(answerLabel);
+			answerLabels.add(answerLabel);
+			answerLabel.setAlignmentX(LEFT_ALIGNMENT);
 			
 			AnswerButton answerSelect = new AnswerButton((char) (65 + i) + "");
-			answerSelect.setSize(new Dimension(answer.getHeight(), answer.getHeight()));
+			answerSelect.setSize(new Dimension(answerLabel.getHeight(), answerLabel.getHeight()));
 			answerButtons.add(answerSelect);
 			answerSelect.setAlignmentX(LEFT_ALIGNMENT);
 		}
@@ -158,10 +192,13 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private void setUpGUI(){
 		// organizes components in visually appealing manner
 		removeAll();
+
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		// Sets layout
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JPanel gridBagPanel = new JPanel(new GridBagLayout());
+		scrollPane.setViewportView(gridBagPanel);
 		GridBagConstraints constr = new GridBagConstraints();
 
 		constr.gridx = 0;
@@ -169,7 +206,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		constr.gridwidth = 2;
 		constr.gridheight = 1;
 		constr.anchor = GridBagConstraints.WEST;
-		constr.insets = new Insets(0,0,10,0);
+		constr.insets = new Insets(0,0,20,0);
         constr.weightx = 1.0;
         constr.fill = GridBagConstraints.HORIZONTAL;
 		gridBagPanel.add(questionLabel, constr);
@@ -180,21 +217,27 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			constr.gridwidth = 1;
 			constr.gridheight = 1;
 			constr.anchor = GridBagConstraints.WEST;
-			constr.insets = new Insets(0,0,10,0);
+			if (i == answerLabels.size() - 1)
+				constr.insets = new Insets(0,0,20,0);
+			else
+				constr.insets = new Insets(0,0,10,0);
 			constr.fill = GridBagConstraints.HORIZONTAL;
 			gridBagPanel.add(answerLabels.get(i), constr);
 			constr.gridx = 0;
 			constr.anchor = GridBagConstraints.CENTER;
-			constr.insets = new Insets(0,0,10,10);
+			if (i == answerLabels.size() - 1)
+				constr.insets = new Insets(0,0,20,10);
+			else
+				constr.insets = new Insets(0,0,10,10);
 			constr.fill = GridBagConstraints.NONE;
 			gridBagPanel.add(answerButtons.get(i), constr);
 		}
 		
 		setAlignmentX(TOP_ALIGNMENT);
-		
-		add(gridBagPanel, BorderLayout.NORTH);
-
-		qScreen.getClientWindow().update();
+		add(scrollPane);
+		add(Box.createRigidArea(new Dimension(0, 15)));
+		scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+		validate();
 	}
 
 	public static int getChoice() {

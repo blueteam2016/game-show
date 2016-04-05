@@ -65,7 +65,7 @@ public class ClientWindow {
 		content.add(tabs);
 		frame.setContentPane(content);
 		frame.setSize(450, 250);
-		frame.setMinimumSize(new Dimension(450, 250));
+		frame.setMinimumSize(new Dimension(450, 350));
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}

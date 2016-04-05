@@ -2,9 +2,10 @@ package com.blueteam.gameshow.client;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
@@ -14,31 +15,25 @@ public class ClientAnswerMode extends JPanel
 	
 	private static final long serialVersionUID = 159399403085037876L;
 	private ClientQuestionScreen qScreen;
+	private JScrollPane scrollPane;
 	private Question question;
-	private JLabel questionLabel;
-	private ArrayList<JLabel> answerLabels;
-	private int fontSize;
-	private float currentWidth;
+	private JTextArea questionLabel;
+	private final static float DEFAULTFONTSIZE = 20;
+	private float fontSize;
 
 	public ClientAnswerMode(ClientQuestionScreen qs)
 	{
 		this.qScreen = qs;
-		fontSize = 12;
+		fontSize = DEFAULTFONTSIZE;
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-		currentWidth = qScreen.getWidth();
+		qScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
-				float newWidth = qScreen.getWidth();
-				if (newWidth != currentWidth) {
-					if (qScreen.getQuestion() != null) {
-						fontSize = (int)(12 * (newWidth / 450.0));
-						currentWidth = newWidth;
-						setLabels();
-						setUpGUI();
-					}
-				}
+				if (scrollPane != null)
+					scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+				updateFonts();
 			} 
 		});
 	}
@@ -46,47 +41,70 @@ public class ClientAnswerMode extends JPanel
 	public void newAnswer() {
 		setLabels();
 		setUpGUI();
+		updateFonts();
+	}
+	
+	private void updateFonts() {
+		float newWidth = qScreen.getWidth();
+		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		if (questionLabel != null) {
+			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setSize(scrollPane.getViewport().getSize());
+		}
+		if (scrollPane != null)
+			scrollPane.validate();
+	}
+
+	private void formatTextArea(JTextArea textArea) {
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		textArea.setBackground(getBackground());
 	}
 	
 	private void setLabels() {
 		//adds question
 		question = qScreen.getQuestion();
-		questionLabel = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" + question.getText() + "</span></td></tr></table></html>");
-		questionLabel.setAlignmentX(LEFT_ALIGNMENT);
+		
+		//adds question
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(question.getText() + "\n\n");
 		//adds answer(s)
-		answerLabels = new ArrayList<JLabel>();
 		Answer[] answers = question.getAnswers();
-		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
-		 			        		   answers[i].getText() +
-									   "</span></td></tr></table></html>");
-			answerLabels.add(answer);
-			answer.setAlignmentX(LEFT_ALIGNMENT);
-			answer.setOpaque(true);
-			if (i == ClientQuestionMode.getChoice()){
-				answer.setBackground(new Color(0, 0, 0));
-				answer.setForeground(new Color(255, 255, 255));
-			}
+		for(int i = 0; i< answers.length; i++){
+			strBuilder.append((char)(65 + i) + ") " + answers[i].getText() + "\n");
 		}
+
+		questionLabel = new JTextArea(strBuilder.toString());
+		formatTextArea(questionLabel);
+		
+		HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GRAY);
+		int lineNumber = ClientQuestionMode.getChoice() + 3;
+		int startIndex;
+		int endIndex;
+		try {
+			startIndex = questionLabel.getLineStartOffset(lineNumber);
+			endIndex = questionLabel.getLineEndOffset(lineNumber);
+			questionLabel.getHighlighter().addHighlight(startIndex, endIndex, painter);
+		} catch (BadLocationException e) {}
 	}
 	
 	private void setUpGUI(){
 		// organizes components in visually appealing manner
 		removeAll();
-		
 		// Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		JPanel answerInfo = new JPanel();
 		answerInfo.setLayout(new BoxLayout(answerInfo, BoxLayout.PAGE_AXIS));
+		scrollPane.setViewportView(answerInfo);
 		answerInfo.add(questionLabel);
-		answerInfo.add(Box.createRigidArea(new Dimension(0, 15)));
-		for (int i = 0; i < answerLabels.size(); i++) {
-			answerInfo.add(answerLabels.get(i));
-			answerInfo.add(Box.createRigidArea(new Dimension(0, 5)));
-		}
-		add(answerInfo);
-		qScreen.getClientWindow().update();
+		add(scrollPane);
+		add(Box.createRigidArea(new Dimension(0, 15)));
+		scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+		validate();
 	}
 	
 }
