@@ -9,9 +9,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.channels.FileLock;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -24,13 +21,12 @@ import com.blueteam.gameshow.data.Roster;
 public class RosterTableModel extends AbstractTableModel implements ActionListener {
 	private static final long serialVersionUID = -1561458490688644986L;
 	private Roster roster;
-	private String serverFolderPath;
 	private String clientFolderPath;
 	private Timer scanTime;
 	
 	public RosterTableModel(Game game){
 		roster = game.getRoster();
-		serverFolderPath = game.getProfile().getServerFolderLoc();
+		game.getProfile().getServerFolderLoc();
 		clientFolderPath = game.getProfile().getClientFolderLoc();
 		scanTime = new Timer(100, this);
 	}
@@ -92,22 +88,15 @@ public class RosterTableModel extends AbstractTableModel implements ActionListen
 	}
 	
 	public void updatePaths(String newServerPath, String newClientPath) {
-		serverFolderPath = newServerPath;
 		clientFolderPath = newClientPath;
 	}
 	
 	public void openRegistration(){
 		scanTime.start();
-		try {
-			Files.createFile(Paths.get(serverFolderPath + ".registration"));
-		} catch (IOException e) {}
 	}
 	
 	public void closeRegistration(){
 		scanTime.stop();
-		try {
-			Files.deleteIfExists(Paths.get(serverFolderPath + ".registration"));
-		} catch (IOException e) {}
 	}
 	
 	public void addMember(Player p, String teamName){

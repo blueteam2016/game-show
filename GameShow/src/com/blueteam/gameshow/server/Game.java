@@ -115,8 +115,6 @@ public class Game {
 		}
 		if (Files.exists(Paths.get(serverPath + ".question")))
 			out.add(new File(serverPath + ".question"));
-		if (Files.exists(Paths.get(serverPath + ".registration")))
-			out.add(new File(serverPath + ".registration"));
 		return out.toArray(new File[0]);
 	}
 	
