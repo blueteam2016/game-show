@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
 import com.blueteam.gameshow.data.Answer;
 
 
@@ -49,6 +50,11 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 			currentWidth = newWidth;
 			setLabels();
 			setUpGUI();
+			while(getHeight()>ServerWindow.accessFrame().getHeight()){
+				fontSize -=5;
+				setLabels();
+				setUpGUI();
+			}
 		}
 	}
 	

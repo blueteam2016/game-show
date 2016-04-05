@@ -113,6 +113,7 @@ public class ServerQuestionMode extends JPanel {
 			currentWidth = newWidth;
 			setLabels();
 			setUpGUI();
+			//makes font smaller if it is too tall
 			while(getHeight()>ServerWindow.accessFrame().getHeight()){
 				fontSize -=5;
 				setLabels();
