@@ -24,6 +24,7 @@ public class ServerQuestionMode extends JPanel {
 	private Game game;
 	private int fontSize;
 	private float currentWidth;
+	private boolean allResponded;
 	
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
@@ -31,6 +32,7 @@ public class ServerQuestionMode extends JPanel {
 		sgScreen = s;
 		game = g;
 		fontSize = 16;
+		allResponded = false;
 		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
@@ -73,8 +75,12 @@ public class ServerQuestionMode extends JPanel {
 					pause.setActionCommand("run");
 					stopTimer();
 				} else if (e.getActionCommand().equals("run")) {
-					pause.setText("Pause");
-					pause.setActionCommand("pause");
+					unpause();
+					if(allResponded){
+						allResponded = false;
+						sgScreen.forwardToAnswerMode();
+						sgScreen.goToAnswerMode();
+					}
 					startTimer();
 				}
 			}
@@ -103,6 +109,15 @@ public class ServerQuestionMode extends JPanel {
 		});
 	}
 
+	public void allResponded(){
+		if(pause.getActionCommand().equals("pause")){
+			sgScreen.forwardToAnswerMode();
+			sgScreen.goToAnswerMode();
+		}else{
+			allResponded = true;
+		}
+	}
+	
 	private static String numberText(int timeNum) {
 		String numberText = "";
 		if (timeNum >= 10)
@@ -216,7 +231,7 @@ public class ServerQuestionMode extends JPanel {
 
 		@Override
 		protected void yes() {
-			unpause();
+			sgScreen.forwardToAnswerMode();
 			sgScreen.goToAnswerMode();
 			dispose();
 		}
