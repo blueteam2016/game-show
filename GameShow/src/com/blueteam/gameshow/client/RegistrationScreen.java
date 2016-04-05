@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 import com.blueteam.gameshow.data.ClientProfile;
 
@@ -21,7 +25,7 @@ public class RegistrationScreen extends JPanel{
 	private JLabel nameLabel, teamNameLabel, serverOutputLabel, clientOutputLabel;
 	private JButton servFoldBrowser, clientFoldBrowser;
 	private JButton registerButton;
-	private JTextField name, teamName;
+	private JTextArea name, teamName;
 	private JTextArea servFoldText, clientFoldText;
 	private String clientName, clientTeamName, servFoldLoc, clientFoldLoc;
 	private JFileChooser folderChooser;
@@ -46,23 +50,53 @@ public class RegistrationScreen extends JPanel{
         constr.weightx = 1.0;
         constr.fill = GridBagConstraints.HORIZONTAL;
         
-        KeyAdapter filter = new KeyAdapter() {
-	        @Override
-	        public void keyTyped(KeyEvent e) {
-	            if(name.getText().length() == 128 ||
-	               !(Character.isLetterOrDigit(e.getKeyChar()) ||
-	            	 e.getKeyChar() == ' ')) {
-	            	e.consume();
-	            }
-	        }
+        DocumentFilter filter = new DocumentFilter() {
+        	@Override
+	        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+                if ((fb.getDocument().getLength() + str.length()) <= 200) {
+                	str = str.replaceAll("[^A-Za-z0-9 ]", "");
+                    fb.insertString(offs, str, a);
+                } else {
+                    int spaceLeft = 200 - fb.getDocument().getLength();
+                    if (spaceLeft <= 0)
+                        return;
+
+                    str = str.substring(0, spaceLeft);
+                	str = str.replaceAll("[^A-Za-z0-9 ]", "");
+                    fb.insertString(offs, str, a);
+                }
+            }
+
+            @Override
+	        public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException 
+            {
+                if ((fb.getDocument().getLength() + str.length() - length) <= 200)
+                {
+                	str = str.replaceAll("[^A-Za-z0-9 ]", "");
+                    fb.replace(offs, length, str, a);
+                }
+                else
+                {
+                    int spaceLeft = 200 - fb.getDocument().getLength() + length;
+                    if (spaceLeft <= 0)
+                        return;
+                    
+                    str = str.substring(0, spaceLeft);
+                	str = str.replaceAll("[^A-Za-z0-9 ]", "");
+                    fb.replace(offs, length, str, a);
+                }
+            }
 	    };
         
 		nameLabel = new JLabel("Name");
 		nameLabel.setFont(font);
 		this.add(nameLabel, constr);
-		name = new JTextField("");
+		name = new JTextArea("");
 		name.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
-		name.getDocument().addDocumentListener(new DocumentListener() {
+		name.setLineWrap(true);
+		name.setWrapStyleWord(true);
+		AbstractDocument nameDoc = (AbstractDocument)name.getDocument();
+		nameDoc.addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
 				clientWindow.update();
@@ -70,7 +104,7 @@ public class RegistrationScreen extends JPanel{
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
-		name.addKeyListener(filter);
+		nameDoc.setDocumentFilter(filter);
 		constr.gridx = 1;
 		constr.gridwidth = 2;
 		this.add(name, constr);
@@ -82,9 +116,12 @@ public class RegistrationScreen extends JPanel{
 		constr.gridy = 1;
 		constr.gridwidth = 1;
 		this.add(teamNameLabel, constr);
-		teamName = new JTextField("");
+		teamName = new JTextArea("");
 		teamName.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
-		teamName.getDocument().addDocumentListener(new DocumentListener() {
+		teamName.setLineWrap(true);
+		teamName.setWrapStyleWord(true);
+		AbstractDocument teamNameDoc = (AbstractDocument)name.getDocument();
+		teamNameDoc.addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
 				clientWindow.update();
@@ -92,7 +129,7 @@ public class RegistrationScreen extends JPanel{
 			}
 			public void removeUpdate(DocumentEvent e) {}
 		});
-		teamName.addKeyListener(filter);
+		teamNameDoc.setDocumentFilter(filter);
 		constr.gridx = 1;
 		constr.gridwidth = 2;
 		this.add(teamName, constr);
