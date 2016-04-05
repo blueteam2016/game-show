@@ -2,8 +2,6 @@ package com.blueteam.gameshow.server;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-
 import javax.swing.*;
 
 import com.blueteam.gameshow.data.Answer;
@@ -11,8 +9,8 @@ import com.blueteam.gameshow.data.Answer;
 public class ServerQuestionMode extends JPanel {
 
 	private static final long serialVersionUID = -6719297104248411239L;
-	private JLabel question;
-	private ArrayList<JLabel> answerLabels;
+	private JScrollPane scrollPane;
+	private JTextArea questionLabel;
 	private JLabel timeRemaining;
 	private JLabel countdown;
 	private int seconds;
@@ -22,29 +20,28 @@ public class ServerQuestionMode extends JPanel {
 	private Timer timer;
 	private ServerGameScreen sgScreen;
 	private Game game;
-	private int fontSize;
-	private float currentWidth;
 	private boolean allResponded;
-	
+	private final static float DEFAULTFONTSIZE = 20;
+	private float fontSize;
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
 
 		sgScreen = s;
 		game = g;
-		fontSize = 16;
+		fontSize = DEFAULTFONTSIZE;
 		allResponded = false;
 		
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		// make timer
-		timeRemaining = new JLabel("<html><span style='font-size:" + fontSize + "px'>Time Remaining: </span></html>");
+		timeRemaining = new JLabel("<html>Time Remaining: </html>");
 		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seconds -= 1;
-				countdown.setText("<html><span style='font-size:" + fontSize + "px'>" +
+				countdown.setText("<html>" +
 						numberText(seconds / 60) + ":" +
 						numberText(seconds % 60) +
-						"</span></html>");
+						"</html>");
 				if (seconds <= 0) {
 					timer.stop();
 					sgScreen.forwardToAnswerMode();
@@ -95,17 +92,13 @@ public class ServerQuestionMode extends JPanel {
 			}
 		});
 		
-		currentWidth = sgScreen.getWidth();
+		sgScreen.getWidth();
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
-				float newWidth = sgScreen.getWidth();
-				if (newWidth != currentWidth) {
-					fontSize = (int)(16 * (newWidth / 450.0));
-					currentWidth = newWidth;
-					setLabels();
-					setUpGUI();
-				}
+				updateFonts();
+				if (scrollPane != null)
+					scrollPane.setPreferredSize(scrollPane.getParent().getSize());
 			} 
 		});
 	}
@@ -135,6 +128,33 @@ public class ServerQuestionMode extends JPanel {
 		seconds = game.getQuiz().getCurrentQuestion().getTime();
 		setLabels();
 		setUpGUI();
+		updateFonts();
+	}
+	
+	private void updateFonts() {
+		float newWidth = sgScreen.getWidth();
+		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		if (questionLabel != null)
+			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+		if (timeRemaining != null)
+			timeRemaining.setFont(timeRemaining.getFont().deriveFont(fontSize));
+		if (countdown != null)
+			countdown.setFont(countdown.getFont().deriveFont(fontSize));
+		if (back != null)
+			back.setFont(back.getFont().deriveFont(fontSize));
+		if (pause != null)
+			pause.setFont(pause.getFont().deriveFont(fontSize));
+		if (skip != null)
+			skip.setFont(skip.getFont().deriveFont(fontSize));	
+		if (scrollPane != null)
+			scrollPane.validate();	
+	}
+	
+	private void formatTextArea(JTextArea textArea) {
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setBackground(getBackground());
 	}
 	
 	private void setLabels() {
@@ -143,46 +163,39 @@ public class ServerQuestionMode extends JPanel {
 			back.setEnabled(true);
 		}
 
-		timeRemaining = new JLabel("<html><span style='font-size:" + fontSize + "px'>Time Remaining: </span></html>");
-		countdown = new JLabel("<html><span style='font-size:" + fontSize + "px'>" +
+		timeRemaining = new JLabel("<html>Time Remaining: </html>");
+		countdown = new JLabel("<html>" +
 				numberText(seconds / 60) + ":" +
 				numberText(seconds % 60) +
-				"</span></html>");
-
-		// set questions and answers (adds letter at beginning of answers:
-		// A,B,C...)
-		question = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
-							   game.getQuiz().getCurrentQuestion().getText() +
-							   "</span></td></tr></table></html>");
-		answerLabels = new ArrayList<JLabel>();
+				"</html>");
+		
+		//adds question
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(game.getQuiz().getCurrentQuestion().getText() + "\n");
+		//adds answer(s)
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
-		for (int i = 0; i < answers.length; i++) {
-			JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
-					(char) (65 + i) + ") " +
-					answers[i].getText() +
-					"</span></td></tr></table></html>");
-			answerLabels.add(answer);
-			answer.setAlignmentX(LEFT_ALIGNMENT);
+		for(int i = 0; i< answers.length; i++){
+			strBuilder.append("\n" + (char)(65 + i) + ") " + answers[i].getText());
 		}
+		
+		questionLabel = new JTextArea(strBuilder.toString());
+		formatTextArea(questionLabel);
 	}
 	
 	private void setUpGUI() {
 		// organizes components in visually appealing manner
 		removeAll();
+
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		// Sets layout
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
 		JPanel questionInfo = new JPanel();
 		questionInfo.setLayout(new BoxLayout(questionInfo, BoxLayout.PAGE_AXIS));
-		questionInfo.add(question);
-		questionInfo.add(Box.createRigidArea(new Dimension(0, 15)));
-		for (int i = 0; i < answerLabels.size(); i++) {
-			questionInfo.add(answerLabels.get(i));
-			questionInfo.add(Box.createRigidArea(new Dimension(0, 5)));
-		}
+		scrollPane.setViewportView(questionInfo);
+		questionInfo.add(questionLabel);
 		questionInfo.setAlignmentX(CENTER_ALIGNMENT);
-		add(questionInfo);
+		add(scrollPane);
 		add(Box.createRigidArea(new Dimension(0, 15)));
 
 		JPanel timePanel = new JPanel();
@@ -193,11 +206,12 @@ public class ServerQuestionMode extends JPanel {
 		JPanel buttonPanel = new JPanel();
 		JButton[] buttons = {back, pause, skip};
 		for(int i=0; i<buttons.length; i++){
-			buttons[i].setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+			buttons[i].setFont(new Font(Font.DIALOG, Font.PLAIN, (int)fontSize));
 			buttonPanel.add(buttons[i]);
 		}
 		add(buttonPanel);
-		sgScreen.getServerWindow().update();
+		scrollPane.setPreferredSize(scrollPane.getParent().getSize());
+		validate();
 	}
 
 	public void startTimer() {
