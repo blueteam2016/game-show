@@ -75,6 +75,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		questionLabel.setWrapStyleWord(true);
 		questionLabel.setBackground(getBackground());
 		questionLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+		questionLabel.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		//adds correct answer(s)
 		answerLabels = new ArrayList<JTextArea>();
@@ -102,7 +103,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 			explanation.setWrapStyleWord(true);
 			explanation.setBackground(getBackground());
 			explanation.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));			
-			explanation.setAlignmentX(JTextArea.RIGHT_ALIGNMENT);
+			explanation.setAlignmentX(RIGHT_ALIGNMENT);
 		}else{
 			explanation = null;
 		}
@@ -128,7 +129,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		if(explanation!= null){
 			answerInfo.add(explanation);
 		}
-		answerInfo.setAlignmentX(CENTER_ALIGNMENT);
+		//answerInfo.setAlignmentX(CENTER_ALIGNMENT);
 		add(answerInfo);
 		add(Box.createRigidArea(new Dimension(0, 15)));
 		

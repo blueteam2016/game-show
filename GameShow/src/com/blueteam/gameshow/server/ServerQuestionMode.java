@@ -166,9 +166,10 @@ public class ServerQuestionMode extends JPanel {
 		question = new JTextArea( game.getQuiz().getCurrentQuestion().getText());
 		question.setLineWrap(true);
 		question.setWrapStyleWord(true);
-		question.setEditable(true);
+		question.setEditable(false);
 		question.setBackground(getBackground());
 		question.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+		question.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		answerLabels = new ArrayList<JTextArea>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
@@ -176,7 +177,7 @@ public class ServerQuestionMode extends JPanel {
 			JTextArea answer = new JTextArea((char) (65 + i) + ") " +answers[i].getText());
 			answer.setLineWrap(true);
 			answer.setWrapStyleWord(true);
-			answer.setEditable(true);
+			answer.setEditable(false);
 			answer.setBackground(getBackground());
 			answer.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 			answerLabels.add(answer);
@@ -200,7 +201,7 @@ public class ServerQuestionMode extends JPanel {
 			questionInfo.add(answerLabels.get(i));
 			questionInfo.add(Box.createRigidArea(new Dimension(0, 5)));
 		}
-		questionInfo.setAlignmentX(CENTER_ALIGNMENT);
+		//questionInfo.setAlignmentX(CENTER_ALIGNMENT);
 		add(questionInfo);
 		add(Box.createRigidArea(new Dimension(0, 15)));
 
