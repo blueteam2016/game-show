@@ -21,7 +21,7 @@ public class ServerQuestionMode extends JPanel {
 	private ServerGameScreen sgScreen;
 	private Game game;
 	private boolean allResponded;
-	private final static float DEFAULTFONTSIZE = 24;
+	private final static float DEFAULTFONTSIZE = 22;
 	private float fontSize;
 
 	public ServerQuestionMode(Game g, ServerGameScreen s) {
@@ -134,20 +134,21 @@ public class ServerQuestionMode extends JPanel {
 	private void updateFonts() {
 		float newWidth = sgScreen.getWidth();
 		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		Font newFont = new Font(Font.DIALOG, Font.PLAIN, (int)fontSize);
 		if (questionLabel != null) {
-			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setFont(newFont);
 			questionLabel.setSize(scrollPane.getViewport().getSize());
 		}
 		if (timeRemaining != null)
-			timeRemaining.setFont(timeRemaining.getFont().deriveFont(fontSize));
+			timeRemaining.setFont(newFont);
 		if (countdown != null)
-			countdown.setFont(countdown.getFont().deriveFont(fontSize));
+			countdown.setFont(newFont);
 		if (back != null)
-			back.setFont(back.getFont().deriveFont(fontSize));
+			back.setFont(newFont);
 		if (pause != null)
-			pause.setFont(pause.getFont().deriveFont(fontSize));
+			pause.setFont(newFont);
 		if (skip != null)
-			skip.setFont(skip.getFont().deriveFont(fontSize));	
+			skip.setFont(newFont);	
 		if (scrollPane != null)
 			scrollPane.validate();	
 	}

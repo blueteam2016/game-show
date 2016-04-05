@@ -5,6 +5,7 @@ import com.blueteam.gameshow.data.Answer;
 import com.blueteam.gameshow.data.Question;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,7 +32,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private boolean receivedQuestions;
 	private boolean inAnswerMode; // DON'T REMOVE! Checking state via ClientQuestionScreen causes a racetime condition, so a local boolean is necessary
 	private float fontSize;
-	private final static float DEFAULTFONTSIZE = 20;
+	private final static float DEFAULTFONTSIZE = 16;
 
 	public ClientQuestionMode(ClientQuestionScreen qs) {
 		clientWindow = qs.getClientWindow();
@@ -130,11 +131,12 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 	private void updateFonts() {
 		float newWidth = qScreen.getWidth();
 		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		Font newFont = new Font(Font.DIALOG, Font.PLAIN, (int)fontSize);
 		Dimension viewportSize = null;
 		if (scrollPane != null)
 			viewportSize = scrollPane.getViewport().getSize();
 		if (questionLabel != null) {
-			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setFont(newFont);
 			if (viewportSize != null) {
 				Dimension prefSize = questionLabel.getPreferredSize();
 				prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
@@ -143,7 +145,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 		}
 		if (answerLabels != null)
 			for (JTextArea answerLabel : answerLabels) {
-				answerLabel.setFont(answerLabel.getFont().deriveFont(fontSize));
+				answerLabel.setFont(newFont);
 				if (viewportSize != null) {
 					Dimension prefSize = answerLabel.getPreferredSize();
 					prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
@@ -152,7 +154,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			}
 		if (answerButtons != null)
 			for (AnswerButton answerButton: answerButtons) {
-				answerButton.setFont(answerButton.getFont().deriveFont(fontSize));
+				answerButton.setFont(newFont);
 			}
 		if (scrollPane != null)
 			scrollPane.validate();

@@ -1,7 +1,9 @@
 package com.blueteam.gameshow.server;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import com.blueteam.gameshow.data.Answer;
 
 
@@ -14,7 +16,7 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private JButton moveOn;
 	private ServerGameScreen sgScreen;
 	private Game game;
-	private final static float DEFAULTFONTSIZE = 24;
+	private final static float DEFAULTFONTSIZE = 22;
 	private float fontSize;
 
 	public ServerAnswerMode(Game g, ServerGameScreen s){	
@@ -49,12 +51,13 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 	private void updateFonts() {
 		float newWidth = sgScreen.getWidth();
 		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		Font newFont = new Font(Font.DIALOG, Font.PLAIN, (int)fontSize);
 		if (questionLabel != null) {
-			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setFont(newFont);
 			questionLabel.setSize(scrollPane.getViewport().getSize());
 		}
 		if (moveOn != null)
-			moveOn.setFont(moveOn.getFont().deriveFont(fontSize));
+			moveOn.setFont(newFont);
 		if (scrollPane != null)
 			scrollPane.validate();
 	}

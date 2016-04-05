@@ -2,6 +2,7 @@ package com.blueteam.gameshow.client;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
@@ -18,7 +19,7 @@ public class ClientAnswerMode extends JPanel
 	private JScrollPane scrollPane;
 	private Question question;
 	private JTextArea questionLabel;
-	private final static float DEFAULTFONTSIZE = 20;
+	private final static float DEFAULTFONTSIZE = 16;
 	private float fontSize;
 
 	public ClientAnswerMode(ClientQuestionScreen qs)
@@ -47,8 +48,9 @@ public class ClientAnswerMode extends JPanel
 	private void updateFonts() {
 		float newWidth = qScreen.getWidth();
 		fontSize = (float)(DEFAULTFONTSIZE * (newWidth / 450.0));
+		Font newFont = new Font(Font.DIALOG, Font.PLAIN, (int)fontSize);
 		if (questionLabel != null) {
-			questionLabel.setFont(questionLabel.getFont().deriveFont(fontSize));
+			questionLabel.setFont(newFont);
 			questionLabel.setSize(scrollPane.getViewport().getSize());
 		}
 		if (scrollPane != null)
