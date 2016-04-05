@@ -12,9 +12,9 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel questionLabel;
-	private ArrayList<JLabel> answerLabels;
-	private JLabel explanation;
+	private JTextArea questionLabel;
+	private ArrayList<JTextArea> answerLabels;
+	private JTextArea explanation;
 	private JButton moveOn;
 	private ServerGameScreen sgScreen;
 	private Game game;
@@ -63,27 +63,40 @@ public class ServerAnswerMode extends JPanel implements ActionListener{
 		moveOn.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 		
 		//adds question
-		questionLabel = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" + game.getQuiz().getCurrentQuestion().getText() + "</span></td></tr></table></html>");
+		questionLabel = new JTextArea(game.getQuiz().getCurrentQuestion().getText());
+		questionLabel.setEditable(false);
+		questionLabel.setLineWrap(true);
+		questionLabel.setWrapStyleWord(true);
+		questionLabel.setBackground(getBackground());
+		questionLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 		
 		//adds correct answer(s)
-		answerLabels = new ArrayList<JLabel>();
+		answerLabels = new ArrayList<JTextArea>();
 		Answer[] answers = game.getQuiz().getCurrentQuestion().getAnswers();
 		for(int i = 0; i< answers.length; i++){
 			if(answers[i].isCorrect()) {
-				JLabel answer = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>" +
-										  (char)(65 + i) + ") " +
-										  answers[i].getText() +
-										  "</span></td></tr></table></html>");
+				JTextArea answer = new JTextArea((char)(65 + i) + ") " +answers[i].getText());
+				answer.setEditable(false);
+				answer.setLineWrap(true);
+				answer.setWrapStyleWord(true);
+				answer.setBackground(getBackground());
+				answer.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 				answerLabels.add(answer);
-				answer.setAlignmentX(LEFT_ALIGNMENT);
+				answer.setAlignmentX(JTextArea.RIGHT_ALIGNMENT);
+				//right alignment actually means left alignment or it works that way at least
 			}
 		}
 		
 		//add explanation
 		String explanationString = game.getQuiz().getCurrentQuestion().getExplanationText();
 		if(explanationString != null){
-			explanation = new JLabel("<html><table><tr><td width='" + currentWidth + "'><span style='font-size:" + fontSize + "px'>Explanation: " + explanationString + "</span></td></tr></table></html>");
-			explanation.setAlignmentX(LEFT_ALIGNMENT);
+			explanation = new JTextArea(explanationString);
+			explanation.setEditable(false);
+			explanation.setLineWrap(true);
+			explanation.setWrapStyleWord(true);
+			explanation.setBackground(getBackground());
+			explanation.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));			
+			explanation.setAlignmentX(JTextArea.RIGHT_ALIGNMENT);
 		}else{
 			explanation = null;
 		}
