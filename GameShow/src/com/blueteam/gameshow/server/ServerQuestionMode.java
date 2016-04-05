@@ -192,6 +192,11 @@ public class ServerQuestionMode extends JPanel {
 		timer.stop();
 	}
 
+	public void unpause(){
+		pause.setText("Pause");
+		pause.setActionCommand("pause");
+	}
+	
 	private class SkipPopUp extends PopUp {
 
 		public SkipPopUp() {
@@ -211,8 +216,7 @@ public class ServerQuestionMode extends JPanel {
 
 		@Override
 		protected void yes() {
-			pause.setText("Pause");
-			pause.setActionCommand("pause");
+			unpause();
 			sgScreen.goToAnswerMode();
 			dispose();
 		}
