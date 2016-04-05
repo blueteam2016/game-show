@@ -47,6 +47,7 @@ public class ServerQuestionMode extends JPanel {
 						"</span></html>");
 				if (seconds <= 0) {
 					timer.stop();
+					sgScreen.forwardToAnswerMode();
 					sgScreen.goToAnswerMode();
 				}
 			}
