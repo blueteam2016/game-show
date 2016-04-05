@@ -139,7 +139,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 			questionLabel.setFont(newFont);
 			if (viewportSize != null) {
 				Dimension prefSize = questionLabel.getPreferredSize();
-				prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
+				prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 50), prefSize.getHeight());
 				questionLabel.setSize(prefSize);
 			}
 		}
@@ -148,7 +148,7 @@ public class ClientQuestionMode extends JPanel implements Runnable {
 				answerLabel.setFont(newFont);
 				if (viewportSize != null) {
 					Dimension prefSize = answerLabel.getPreferredSize();
-					prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 10), prefSize.getHeight());
+					prefSize.setSize(viewportSize.getWidth() - (prefSize.getHeight() + 50), prefSize.getHeight());
 					answerLabel.setSize(prefSize);
 					}
 			}
