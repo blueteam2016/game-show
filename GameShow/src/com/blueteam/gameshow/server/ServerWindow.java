@@ -3,10 +3,10 @@ package com.blueteam.gameshow.server;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -87,6 +87,7 @@ public class ServerWindow implements WindowListener, ChangeListener{
 		frame.setSize(new Dimension(450, 450));
 		frame.setMinimumSize(new Dimension(450, 450));
 		frame.setLocationRelativeTo(null);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/blueteam/gameshow/assets/Trophy.png")));
 		frame.setVisible(true);
 		update();
 	}

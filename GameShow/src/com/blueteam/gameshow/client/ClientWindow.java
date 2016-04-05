@@ -3,10 +3,10 @@ package com.blueteam.gameshow.client;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -66,8 +66,9 @@ public class ClientWindow {
 		frame.setContentPane(content);
 		frame.setSize(450, 250);
 		frame.setMinimumSize(new Dimension(450, 350));
-		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/blueteam/gameshow/assets/Trophy.png")));
+		frame.setVisible(true);
 	}
 	
 	public void register(String pathServerFold, String  pathClientFold, ClientProfile profile){		
