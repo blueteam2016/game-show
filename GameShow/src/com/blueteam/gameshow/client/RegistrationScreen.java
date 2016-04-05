@@ -196,7 +196,6 @@ public class RegistrationScreen extends JPanel{
 	}
 
 	private void checkCompletion(){
-		System.out.println("hi");
 		clientName = name.getText();
 		clientTeamName = teamName.getText();
 		
