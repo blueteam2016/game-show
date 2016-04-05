@@ -120,7 +120,7 @@ public class RegistrationScreen extends JPanel{
 		teamName.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
 		teamName.setLineWrap(true);
 		teamName.setWrapStyleWord(true);
-		AbstractDocument teamNameDoc = (AbstractDocument)name.getDocument();
+		AbstractDocument teamNameDoc = (AbstractDocument)teamName.getDocument();
 		teamNameDoc.addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {}
 			public void insertUpdate(DocumentEvent e) {
@@ -196,6 +196,7 @@ public class RegistrationScreen extends JPanel{
 	}
 
 	private void checkCompletion(){
+		System.out.println("hi");
 		clientName = name.getText();
 		clientTeamName = teamName.getText();
 		
