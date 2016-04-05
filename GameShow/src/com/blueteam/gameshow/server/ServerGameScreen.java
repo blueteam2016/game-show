@@ -1,4 +1,5 @@
 package com.blueteam.gameshow.server;
+
 import java.awt.CardLayout;
 
 import javax.swing.JPanel;
@@ -52,6 +53,7 @@ public class ServerGameScreen extends JPanel {
 		game.clearQuestion();
 		question.unpause();
 		answer.newAnswer();
+		answer.resizeText();
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = ANSWERMODE;
 		cl.show(this, currentMode);
@@ -65,6 +67,7 @@ public class ServerGameScreen extends JPanel {
 		}
 		question.newQuestion();
 		question.startTimer();
+		question.resizeText();
 		game.getRoster().startQuestion();
 		CardLayout cl = (CardLayout)getLayout();
 		currentMode = QUESTIONMODE;
